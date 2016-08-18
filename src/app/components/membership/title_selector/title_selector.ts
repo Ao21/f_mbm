@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { DataStore } from './../../../stores/stores.modules';
-import {CONSTS} from './../../../constants';
+import { CONSTS } from './../../../constants';
 
 @Component({
 	selector: 'm-title-selector',
@@ -12,7 +12,7 @@ export class TitleSelectorComponent implements OnDestroy {
 	// Input Field
 	@Input('field') field: any;
 	// Field Control
-	@Input('control') control: FormControl;
+	@Input() control: FormControl;
 	// List of Titles
 	titles: any[] = [];
 	// Subscription to Datastore for updated title

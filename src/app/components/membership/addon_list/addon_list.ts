@@ -1,4 +1,4 @@
-import {Component, ElementRef, AfterViewInit, Renderer} from '@angular/core';
+import {Component, ElementRef, AfterViewInit,OnDestroy, Renderer} from '@angular/core';
 
 let template = require('./addon_list.html');
 import {Utils} from './../../../shared/utilities/index';
@@ -24,9 +24,9 @@ import * as IScroll from 'iscroll';
 	template: template,
 	inputs: ['data']
 })
-export class AddonList implements AfterViewInit {
+export class AddonList implements AfterViewInit, OnDestroy {
 	// iScroll - iScroll Instantiation
-	iScroll: any;
+	iScroll;
 	// resizeTimeout - Prevents Resize trigger over triggering on browser resize
 	resizeTimeout;
 	// Array of Benefits
@@ -39,8 +39,8 @@ export class AddonList implements AfterViewInit {
 
 	ngAfterViewInit() {
 		// Add Iscroll to Benefits List
-		let element = this._el.nativeElement.querySelector('.m-addon-list__wrapper');
-		this.iScroll = new IScroll(element, { el: 'li', snap: true, scrollX: true, scrollY: true });
+		// let element = this._el.nativeElement.querySelector('.m-addon-list__wrapper');
+		// this.iScroll = new IScroll(element, { el: 'li', snap: true, scrollX: true, scrollY: true });
 		// Listen for Resize Event Trigger and Throttle Event
 		window.addEventListener('resize', this.throttle, false);
 		// Resize Iscroll on load
@@ -83,15 +83,27 @@ export class AddonList implements AfterViewInit {
 			_.each(li, (e) => {
 				this._renderer.setElementStyle(e, 'width', width);
 			});
+			let element = this._el.nativeElement.querySelector('.m-addon-list__wrapper');
+			this.iScroll = new IScroll(element, { el: 'li', snap: true, scrollX: true, scrollY: true });
 		} else {
 			this._renderer.setElementStyle(scroller, 'width', 'inherit');
 			_.each(li, (e) => {
 				this._renderer.setElementStyle(e, 'width', 'inherit');
 				this._renderer.setElementStyle(e, 'width', 'initial');
 			});
+			if (_.has(this.iScroll, 'destroy')) {
+				this.iScroll.destroy();
+			}
 		}
+		if (_.has(this.iScroll, 'refresh')) {
+			this.iScroll.refresh();
+		}
+	}
 
-		this.iScroll.refresh();
+	ngOnDestroy() {
+		if (_.has(this.iScroll, 'destroy')) {
+			this.iScroll.destroy();
+		}
 	}
 
 }

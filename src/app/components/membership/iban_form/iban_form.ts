@@ -44,6 +44,7 @@ export class IbanForm {
 			.switchMap((x) => this._paymentService.validateBankDetails(x))
 			.subscribe((next) => {
 				let acc: any = next.json();
+				console.log(next.json());
 				this.isAccountValidated = true;
 				if (isPresent(acc.valid) && acc.valid === 'true') {
 					this.accountValidationStatus = true;

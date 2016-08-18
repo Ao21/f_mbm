@@ -1,0 +1,19 @@
+<div class="container--flex container--flex--center">
+	<div *ngIf="!myAAAccess" class="o-card o-card--center o-card--confirmation">
+		<div class="o-card__content">
+			<h4>Retrieve your AA Membership quote</h4>
+			<h5>Simply fill in the details below</h5>
+		</div>
+		<div class="o-card__form">
+			<form [formGroup]="form" class="">
+			<form-component 
+				*ngFor="let field of fields" 
+				class="c-form-component--default" 
+				[form]="form"
+				[field]="field">
+			</form-component>
+			<button type="submit" (click)="submit()" class="btn btn--expand btn--yellow">Retrieve Your Quote</button>
+		</form>
+		</div>
+	</div>
+</div>

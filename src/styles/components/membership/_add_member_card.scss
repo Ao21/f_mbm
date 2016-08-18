@@ -2,13 +2,21 @@
 // Add Member Card
 //-------------------------------------
 m-add-member-card {
-    @include media($mobile){
-        height: 14rem;
-    }
+
 
     height: 14rem;
     border: $defaultBorder;
     border-radius: 2px;
+
+    @include media($tabletPortrait){
+        height: 21rem;
+    }
+
+    @include media($mobile){
+        height: 14rem;
+    }
+
+    
 
     &.isPlaceholder {
         border: $ghostBorder;

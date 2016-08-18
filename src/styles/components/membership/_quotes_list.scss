@@ -68,7 +68,7 @@ m-quotes-list {
             // min-height: 100%;
             @include media($mobile) {
                 @include type-setting(0);
-
+                margin: 0;
                 padding: 0 size(medium);
             }
 
@@ -85,10 +85,6 @@ m-quotes-list {
             // width: 140px;
         }
         &__details {
-            @include media($mobile){
-                display: none;
-            }
-
             flex: 1 0 auto
         }
         &__price {

@@ -17,16 +17,15 @@ import { AccordianModule } from './accordian/accordian.module';
 		AccordianModule
 	],
 	declarations: [
-		ShowErrorComponent,
 		ErrorButtonComponent,
-
+		ShowErrorComponent
 	],
 	exports: [
-		ShowErrorComponent,
 		ErrorButtonComponent,
 		TabGroupModule,
 		SelectorGroupModule,
-		AccordianModule
+		AccordianModule,
+		ShowErrorComponent
 	]
 })
 export class AtomicComponentsModule {}

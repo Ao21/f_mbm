@@ -33,12 +33,11 @@ import { QuotesListComponent } from './../components/membership/quotes_list/quot
 import { SHARED_DIRECTIVES } from './directives/directives.module';
 import { SHARED_PIPES } from './pipes/pipe_modules';
 import { TestimonialPopupComponent } from './../components/membership/testimonials_popup/p-testimonials';
-
 @NgModule({
 	imports: [
 		CommonModule,
 		FormComponentModule,
-		NotificationsModule
+		NotificationsModule,
 	],
 	declarations: [
 		...SHARED_PIPES,
@@ -85,7 +84,7 @@ export class SharedModule {
 				ReferenceService,
 				UIStore,
 				// Adds Cookie to Allow Http Requests - Maybe Remove this?
-				provide(BrowserXhr, { useClass: CORSBrowserXHR }),
+				provide(BrowserXhr, { useClass: CORSBrowserXHR })
 			]
 		};
 	}

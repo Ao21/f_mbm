@@ -88,11 +88,16 @@ c-notification-bar {
         width: 100%;
 
         header {
+            @include media($tabletPortrait){
+                flex: 1 1 auto;
+            }
+            @include media($lg-desktop) {
+                flex: 1 1 auto;
+            }
             @include media($mobile) {
                 display: none;
             }
-
-            flex: 1 1 auto;
+            flex: 1 1 35%;
             align-self: center;
             width: 100%;
             color: $dark
@@ -104,7 +109,7 @@ c-notification-bar {
             }
 
             display: flex;
-            align-items: flex-end;
+            align-items: center;
             margin: 0;
 
             form-component,
@@ -146,12 +151,14 @@ c-notification-bar {
         flex: 0 0 28px;
         align-self: initial;
         float: left;
-        padding-top: 0.75rem;
         border-color: white;
     }
     .btn--close.btn--arr {
-        @include media($mobile) {
+        @include media($upToDesktop) {
             background: none!important;
+            svg {
+                display: none;
+            }
 
             &:hover,
             &:active {

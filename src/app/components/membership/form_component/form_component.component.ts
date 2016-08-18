@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ElementRef, Renderer} from '@angular/core';
+import {Component, Input, OnInit, ElementRef, Renderer, AfterViewInit} from '@angular/core';
 import {FormGroup } from '@angular/forms';
 import {BooleanFieldValue} from './../../../shared/common/booleanFactory';
 import {Analytics} from './../../../services/analytics.service';
@@ -47,7 +47,7 @@ import {Subject} from 'rxjs/Rx';
 	template: require('./form_component.html')
 })
 
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, AfterViewInit {
 	@Input('aria-label') ariaLabel: string;
 	@Input('aria-labelledby') ariaLabelledBy: string;
 	@Input('aria-disabled') @BooleanFieldValue() ariaDisabled: boolean;
@@ -68,7 +68,7 @@ export class FormComponent implements OnInit {
 
 	loadingVisible: boolean = false;
 
-	hasValue: boolean = false;
+	hasValue: boolean;
 
 	valueThrottle: Subject<any> = new Subject();
 
@@ -103,7 +103,7 @@ export class FormComponent implements OnInit {
 			this.hasValue = next === '' ? false : true;
 			if (this.hasValue) {
 				this.dynamicControl.markAsTouched();
-				}
+			}
 		});
 	}
 
@@ -120,8 +120,6 @@ export class FormComponent implements OnInit {
 		this.dynamicControl['field'] = this.field;
 		this.placeholder = this.field.placeholder;
 
-		this.dynamicControl.valueChanges.subscribe(this.valueThrottle);
-
 		if (this.dynamicControl.value) {
 			this.hasValue = true;
 			this.dynamicControl.markAsTouched();
@@ -130,6 +128,10 @@ export class FormComponent implements OnInit {
 		this.dynamicControl.statusChanges.distinctUntilChanged().debounceTime(500).subscribe((e) => {
 			this.triggerAnalyticEvent(this.field.name, this.dynamicControl, e);
 		});
+	}
+
+	ngAfterViewInit() {
+		this.dynamicControl.valueChanges.subscribe(this.valueThrottle);
 	}
 
 	triggerLoading(active: boolean) {

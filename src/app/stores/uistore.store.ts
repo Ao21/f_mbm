@@ -39,7 +39,7 @@ export class UIStore extends DefaultStore {
 		if (page) {
 			let pg = this.get(['pages', page]);
 			this.update(['activePage'], pg);
-			// this._analytics.pageEvents.next(pg);
+			this._analytics.pageEvents.next(pg);
 			return pg;
 		}
 	}
@@ -135,6 +135,17 @@ export class Pages {
 
 	confirmation: UIPage = {
 		title: `Confirmation`,
+		address: '/confirmation',
+		next: null,
+		prev: null,
+		options: {
+			footerHidden: true,
+			navHidden: true
+		}
+	};
+
+	confirmationHidden: UIPage = {
+		title: ``,
 		address: '/confirmation',
 		next: null,
 		prev: null,

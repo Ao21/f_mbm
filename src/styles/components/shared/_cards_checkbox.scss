@@ -5,6 +5,8 @@ c-checkbox-card,
 .c-checkbox-card {
     @include display(flex);
     @include flex-direction(column);
+    @include align-items(stretch);
+    
     @include media($upToDesktop) {
         float: left;
         margin-bottom: size(medium);
@@ -43,12 +45,17 @@ c-checkbox-card,
         }
         
     }
+    .cta {
+        @include flex(0 0);
+    }
     &__subheader {
         position: relative;
         z-index: 999;
         padding: size(small) size(medium) size(small);
         background-color: $secondary-shadow;
         color: $light;
+        min-height: 50px;
+        @include flex(0 0);
 
         .btn--arrow {
             top: 50%;
@@ -70,10 +77,11 @@ c-checkbox-card,
         position: relative;
         z-index: 999;
         padding: size(medium) size(medium) size(medium);
-        min-height: 200px;
+        min-height: 220px;
         background-color: $secondary;
         box-shadow: 0 2px 3px rgba(48, 48, 48, 0.25);
         color: $light;
+        @include flex(0 0);
 
         .checkbox-card__checked {
             position: absolute;
@@ -106,22 +114,16 @@ c-checkbox-card,
         z-index: 99;
     }
     section {
-        @include flex(1 1 auto);
-        @include media(max-height 1000px) {
-            overflow-y: scroll;
-            max-height: 300px;
-        }
-        @include media(max-height 800px) {
-            overflow-y: scroll;
-            max-height: 250px;
-        }
-
+        @include flex(0 0 300px);
         float: left;
         overflow-y: scroll;
         padding: size(medium) size(medium) size(medium);
-        max-height: 350px;
         width: 100%;
-        background-color: $light
+        pointer-events: all;
+        background-color: $light;
+        @include media($upToDesktop){
+            @include flex(0 0 180px);
+        }
     }
     button.btn {
         margin-bottom: 0;

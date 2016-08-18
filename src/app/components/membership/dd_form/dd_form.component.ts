@@ -6,9 +6,10 @@ import {
 	transition,
 	style,
 	animate,
-	state} from '@angular/core';
-import {UIStore, DataStore} from './../../../stores/stores.modules';
-import {Analytics, PaymentService} from './../../../services/';
+	state
+} from '@angular/core';
+import { UIStore, DataStore } from './../../../stores/stores.modules';
+import { Analytics, PaymentService } from './../../../services/';
 
 @Component({
 	selector: 'm-dd-form',
@@ -40,6 +41,7 @@ export class DirectDebitFormComponent {
 	}
 
 	triggerValidationLoading($event) {
+		console.log('validation loading', $event);
 		if ($event) {
 			this.isLoadingValidate = true;
 		} else {
@@ -48,9 +50,11 @@ export class DirectDebitFormComponent {
 	}
 
 	openBankValidation($event: boolean | any) {
+		console.log('validation success', $event);
 		this.isLoadingValidate = false;
-		if ($event!==null && $event.valid) {
+		if ($event !== null && $event.valid) {
 			this.isReadyValidate = true;
+			this.isValidating = false;
 			this.validationDetails = $event;
 		}
 	}

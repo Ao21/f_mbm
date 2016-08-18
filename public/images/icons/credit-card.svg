@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1538 1728 20 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #1b1918;
+      }
+    </style>
+  </defs>
+  <path id="credit-card" class="cls-1" d="M20,8H4V6H20m0,12H4V12H20m0-8H4A1.993,1.993,0,0,0,2,6V18a2,2,0,0,0,2,2H20a2,2,0,0,0,2-2V6A2,2,0,0,0,20,4Z" transform="translate(-1540 1724)"/>
+</svg>

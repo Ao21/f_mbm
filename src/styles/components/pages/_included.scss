@@ -12,7 +12,10 @@ p-included,
         @include justify-content(space-between);
 
         &-grid__item{
-            @include flex-basis(0);
+            @include flex-basis(33.333%);
+            @include media($upToDesktop){
+                @include flex-basis(auto);
+            }
         }
     }
     c-checkbox-card {

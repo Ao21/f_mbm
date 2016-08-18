@@ -4,6 +4,7 @@ import {
 	ElementRef,
 	OnInit,
 	Input,
+	HostBinding,
 	Output,
 	forwardRef,
 	AfterViewInit,
@@ -52,6 +53,7 @@ const noop = () => { };
 })
 export class AutoCompleteComponent implements OnInit, ControlValueAccessor, AfterViewInit {
 
+	@HostBinding('class.isOpen') get isSearchResultsVisible() { return this._isSearchResultsVisible; };	
 	@Input('data') _dataSrc: string;
 	@Input('disabled') disabled: boolean;
 	@Input('filterBy') _filterBy: string;
@@ -66,7 +68,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 	@Input('control') public control: FormControl;
 	public active: boolean = true;
 	public filter: any;
-	public isSearchResultsVisible: boolean = false;
+	public _isSearchResultsVisible: boolean = false;
 	public options: any[] = [];
 	public inputValue: FormControl = new FormControl("");
 
@@ -174,7 +176,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 		});
 
 		this.input.subscribe((next) => {
-			this.isSearchResultsVisible = true;
+			this._isSearchResultsVisible = true;
 			this.onLoading.next(true);
 			this.filter = { 'description': next };
 		});
@@ -186,7 +188,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 		this.value = option;
 		this.input.next(option.description);
 		this._autoCompleteService.setFilter(this._dataSrc);
-		this.isSearchResultsVisible = false;
+		this._isSearchResultsVisible = false;
 		this._onTouchedCallback();
 
 	}

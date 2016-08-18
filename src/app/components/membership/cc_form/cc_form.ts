@@ -43,10 +43,11 @@ export class CreditCardFormComponent implements OnInit {
 	 */
 	watchEvents = (evt) => {
 		// TODO: Change This Origin to Real Address for Deployment
-		if (evt.data !== null && isString(evt.data) && evt.origin === "https://hpp.sandbox.realexpayments.com") {
+		if (evt.data !== null && isString(evt.data) && evt.origin === 'https://hpp.sandbox.realexpayments.com') {
 			let data = JSON.parse(evt.data);
 			if (data.QUOTE_REFERENCE && data.RESULT === '00') {
 				this._analytics.triggerPaymentEvent('credit', 'success');
+				this._uiStore.getPage('confirmationHidden');
 				this.onSuccess.next(data.QUOTE_REFERENCE);
 			} else if (data.RESULT === '101') {
 				this._analytics.triggerPaymentEvent('credit', 'declined');

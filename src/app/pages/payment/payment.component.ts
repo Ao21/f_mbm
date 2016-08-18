@@ -40,30 +40,23 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, O
 		this.frequency = this._dataStore.get(['pricing', 'frequency']) ?
 			this._dataStore.get(['pricing', 'frequency']) : 'monthly';
 		this.paymentType = this._dataStore.get(['pricing', 'type']);
-		this.paymentType = 'Bank';
 		this.quote = this._dataStore.get(['config', 'quotation']);
 
 	}
 
 	ngOnInit() {
 		// TODO: Change this to a session object
-		// IF Quote has been converted send user to first page
-		let convertedQuote = JSON.parse(sessionStorage.getItem('convertedQuote'));
-		if (convertedQuote) {
-			this._dataStore.deleteConvertedQuote();
-			this._router.navigate(['/']);
-		};
 	}
 
 	/**
 	 * 	Called from onSuccess Events from Child Components
 	 * 	@param string convertedQuoteReference - 
 	 */
-	continueToConfirmation(convertedQuoteReference: string) {
+	continueToConfirmation = (convertedQuoteReference: string) => {
 		this._paymentService.convertQuote(convertedQuoteReference).subscribe((next) => {
 			this.isQuoteConverted = true;
 			this._dataStore.convertQuote(next.json());
-			this._router.navigate(['confirmation']);
+			this._router.navigateByUrl('confirmation');
 		});
 	}
 
@@ -89,7 +82,6 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, O
 			res(true);
 		});
 	}
-
 
 	/**
 	 * 	If the user tries to leave the page with an non-converted quote this will block

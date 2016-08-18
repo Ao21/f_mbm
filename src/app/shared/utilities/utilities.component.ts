@@ -16,11 +16,12 @@ export class Utils {
 	static isViewportMobile() {
 		return window.matchMedia('(max-width: 480px)').matches;
 	}
+
 	static isViewportTablet() {
 		return window.matchMedia('(max-width: 1023px)').matches;
 	}
 	static isViewportDesktop() {
-		return window.matchMedia('(min-width: 1024px)').matches;
+		return window.matchMedia('(min-width: 1025px)').matches;
 	}
 
 	static isMaxHeight(height) {

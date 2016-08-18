@@ -17,6 +17,13 @@ m-cc-form {
 }
 
 .o-cc_form {
+    padding-top:$defaultContainerPadding;
+    @include media($tablet) {
+        padding-top: $defaultContainerPaddingTablet;
+    }
+    @include media($mobile) {
+        padding-top: $defaultContainerPaddingMobile;
+    }
     float: left;
     width: 100%;
 

@@ -28,7 +28,7 @@ export class InitService {
 			});
 		}
 		let promise = this.http.get(this.config.baseUrl).map(res => res.json()).toPromise();
-		if (environment.production) {
+		if (!environment.production) {
 			// ENDPOINTS
 			// HOMESTART
 			// HOMESTARTPRICE

@@ -9,9 +9,13 @@ m-payment-agreement,
 	.o-card {
 		&__title {
 			padding: size(large) size(medium);
-			min-height: 300px;
+			height: auto;
+			min-height: 4.5rem;
 			background-color: $dark-med-gray;
 			color: white;
+			// @include media($mobile){
+			// 	min-height: 340px;
+			// }
 
 			h5 {
 				text-align: left;

@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
-import {Router} from '@angular/router';
-import {UIStore, DataStore} from './../../../stores/stores.modules';
-let template = require('./header_component.html');
+import { Router } from '@angular/router';
+import { UIStore, DataStore } from './../../../stores/stores.modules';
 
 @Component({
 	selector: 'c-top-nav',
-	template: template,
-	directives: []
+	template: require('./header_component.html')
 })
 export class HeaderComponent {
 	price: any;
 	prev: any = null;
 	header: any;
-	isPriceVisible: boolean = true;
+	isPriceVisible: boolean = false;
 
 	constructor(
 		public uiStore: UIStore,
@@ -20,6 +18,7 @@ export class HeaderComponent {
 		private _router: Router
 	) {
 		this.uiStore.select('activePage').on('update', (e) => {
+			console.log('update', e);
 			this.updateByPageObject(e.data.currentData);
 		});
 		this.price = this._dataStore.get(['pricing', 'estimate', 'calculatedPrice']);
@@ -28,7 +27,7 @@ export class HeaderComponent {
 		});
 	}
 
-	updateByPageObject(page) {
+	updateByPageObject = (page) => {
 		this.header = page.title;
 		if (page.prev) {
 			this.prev = this.uiStore.get(['pages', page.prev]);
@@ -47,7 +46,7 @@ export class HeaderComponent {
 		let path = ['overView', 'isVisible'];
 		this.uiStore.update(path, !this.uiStore.get(path));
 	}
-	
+
 	triggerBack() {
 		if (this.prev) {
 			this._router.navigate([this.prev.address]);

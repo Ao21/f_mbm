@@ -114,6 +114,10 @@ main.content {
         color: $light;
         z-index: $routerOutlet;
         min-height: calc(100vh - #{$navHeightDefault});
+        @include media($tablet) {
+            padding-top: $defaultContainerPaddingTablet;
+            min-height: calc(100vh - #{$navHeightMobile});
+        }
         @include media($mobile) {
             padding-top: $defaultContainerPaddingMobile;
             min-height: calc(100vh - #{$navHeightMobile});

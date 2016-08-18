@@ -16,6 +16,7 @@ $max-width: em(1600) !default;
 $lg-desktop: new-breakpoint(min-width 1601px 12);
 $desktop: new-breakpoint(min-width 1024px max-width 1600px, 12);
 $desktopUp: new-breakpoint(min-width 1024px 12);
+$desktopDown: new-breakpoint(max-width 1024px 8);
 $upToDesktop: new-breakpoint(max-width 1023px 8);
 $tablet: new-breakpoint(min-width 768px max-width 1024px 8);
 $tabletPortrait: new-breakpoint(min-width 481px max-width 768px 8);

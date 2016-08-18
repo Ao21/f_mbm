@@ -120,7 +120,7 @@ export class CheckboxCardComponent {
 	@HostListener('click', ['$event'])
 	onInteractionEvent(event: Event) {
 		if (this.isDisabled && event) {
-			event.stopPropagation();
+			// event.stopPropagation();
 			return;
 		}
 		this.toggle();

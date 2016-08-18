@@ -1,6 +1,6 @@
-import { Component, Attribute, Optional, Host, OnInit } from '@angular/core';
+import { Component, Attribute, Optional, Host, OnInit, Input } from '@angular/core';
 import {isPresent} from '@angular/platform-browser/src/facade/lang';
-import {SelectorGroup} from './selector_group';
+import {SelectorGroupComponent} from './selector_group';
 import {SelectorDispatcher} from './selector_dispatcher';
 let template = require('./selector.html');
 
@@ -8,7 +8,6 @@ let _uniqueIdCounter = 0;
 
 @Component({
 	selector: 'c-selector',
-	inputs: ['id', 'name', 'value', 'checked', 'disabled', 'group'],
 	host: {
 		'(keydown.space)': 'select($event)',
 		'(click)': 'select($event)',
@@ -19,31 +18,25 @@ let _uniqueIdCounter = 0;
 		'[attr.aria-disabled]': 'disabled',
 		'[tabindex]': 'tabindex'
 	},
-	template: template,
-	providers: []
+	template: template
 })
-export class Selector implements OnInit {
-	id: string;
-	value: any;
-	group: any;
-	name: string;
-	checked: boolean;
+export class SelectorComponent implements OnInit {
+	@Input('id') id: string;
+	@Input('value') value: any;
+	@Input('group') group: any;
+	@Input('name') name: string;
+	@Input('checked') checked: boolean;
+	@Input('disabled') set disabled(d) { this._disabled = d; };
 	isChecked: boolean;
 	_disabled: boolean;
 	selectorDispatcher: SelectorDispatcher;
 	tabindex: number = -1;
 
 	constructor(
-		@Attribute('checked') checked: boolean,
-		@Attribute('value') value: string,
-		@Optional() @Host() public selectorGroup: SelectorGroup,
+		@Optional() @Host() public selectorGroup: SelectorGroupComponent,
 		selectorDispatcher: SelectorDispatcher,
-		@Attribute('id') id: string,
-		@Attribute('tabindex') tabindex: string
 	) {
-		this.value = value;
 		this.isChecked = false;
-		this.id = isPresent(id) ? id : `selector-${_uniqueIdCounter++}`;
 		this.selectorDispatcher = selectorDispatcher;
 
 		selectorDispatcher.listen((name) => {
@@ -63,6 +56,7 @@ export class Selector implements OnInit {
 	}
 
 	ngOnInit() {
+		this.id = isPresent(this.id) ? this.id : `selector-${_uniqueIdCounter++}`;
 		if (isPresent(this.selectorGroup)) {
 			this.name = this.selectorGroup.getName();
 
@@ -95,9 +89,6 @@ export class Selector implements OnInit {
 		return this._disabled;
 	}
 
-	set disabled(value: boolean) {
-		this._disabled = isPresent(value) && value !== false;
-	}
 
 	select(event: Event) {
 		if (this.isDisabled()) {

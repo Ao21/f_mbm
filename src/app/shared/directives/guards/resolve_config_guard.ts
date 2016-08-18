@@ -15,7 +15,6 @@ export class ConfigResolveGuard implements Resolve<ProductConfig> {
 		private router: Router) { }
 	resolve(route: ActivatedRouteSnapshot): Observable<any> | Promise<any> | any {
 		if (this.initService.isProductConfigPreloaded) {
-			console.log('true');
 			return true;
 		}
 		return this.initService.load().then(productConfig => {
@@ -24,7 +23,6 @@ export class ConfigResolveGuard implements Resolve<ProductConfig> {
 				this.dataStore.setConfig(productConfig);
 				return productConfig;
 			} else { // id not found
-				console.log('ARGHH');
 				return false;
 			}
 		});

@@ -2,19 +2,25 @@
 // Friends and Family Page
 //-------------------------------------
 p-friends-and-family {
+    .grid> m-add-member-card {
+        @include span-columns(4);
+    }
+    @include media($tabletPortrait) {
+        .grid> m-add-member-card {
+            @include span-columns(8);
+            margin-bottom: size(medium);
+            &> section {
+                min-height: $containerMinHeightMobile
+            }
+        }
+    }
     @include media($mobile) {
-        & > section {
+        &> section {
             min-height: $containerMinHeightMobile
         }
-        .grid > m-add-member-card {
+        .grid> m-add-member-card {
             @include span-columns(4);
-
             margin-bottom: size(medium);
         }
-        
-    }
-
-    .grid > m-add-member-card {
-        @include span-columns(4);
     }
 }

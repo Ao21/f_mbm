@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ApplicationRef, APP_INITIALIZER } from '@angular/core';
+import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 import { IncludedModule } from './pages/included/index';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
@@ -9,6 +10,7 @@ import { YourDetailsModule } from './pages/your_details/your_details.module';
 import { BreakdownModule } from './pages/breakdown/';
 import { PaymentModule } from './pages/payment/';
 import { TermsConditionsModule } from './pages/terms_conditions/';
+import { RetrieveQuoteModule } from './pages/retrieve_quote/';
 import { InitService } from './services/init.service';
 import { SharedModule } from './shared/shared.module';
 import { ConfirmationModule } from './pages/confirmation/';
@@ -28,6 +30,7 @@ import { Dispatcher } from './shared/common/index';
 		BreakdownModule,
 		TermsConditionsModule,
 		PaymentModule,
+		RetrieveQuoteModule,
 		ConfirmationModule,
 		routing
 	],
@@ -35,6 +38,7 @@ import { Dispatcher } from './shared/common/index';
 		Dispatcher,
 		InitService,
 		appRoutingProviders,
+		{ provide: LocationStrategy, useClass: HashLocationStrategy },
 	],
 	entryComponents: [AppComponent],
 	bootstrap: [AppComponent]

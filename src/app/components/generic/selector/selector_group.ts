@@ -3,28 +3,27 @@ import {
 	Input,
 	forwardRef,
 	EventEmitter,
+	Output,
 	Attribute,
 	OnInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { isPresent, NumberWrapper } from '@angular/platform-browser/src/facade/lang';
 
-import { Selector } from './selector';
+import { SelectorComponent } from './selector';
 import { SelectorDispatcher } from './selector_dispatcher';
 let template = require('./selector_group.html');
 let _uniqueSGIdCounter = 0;
 
 export const SG_VALUE_ACCESSOR: any = {
 	provide: NG_VALUE_ACCESSOR,
-	useExisting: forwardRef(() => SelectorGroup),
+	useExisting: forwardRef(() => SelectorGroupComponent),
 	multi: true
 };
 
 
 @Component({
 	selector: 'c-selector-group',
-	outputs: ['onChange'],
-	inputs: ['disabled', 'value', 'init', 'channel', 'tab', 'data'],
 	host: {
 		'role': 'radiogroup',
 		'[attr.aria-disabled]': 'disabled',
@@ -35,28 +34,31 @@ export const SG_VALUE_ACCESSOR: any = {
 	template: template
 })
 
-export class SelectorGroup implements ControlValueAccessor, OnInit {
-	value: any;
-	init: FormControl;
+export class SelectorGroupComponent implements ControlValueAccessor, OnInit {
+
 	_name: string;
-	_selectors: Selector[];
+	_selectors: SelectorComponent[];
 
 	activeDescendent: any;
 	_disabled: boolean;
 	selectedSelectorId: string;
-	onChange: EventEmitter<any> = new EventEmitter();
-	onTouched: EventEmitter<any> = new EventEmitter();
+	@Output() onChange: EventEmitter<any> = new EventEmitter();
+	@Output() onTouched: EventEmitter<any> = new EventEmitter();
 	tabindex: number;
-	channel: string;
-	tab: boolean;
 
+	@Input() value: any;
+	@Input() channel: string;
+	@Input() tab: boolean;
+	@Input() data: any;
+	@Input() disabled: boolean;
+	@Input('init') init: FormControl;
 	@Input('control') control: FormControl;
 	@Input('formControl') formControl: FormControl;
 
 	constructor(
 		@Attribute('channel') channel: string,
 		@Attribute('tabindex') tabindex: string,
-		@Attribute('disabled') disabled: string,
+		@Attribute('disabled') d: string,
 		public selectorDispatcher: SelectorDispatcher
 	) {
 		// _cd.valueAccessor = this;
@@ -64,7 +66,7 @@ export class SelectorGroup implements ControlValueAccessor, OnInit {
 		this._selectors = [];
 		this.selectedSelectorId = '';
 		this._disabled = false;
-		this.disabled = isPresent(disabled);
+		this.disabled = isPresent(d) ? true : false;
 		this.tabindex = isPresent(tabindex) ? NumberWrapper.parseInt(tabindex, 10) : -1;
 
 
@@ -96,13 +98,6 @@ export class SelectorGroup implements ControlValueAccessor, OnInit {
 		return this._name;
 	}
 
-	get disabled() {
-		return this._disabled;
-	}
-
-	set disabled(value) {
-		this._disabled = isPresent(value) && value !== false;
-	}
 
 
 	onChanges(_) {
@@ -126,7 +121,7 @@ export class SelectorGroup implements ControlValueAccessor, OnInit {
 		this.onChange.emit(this.value);
 	}
 
-	register(selector: Selector) {
+	register(selector: SelectorComponent) {
 		this._selectors.push(selector);
 	}
 

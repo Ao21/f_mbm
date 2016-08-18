@@ -1,17 +1,12 @@
-import {Component, Input, Output, ElementRef} from '@angular/core';
-import {SHARED_MODULES} from './../../shared/shared_modules';
-import {UIStore} from './../../../stores/ui_store';
-import {isPresent} from '@angular/platform-browser/src/facade/lang';
-import * as Velocity from 'velocity-animate';
-import {MyAAService} from './../../../services/services_modules';
-import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {Component, Input} from '@angular/core';
+import {UIStore} from './../../../stores/stores.modules';
+import {MyAAService} from './../../../services/index';
 
 let template = require('./save_quote_button.html');
 
 @Component({
 	selector: 'button[m-save-quote]',
 	template: template,
-	directives: [SHARED_MODULES, REACTIVE_FORM_DIRECTIVES],
 	host: {
 		'[class.btn--grey]': 'disabled',
 		'[class.btn--outline]': '!disabled',
@@ -20,7 +15,7 @@ let template = require('./save_quote_button.html');
 		'[disabled]': 'disabled'
 	}
 })
-export class SaveQuoteButton {
+export class SaveQuoteButtonComponent {
 	isAnimating: boolean = false;
 	isError: boolean = false;
 	@Input('disabled') disabled: boolean = false;
@@ -28,11 +23,8 @@ export class SaveQuoteButton {
 	constructor(
 		private _uiStore: UIStore,
 		private _myAA: MyAAService
-	) {
+	) { }
 
-	
-	}
-	
 	onClick(evt: Event) {
 		this._myAA.saveQuote().subscribe((next) => {
 			this._uiStore.update(['UIOptions', 'isQuoteSaved'], true);
@@ -40,6 +32,5 @@ export class SaveQuoteButton {
 		}, (err) => {
 			this.isError = true;
 		});
-		
 	}
 }

@@ -6,6 +6,7 @@ import { MembershipPriceBreakdownPageComponent } from './breakdown.component';
 import { BreakdownDrawerItemDirective } from './../../directives/breakdown/breakdown_height_drawer.directive';
 import { MyAASaveQuoteSignInComponent } from './../../components/membership/myAA_signin/myAA_signin.component';
 import { AtomicComponentsModule } from './../../components/generic/atomic_components.module';
+import { SaveQuoteButtonComponent } from './../../components/membership/save_quote_button/save_quote_button';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -18,7 +19,8 @@ import { AtomicComponentsModule } from './../../components/generic/atomic_compon
 	declarations: [
 		MembershipPriceBreakdownPageComponent,
 		BreakdownDrawerItemDirective,
-		MyAASaveQuoteSignInComponent
+		MyAASaveQuoteSignInComponent,
+		SaveQuoteButtonComponent
 
 	],
 	exports: [

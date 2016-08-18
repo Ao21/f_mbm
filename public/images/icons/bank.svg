@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1544 1777 19 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #1b1918;
+      }
+    </style>
+  </defs>
+  <path id="bank" class="cls-1" d="M11.5,1,2,5.762v1.9H21v-1.9m-5,3.81v6.667h3V9.571M2,21H21V18.143H2m8-8.571v6.667h3V9.571m-9,0v6.667H7V9.571Z" transform="translate(-1546 1776)"/>
+</svg>

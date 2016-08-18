@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-root',
@@ -7,5 +8,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
 	styleUrls: ['./../styles/app.scss']
 })
 export class AppComponent {
-	constructor() { }
+	constructor(
+		private router: Router
+	) { 
+		this.router.events.subscribe((next) => {
+			window.scrollTo(0, 0);
+		});
+	}
 }
