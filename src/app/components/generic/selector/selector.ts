@@ -16,6 +16,7 @@ export class SelectorComponent implements OnInit {
 	@HostBinding('attr.aria-checked') get _isAriaChecked() { return this.isChecked; };
 	@HostBinding('attr.aria-disabled') get _isAriaDisabled() { return this.disabled; };
 	@HostBinding('attr.tabindex') get _tabIndex() { return this.tabindex; };
+	@HostBinding('attr.id') get _id() { return this.id; };
 
 	@Input('id') id: string;
 	@Input('value') value: any;
