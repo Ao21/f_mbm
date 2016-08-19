@@ -7,6 +7,7 @@ import { BreakdownDrawerItemDirective } from './../../directives/breakdown/break
 import { MyAASaveQuoteSignInComponent } from './../../components/membership/myAA_signin/myAA_signin.component';
 import { AtomicComponentsModule } from './../../components/generic/atomic_components.module';
 import { SaveQuoteButtonComponent } from './../../components/membership/save_quote_button/save_quote_button';
+import { DeleteConfirmationComponent } from './../../components/generic/delete_confirmation/delete_confirmation';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -20,7 +21,8 @@ import { SaveQuoteButtonComponent } from './../../components/membership/save_quo
 		MembershipPriceBreakdownPageComponent,
 		BreakdownDrawerItemDirective,
 		MyAASaveQuoteSignInComponent,
-		SaveQuoteButtonComponent
+		SaveQuoteButtonComponent,
+		DeleteConfirmationComponent
 
 	],
 	exports: [
