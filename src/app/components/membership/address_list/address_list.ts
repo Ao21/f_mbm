@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges,HostListener, ElementRef} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges,HostBinding, ElementRef} from '@angular/core';
 import {ReferenceService, NotificationService, Analytics} from './../../../services/index';
 import {isPresent} from '@angular/platform-browser/src/facade/lang';
 import {Observable, Subject} from 'rxjs/Rx';
@@ -13,11 +13,11 @@ import {Observable, Subject} from 'rxjs/Rx';
 	templateUrl: './address_list.html'
 })
 export class AddressListComponent implements OnChanges {
-	@HostListener('class.isVisible') get _isVisible() { return this.isVisible; };
+	@HostBinding('class.isVisible') get _isVisible() { return this.isVisible; };
 	// The Address String to Validate
 	@Input('data') data: string;
 	// Whether the Component is currently visible
-	@Input('visible') isVisible: boolean = false;
+	@Input('isVisible') isVisible: boolean = false;
 	// onValid is emitted after the user selects an address and confirmation is
 	// recieved from the GeoCode service
 	@Output() onValid: EventEmitter<any> = new EventEmitter();
