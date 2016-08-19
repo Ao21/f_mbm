@@ -5,7 +5,7 @@ import {NotificationService} from './../../../../services/notifications.service'
 
 @Component({
 	selector: 'c-notification-bar',
-	template: require('./notifications_bar.html'),
+	templateUrl: './notifications_bar.html',
 })
 export class NotificationBarComponent {
 	notificationDrawerStatus: string;

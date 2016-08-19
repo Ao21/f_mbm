@@ -6,11 +6,10 @@ import {Subject, Observable} from 'rxjs/Rx';
 import {PaymentService} from './../../../services/index';
 import { isPresent } from '@angular/platform-browser/src/facade/lang';
 
-let template = require('./iban_form.html');
 
 @Component({
 	selector: 'm-iban-form',
-	template: template,
+	templateUrl: './iban_form.html',
 })
 
 export class IbanForm {

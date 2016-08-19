@@ -18,14 +18,13 @@ import {Router} from '@angular/router';
 import {CONSTS} from './../../constants.ts';
 
 import {CanActivate, CanDeactivate} from '@angular/router';
-let template = require('./breakdown.html');
 
 /**
  *  Breakdown Page Component Class
  */
 @Component({
 	selector: 'p-breakdown',
-	template: template,
+	templateUrl: './breakdown.html',
 	animations: [
 		trigger('breakdownItemVisiblity', [
 			state('visible', style({ opacity: 1 })),

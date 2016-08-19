@@ -1,16 +1,14 @@
-import { Component, Host, Input, OnInit, Optional } from '@angular/core';
+import { Component, Host, Input, OnInit, Optional, HostBinding } from '@angular/core';
 import { NgFormModel } from '@angular/common';
 import {ErrorService} from './../../../services/error.service';
 import {isPresent} from '@angular/platform-browser/src/facade/lang';
 
 @Component({
 	selector: 'c-show-error',
-	host: {
-		'[class.active]': 'errorMessage !== null'
-	},
-	template: require('./show_error.html')
+	templateUrl: 'show_error.html'
 })
 export class ShowErrorComponent implements OnInit {
+	@HostBinding('class.active') get _errorMessage() { return this.errorMessage !== null; };
 	@Input('controlPath') controlPath;
 	@Input('form') form: any;
 	@Input('display') display: string;

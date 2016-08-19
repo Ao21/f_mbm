@@ -44,7 +44,7 @@ import {Subject} from 'rxjs/Rx';
 
 @Component({
 	selector: 'form-component',
-	template: require('./form_component.html')
+	templateUrl: './form_component.html'
 })
 
 export class FormComponent implements OnInit, AfterViewInit {

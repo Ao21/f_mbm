@@ -10,7 +10,7 @@ import {
 	EventEmitter} from '@angular/core';
 @Component({
 	selector: 'c-confirm-delete',
-	template: require('./delete_confirmation.html'),
+	templateUrl: 'delete_confirmation.html',
 	host: {
 		"[class.c-delete-confirmation]": 'true',
 		"[class.isOpen]": 'isOpen'
@@ -32,7 +32,7 @@ import {
 		])
 	]
 })
-export class DeleteConfirmation {
+export class DeleteConfirmationComponent {
 	@Output('onConfirm') onConfirm: EventEmitter<boolean> = new EventEmitter<boolean>();
 	@Output('onOpen') onOpen: EventEmitter<boolean> = new EventEmitter<boolean>();
 	initBtnVisible: string = 'visible';

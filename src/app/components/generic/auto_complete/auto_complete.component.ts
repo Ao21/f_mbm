@@ -13,7 +13,6 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { AutoCompleteService } from './../../../services/autocomplete.service';
 import { Observable, Subject } from 'rxjs/Rx';
-let template = require('./auto_complete.html');
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -49,7 +48,7 @@ const noop = () => { };
 @Component({
 	providers: [AUTOCOMPLETE_VALUE_ACCESSOR],
 	selector: 'c-auto-complete',
-	template: template,
+	templateUrl: 'auto_complete.html',
 })
 export class AutoCompleteComponent implements OnInit, ControlValueAccessor, AfterViewInit {
 

@@ -1,27 +1,27 @@
-import { Component, Attribute, EventEmitter } from '@angular/core';
+import { Component, Attribute, EventEmitter, Input, Output } from '@angular/core';
 import {isPresent, NumberWrapper} from '@angular/platform-browser/src/facade/lang';
 import { TabsDispatcher } from './tab_dispatcher';
-import {Tab} from './tab';
+import {TabComponent} from './tab';
 
 let _uniqueIdCounter: number = 0;
 
-let template = require('./tab_group.html');
 
 @Component({
 	selector: 'c-tab-group',
-	outputs: ['change'],
-	inputs: ['disabled', 'value'],
-	template: template,
+	templateUrl: 'tab_group.html',
 	providers: [TabsDispatcher]
 })
-export class TabGroup {
-	value: any;
+export class TabGroupComponent {
+	@Input('value') value: any;
 	_name: string;
-	_tabs: Tab[];
+	_tabs: TabComponent[];
 	activeDescendent: any;
+	@Input('disabled') set disabled(value) {
+		this._disabled = isPresent(value) && value !== false;
+	}
 	_disabled: boolean;
 	selectedTabId: string;
-	change: EventEmitter<any> = new EventEmitter();
+	@Output() change: EventEmitter<any> = new EventEmitter();
 	tabindex: number;
 
 	constructor(
@@ -47,15 +47,12 @@ export class TabGroup {
 		return this._disabled;
 	}
 
-	set disabled(value) {
-		this._disabled = isPresent(value) && value !== false;
-	}
 
 	get tabs() {
 		return this._tabs;
 	}
 
-	select(tab: Tab) {
+	select(tab: TabComponent) {
 		this.disabled = isPresent(this.disabled) && this.disabled !== false;
 		if (isPresent(tab.value) && tab.value !== '') {
 			this.tabsDispatcher.notify(this._name);
@@ -70,13 +67,13 @@ export class TabGroup {
 		}
 	}
 
-	updateValue(tab: Tab) {
+	updateValue(tab: TabComponent) {
 		this.selectedTabId = tab.id;
 		this.activeDescendent = tab.id;
 		this.change.next(tab);
 	}
 
-	register(tab: Tab) {
+	register(tab: TabComponent) {
 		this._tabs.push(tab);
 	}
 }

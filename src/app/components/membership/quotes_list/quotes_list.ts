@@ -11,11 +11,10 @@ import {
 import { Router } from '@angular/router';
 import {DataStore} from './../../../stores/stores.modules';
 import {QuoteService, MyAAService, NotificationService} from './../../../services/index';
-let template = require('./quotes_list.html');
 
 @Component({
 	selector: 'm-quotes-list',
-	template: template,
+	templateUrl: './quotes_list.html',
 	animations: [
 		trigger('openList', [
 			state('inactive', style({
@@ -24,7 +23,7 @@ let template = require('./quotes_list.html');
 			})),
 			state('active', style({
 				maxHeight: '500px',
-				padding: '5vh 0'
+				padding: '5vh 0 7vh'
 			})),
 			transition('* => *', animate('350ms ease-in'))
 		])

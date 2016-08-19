@@ -10,7 +10,6 @@ import { Utils } from './../../shared/utilities/utilities.component';
 import { CanDeactivate } from '@angular/router';
 import { CONSTS } from './../../constants';
 import { NotificationService, QuoteService } from './../../services/index';
-let template = require('./your_details.html');
 
 /**
  *  Your Details Page Component
@@ -18,7 +17,7 @@ let template = require('./your_details.html');
 
 @Component({
 	selector: 'p-your-details',
-	template: template
+	templateUrl: './your_details.html'
 })
 export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit, CanDeactivate<boolean>, OnDestroy {
 	// Default Settings for Your Details Page

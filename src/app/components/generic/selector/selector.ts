@@ -1,26 +1,22 @@
-import { Component, Attribute, Optional, Host, OnInit, Input } from '@angular/core';
-import {isPresent} from '@angular/platform-browser/src/facade/lang';
-import {SelectorGroupComponent} from './selector_group';
-import {SelectorDispatcher} from './selector_dispatcher';
-let template = require('./selector.html');
+import { Component, HostListener, HostBinding, Optional, Host, OnInit, Input } from '@angular/core';
+import { isPresent } from '@angular/platform-browser/src/facade/lang';
+import { SelectorGroupComponent } from './selector_group';
+import { SelectorDispatcher } from './selector_dispatcher';
 
 let _uniqueIdCounter = 0;
 
 @Component({
 	selector: 'c-selector',
-	host: {
-		'(keydown.space)': 'select($event)',
-		'(click)': 'select($event)',
-		'role': 'radio',
-		'[id]': 'id',
-		'[class.isSelected]': 'isChecked',
-		'[attr.aria-checked]': 'isChecked',
-		'[attr.aria-disabled]': 'disabled',
-		'[tabindex]': 'tabindex'
-	},
-	template: template
+	templateUrl: 'selector.html'
 })
 export class SelectorComponent implements OnInit {
+
+	@HostBinding('attr.role') role: string = 'radio';
+	@HostBinding('class.isSelected') get _isChecked() { return this.isChecked; };
+	@HostBinding('attr.aria-checked') get _isAriaChecked() { return this.isChecked; };
+	@HostBinding('attr.aria-disabled') get _isAriaDisabled() { return this.disabled; };
+	@HostBinding('attr.tabindex') get _tabIndex() { return this.tabindex; };
+
 	@Input('id') id: string;
 	@Input('value') value: any;
 	@Input('group') group: any;
@@ -89,7 +85,8 @@ export class SelectorComponent implements OnInit {
 		return this._disabled;
 	}
 
-
+	@HostListener('click', ['$event'])
+	@HostListener('keydown.space', ['$event'])
 	select(event: Event) {
 		if (this.isDisabled()) {
 			event.stopPropagation();

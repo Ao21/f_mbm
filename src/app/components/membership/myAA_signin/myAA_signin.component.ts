@@ -8,7 +8,7 @@ import {Subject} from 'rxjs/Rx';
 
 @Component({
 	selector: 'm-save-quote-signin',
-	template: require('./myAA_signin.html'),
+	templateUrl: './myAA_signin.html',
 	// directives: [SHARED_MODULES]
 })
 export class MyAASaveQuoteSignInComponent {

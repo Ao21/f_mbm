@@ -3,6 +3,7 @@ import {
 	OnInit,
 	Input,
 	Output,
+	ChangeDetectorRef,
 	EventEmitter,
 } from '@angular/core';
 import { isString } from '@angular/platform-browser/src/facade/lang';
@@ -12,7 +13,7 @@ import { Subject } from 'rxjs/Rx';
 
 @Component({
 	selector: 'm-cc-form',
-	template: require('./cc_form.html'),
+	templateUrl: './cc_form.html',
 
 })
 
@@ -30,6 +31,7 @@ export class CreditCardFormComponent implements OnInit {
 
 
 	constructor(
+		private _changeRef: ChangeDetectorRef,
 		private _analytics: Analytics,
 		private _uiStore: UIStore,
 		private _dataStore: DataStore
@@ -49,13 +51,16 @@ export class CreditCardFormComponent implements OnInit {
 				this._analytics.triggerPaymentEvent('credit', 'success');
 				this._uiStore.getPage('confirmationHidden');
 				this.onSuccess.next(data.QUOTE_REFERENCE);
-			} else if (data.RESULT === '101') {
+			}
+			if (data.RESULT === '101') {
 				this._analytics.triggerPaymentEvent('credit', 'declined');
 				this.iframeVisible = false;
 				this.errorMessageVisible = true;
+				this._changeRef.detectChanges();
 				setTimeout(() => {
 					this.iframeVisible = true;
-				}, 1);
+					this._changeRef.detectChanges();
+				}, 10);
 
 			}
 			if (data.iframe) {

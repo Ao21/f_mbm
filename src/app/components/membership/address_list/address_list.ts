@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges, ElementRef} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges,HostListener, ElementRef} from '@angular/core';
 import {ReferenceService, NotificationService, Analytics} from './../../../services/index';
 import {isPresent} from '@angular/platform-browser/src/facade/lang';
 import {Observable, Subject} from 'rxjs/Rx';
@@ -10,12 +10,10 @@ import {Observable, Subject} from 'rxjs/Rx';
  */
 @Component({
 	selector: 'm-address-list',
-	template: require('./address_list.html'),
-	host: {
-		'[class.isVisible]': 'isVisible'
-	}
+	templateUrl: './address_list.html'
 })
 export class AddressListComponent implements OnChanges {
+	@HostListener('class.isVisible') get _isVisible() { return this.isVisible; };
 	// The Address String to Validate
 	@Input('data') data: string;
 	// Whether the Component is currently visible

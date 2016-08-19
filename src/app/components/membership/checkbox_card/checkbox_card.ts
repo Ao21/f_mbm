@@ -10,7 +10,6 @@ import {
 	HostListener,
 	animate,
 	trigger} from '@angular/core';
-let template = require('./checkbox_card.html');
 import {Observable} from 'rxjs/Rx';
 import {Utils} from './../../../shared/utilities/index';
 
@@ -44,21 +43,7 @@ let nextCheckboxId = 0;
 
 @Component({
 	selector: 'c-checkbox-card',
-	template: template,
-	host: {
-		// 'role': 'checkbox',
-		'[class.c-checkbox-card]': 'true',
-		'[class.isDisabled]': 'isDisabled',
-		'[class.isChecked]': 'isSelected',
-		'[attr.aria-labelledby]': 'labelId',
-		'[id]': 'id',
-		'(click)': 'onInteractionEvent()',
-		'(keyup.space)': 'onInteractionEvent($event)',
-		'(keydown.space)': 'onSpaceDown($event)',
-		'[attr.aria-disabled]': 'isDisabled',
-		'[attr.aria-checked]': 'isSelected',
-		'[attr.tabindex]': 'isDisabled ? null : tabindex'
-	},
+	templateUrl: './checkbox_card.html',
 	animations: [
 		trigger('collapseContent', [
 			state('hidden', style({ marginTop: '-180px' })),
@@ -75,9 +60,14 @@ export class CheckboxCardComponent {
 
 	@HostBinding('attr.role') role: string = 'checkbox';
 	@HostBinding('class.c-checkbox-card') checkBoxClass: boolean = true;
-	@HostBinding('class.isDisabled') get disabled() { return this.isDisabled; }
-	@HostBinding('class.isChecked') get checked() { return this.isSelected; }
-	@HostBinding('id') get id() { return this._id; }
+	@HostBinding('class.isDisabled') get _disabled() { return this.isDisabled; };
+	@HostBinding('class.isChecked') get _checked() { return this.isSelected; };
+	@HostBinding('attr.aria-disabled') get _ariaDisabled() { return this.isDisabled; };
+	@HostBinding('attr.aria-checked') get _ariaChecked() { return this.isSelected; };
+	@HostBinding('attr.tabIndex') get _tabIndex() { return this.tabindex; };
+	/** The id that is attached to the checkbox's label. */
+	@HostBinding('attr.aria-labelledby') get labelId() { return `${this.id}-label`; };
+	@HostBinding('attr.id') get id() { return this._id; }
 
 	// Event Emitted on toggling of the checkbox
 	@Output() onSelect: EventEmitter<any> = new EventEmitter();
@@ -110,10 +100,6 @@ export class CheckboxCardComponent {
 		this.isContentCollapsable = Utils.isViewportMobile();
 	}
 
-	/** The id that is attached to the checkbox's label. */
-	get labelId() {
-		return `${this.id}-label`;
-	}
 
 	// Event Handler for Click & Space down
 	@HostListener('keyup.space', ['$event'])
@@ -127,6 +113,7 @@ export class CheckboxCardComponent {
 	}
 
 	// Prevent Spacebar bubbling (Scrolling Down)
+	@HostListener('keydown.space', ['$event'])
 	onSpaceDown(evt: Event) {
 		evt.preventDefault();
 	}

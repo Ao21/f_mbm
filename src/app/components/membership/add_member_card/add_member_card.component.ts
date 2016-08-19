@@ -28,12 +28,7 @@ import { Analytics } from './../../../services/analytics.service';
 
 @Component({
 	selector: 'm-add-member-card',
-	template: require('./add_member_card.html'),
-	host: {
-		'[class.isValid]': 'state.valid',
-		'[class.isEditing]': '!state.valid && !state.placeholder',
-		'[class.isPlaceholder]': 'state.placeholder'
-	},
+	templateUrl: './add_member_card.html',
 })
 export class AdditionalMemberCardComponent implements OnInit {
 
@@ -53,9 +48,9 @@ export class AdditionalMemberCardComponent implements OnInit {
 	@Output() onDelete: EventEmitter<any> = new EventEmitter();
 	@Output() onCancel: EventEmitter<any> = new EventEmitter();
 
-	// @HostBinding('class.isValid') get ValidState() { return this.state.valid; };
-	// @HostBinding('class.isEditing') get EditingState() { return !this.state.valid && !this.state.placeholder; };
-	// @HostBinding('class.isValid') get PlaceholderSTate() { return this.state.placeholder; };
+	@HostBinding('class.isValid') get validState() { return this.state.valid; };
+	@HostBinding('class.isEditing') get editingState() { return !this.state.valid && !this.state.placeholder; };
+	@HostBinding('class.isPlaceholder') get placeholderState() { return this.state.placeholder; };
 
 	constructor(
 		private _analytics: Analytics,

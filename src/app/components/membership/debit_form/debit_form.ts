@@ -6,15 +6,13 @@ import {Subject, Observable} from 'rxjs/Rx';
 import {PaymentService} from './../../../services/index';
 import { isPresent } from '@angular/platform-browser/src/facade/lang';
 
-let template = require('./debit_form.html');
-
 
 @Component({
 	selector: 'm-debit-form',
-	template: template,
+	templateUrl: './debit_form.html',
 })
 
-export class DebitForm {
+export class DebitFormComponent {
 	@Output('onValidationInit') onValidationInit: EventEmitter<any> = new EventEmitter();
 	@Output('onValidationSuccess') onValidationSuccess: EventEmitter<any> = new EventEmitter();
 	@Output('onPaymentTypeChange') onPaymentTypeChange: EventEmitter<any> = new EventEmitter();

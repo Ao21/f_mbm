@@ -34,6 +34,7 @@ c-overview {
     .btn--group {
         .btn {
             @include span-columns(6);
+            margin-bottom: size(large);
         }
     }
     .c-overview__price:not(:last-child) {

@@ -2,11 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import {QuoteService} from './../../../services/quote.service';
 import {DataStore, UIStore} from './../../../stores/stores.modules';
-let template = require('./p-testimonials.html');
 
 @Component({
 	selector: 'pu-testimonials',
-	template: template
+	templateUrl: './p-testimonials.html'
 
 })
 export class TestimonialPopupComponent {

@@ -16,7 +16,7 @@ import {NotificationService, PaymentService} from './../../../services/index';
 
 @Component({
 	selector: 'm-payment-agreement',
-	template: require('./payment_agreement.html'),
+	templateUrl: './payment_agreement.html',
 	animations: [
 		trigger('successBump', [
 			transition('inactive => active', animate(350, keyframes([

@@ -10,9 +10,8 @@ import {
 	style,
 	animate,
 	trigger} from '@angular/core';
-let template = require('./checkbox_card.html');
-import {Subject, Observable, Observer} from 'rxjs/Rx';
-import {Utils} from './../../../../common/utilities';
+import {Observable} from 'rxjs/Rx';
+import {Utils} from './../../../../shared/utilities/utilities.component';
 
 let nextCheckboxId = 0;
 
@@ -44,7 +43,7 @@ let nextCheckboxId = 0;
 
 @Component({
 	selector: 'c-checkbox-card',
-	template: template,
+	templateUrl: 'checkbox_card.html',
 	host: {
 		'role': 'checkbox',
 		'[class.c-checkbox-card]': 'true',

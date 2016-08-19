@@ -20,7 +20,7 @@ import {Utils} from './../../../../shared/utilities/utilities.component';
 
 @Component({
 	selector: 'c-notification-login',
-	template: require('./notification_login.html'),
+	templateUrl: './notification_login.html',
 	animations: [
 		trigger('visibleState', [
 			state('closed', style({ margin: '-100%' })),

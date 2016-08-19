@@ -6,7 +6,6 @@ import { CONSTS } from './../../../constants';
 import * as Velocity from 'velocity-animate';
 import { Analytics } from './../../../services/analytics.service';
 import { Observable } from 'rxjs/Rx';
-let template = require('./overview.html');
 
 /**
  *  Overview
@@ -25,7 +24,7 @@ let template = require('./overview.html');
 
 @Component({
 	selector: 'c-overview',
-	template: template
+	templateUrl: './overview.html'
 })
 export class OverViewComponent implements OnInit, OnDestroy {
 	@HostBinding('class.isVisible') get isVisible() { return this._isVisible; };

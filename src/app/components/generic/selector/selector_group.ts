@@ -5,6 +5,8 @@ import {
 	EventEmitter,
 	Output,
 	Attribute,
+	HostBinding,
+	HostListener,
 	OnInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
@@ -12,7 +14,6 @@ import { isPresent, NumberWrapper } from '@angular/platform-browser/src/facade/l
 
 import { SelectorComponent } from './selector';
 import { SelectorDispatcher } from './selector_dispatcher';
-let template = require('./selector_group.html');
 let _uniqueSGIdCounter = 0;
 
 export const SG_VALUE_ACCESSOR: any = {
@@ -24,14 +25,7 @@ export const SG_VALUE_ACCESSOR: any = {
 
 @Component({
 	selector: 'c-selector-group',
-	host: {
-		'role': 'radiogroup',
-		'[attr.aria-disabled]': 'disabled',
-		'[attr.aria-activedescendant]': 'activedescendant',
-		'(keydown)': 'onKeydown($event)',
-		'[tabindex]': 'tabindex'
-	},
-	template: template
+	templateUrl: 'selector_group.html'
 })
 
 export class SelectorGroupComponent implements ControlValueAccessor, OnInit {
@@ -45,6 +39,11 @@ export class SelectorGroupComponent implements ControlValueAccessor, OnInit {
 	@Output() onChange: EventEmitter<any> = new EventEmitter();
 	@Output() onTouched: EventEmitter<any> = new EventEmitter();
 	tabindex: number;
+
+	@HostBinding('attr.role') role: string = 'radiogroup';
+	@HostBinding('attr.aria-disabled') get _ariaDisabled() { return this.disabled; };
+	@HostBinding('attr.aria-activedescendant') get _activeDescendent() { return this.activeDescendent; };
+	@HostBinding('attr.tabindex') get _tabIndex() { return this.tabindex; };
 
 	@Input() value: any;
 	@Input() channel: string;
@@ -125,6 +124,7 @@ export class SelectorGroupComponent implements ControlValueAccessor, OnInit {
 		this._selectors.push(selector);
 	}
 
+	@HostListener('keydown', ['$event'])
 	onKeydown(event) {
 		if (this.disabled) {
 			return;

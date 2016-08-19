@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {AccordianPanelComponent} from './accordian_panel';
 
-let template = require('./accordian.html');
-
 /**
  *  Accordian Component
  *
@@ -24,7 +22,7 @@ let template = require('./accordian.html');
 
 @Component({
 	selector: 'c-accordian',
-	template: template
+	templateUrl: 'accordian.html'
 })
 
 export class AccordianComponent {

@@ -14,6 +14,7 @@ import { RetrieveQuoteModule } from './pages/retrieve_quote/';
 import { InitService } from './services/init.service';
 import { SharedModule } from './shared/shared.module';
 import { ConfirmationModule } from './pages/confirmation/';
+import { ErrorPageModule } from './pages/error/';
 import { Dispatcher } from './shared/common/index';
 
 @NgModule({
@@ -30,6 +31,7 @@ import { Dispatcher } from './shared/common/index';
 		BreakdownModule,
 		TermsConditionsModule,
 		PaymentModule,
+		ErrorPageModule,
 		RetrieveQuoteModule,
 		ConfirmationModule,
 		routing

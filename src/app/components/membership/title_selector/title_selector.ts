@@ -5,7 +5,7 @@ import { CONSTS } from './../../../constants';
 
 @Component({
 	selector: 'm-title-selector',
-	template: require('./title_selector.html'),
+	templateUrl: './title_selector.html',
 })
 
 export class TitleSelectorComponent implements OnDestroy {

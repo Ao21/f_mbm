@@ -13,7 +13,7 @@ import {UIStore, DataStore} from './../../stores/stores.modules';
 
 @Component({
 	selector: 'p-terms',
-	template: require('./terms_conditions.html')
+	templateUrl: './terms_conditions.html'
 })
 export class MembershipTermsConditionsComponent implements OnInit {
 	page: UIPage;

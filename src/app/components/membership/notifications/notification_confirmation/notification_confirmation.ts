@@ -7,10 +7,9 @@ import {
 	group
 } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
-let template = require('./notification_confirmation.html');
 @Component({
 	selector: 'c-notification-confirmation',
-	template: template,
+	templateUrl: './notification_confirmation.html',
 	animations: [
 		trigger('visibleState', [
 			state('open', style({ margin: 0 })),

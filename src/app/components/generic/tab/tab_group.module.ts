@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TabGroup } from './tab_group';
-import { Tab } from './tab';
+import { TabGroupComponent } from './tab_group';
+import { TabComponent } from './tab';
 import { TabsDispatcher } from './tab_dispatcher';
 
 @NgModule({
@@ -14,12 +14,12 @@ import { TabsDispatcher } from './tab_dispatcher';
 		TabsDispatcher
 	],
 	declarations: [
-		Tab,
-		TabGroup
+		TabComponent,
+		TabGroupComponent
 	],
 	exports: [
-		TabGroup,
-		Tab
+		TabGroupComponent,
+		TabComponent
 	]
 })
 export class TabGroupModule { }

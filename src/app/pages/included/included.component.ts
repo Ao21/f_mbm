@@ -23,7 +23,7 @@ import { NotificationService } from './../../services/notifications.service';
  */
 @Component({
 	selector: 'p-included',
-	template: require('./included.html')
+	templateUrl: './included.html'
 })
 export class MembershipIncludedPageComponent implements OnInit {
 	// Default Settings for Included Page

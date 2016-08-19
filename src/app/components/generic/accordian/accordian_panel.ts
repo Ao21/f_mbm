@@ -1,7 +1,6 @@
 import {Component, Host} from '@angular/core';
 import {AccordianComponent} from './accordian';
 
-let template = require('./accordian_panel.html');
 
 /**
  *  Accordian Child Component
@@ -24,7 +23,7 @@ let template = require('./accordian_panel.html');
 
 @Component({
 	selector: 'c-accordian-panel',
-	template: template
+	templateUrl: 'accordian_panel.html'
 })
 export class AccordianPanelComponent {
 	// Sets the panel as closed or open

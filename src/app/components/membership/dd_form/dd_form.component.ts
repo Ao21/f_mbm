@@ -13,7 +13,7 @@ import { Analytics, PaymentService } from './../../../services/';
 
 @Component({
 	selector: 'm-dd-form',
-	template: require('./dd_form.html'),
+	templateUrl: './dd_form.html',
 	animations: [
 		trigger('fadeInOut', [
 			state('active', style({ opacity: 1 })),

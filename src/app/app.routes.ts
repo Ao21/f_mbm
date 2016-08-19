@@ -7,7 +7,9 @@ import { TermsConditionsRoutes } from './pages/terms_conditions/terms_conditions
 import { PaymentRoutes } from './pages/payment/';
 import { ConfirmationRoutes } from './pages/confirmation/';
 import { RetrieveQuoteRoutes } from './pages/retrieve_quote/retrieve_quote.routes';
+import { ErrorRoutes } from './pages/error/error.routes';
 import { GUARD_MODULES } from './shared/directives/guards/guards_modules';
+
 
 const appRoutes: Routes = [
 	...IncludedRoutes,
@@ -17,7 +19,8 @@ const appRoutes: Routes = [
 	...PaymentRoutes,
 	...ConfirmationRoutes,
 	...RetrieveQuoteRoutes,
-	...TermsConditionsRoutes
+	...TermsConditionsRoutes,
+	...ErrorRoutes
 ];
 
 export const appRoutingProviders: any[] = [

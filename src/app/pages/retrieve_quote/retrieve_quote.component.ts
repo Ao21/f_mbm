@@ -8,7 +8,7 @@ import { isPresent } from '@angular/platform-browser/src/facade/lang';
 import * as moment from 'moment';
 @Component({
 	selector: 'p-retrieve-quote',
-	template: require('./retrieve_quote.html')
+	templateUrl: './retrieve_quote.html'
 })
 export class MembershipRetrieveQuoteComponent implements OnInit {
 	fields: any[];

@@ -4,7 +4,7 @@ import { UIStore, DataStore } from './../../../stores/stores.modules';
 
 @Component({
 	selector: 'c-top-nav',
-	template: require('./header_component.html')
+	templateUrl: './header_component.html'
 })
 export class HeaderComponent {
 	price: any;

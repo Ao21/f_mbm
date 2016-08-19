@@ -15,7 +15,7 @@ import {Observable} from 'rxjs/Rx';
 
 @Component({
 	selector: 'p-friends-and-family',
-	template: require('./friends_family.html')
+	templateUrl: './friends_family.html'
 })
 export class MembershipFriendsAndFamilyPageComponent implements OnDestroy {
 	// Default Settings for Friends and Family Page

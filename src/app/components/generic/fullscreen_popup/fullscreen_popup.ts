@@ -1,11 +1,10 @@
 import { Attribute, Component, ElementRef, Renderer, HostBinding } from '@angular/core';
 import { Popup } from './../popups/popup';
 import { UIStore }from './../../../stores/uistore.store';
-let template = require('./fullscreen_popup.html');
 
 @Component({
 	selector: 'pu-fullscreen',
-	template: template,
+	templateUrl: 'fullscreen_popup.html',
 })
 export class FullscreenPopupComponent extends Popup {
 	@HostBinding('class.isVisible') isVisible: boolean;

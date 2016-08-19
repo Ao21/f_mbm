@@ -4,7 +4,6 @@ import { UIStore, DataStore } from './../../stores/stores.modules';
 import { Observable } from 'rxjs/Observable';
 import { CanDeactivate } from '@angular/router';
 import { NotificationService, PaymentService } from './../../services/index';
-let template = require('./payment.html');
 
 /**
  *  Payment Page Component
@@ -12,7 +11,7 @@ let template = require('./payment.html');
 
 @Component({
 	selector: 'p-payment',
-	template: template
+	templateUrl: './payment.html'
 })
 export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, OnInit {
 	// Default Settings for Payment Page

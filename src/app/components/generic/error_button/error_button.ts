@@ -1,4 +1,4 @@
-import { Component, Host, OnInit, Input, Optional, EventEmitter } from '@angular/core';
+import { Component, Host, OnInit, Output, Input, Optional, EventEmitter } from '@angular/core';
 import { NgFormModel, ControlGroup } from '@angular/common';
 import {ErrorService} from './../../../services/error.service';
 
@@ -24,15 +24,14 @@ import {ErrorService} from './../../../services/error.service';
 
 @Component({
 	selector: 'c-error-button',
-	inputs: ['form','short'],
-	outputs: ['onContinue'],
-	template: require('./error_button.html')
+	templateUrl: 'error_button.html'
 })
 
 export class ErrorButtonComponent implements OnInit {
+	@Input('form') form: ControlGroup;
 	@Input('text') text: string;
-	onContinue: EventEmitter<any> = new EventEmitter();
-	form: ControlGroup;
+	@Input() short: string;
+	@Output() onContinue: EventEmitter<any> = new EventEmitter();
 	controls: any;
 	constructor(
 		private _errorService: ErrorService,

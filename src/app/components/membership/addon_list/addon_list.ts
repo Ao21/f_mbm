@@ -1,6 +1,4 @@
-import {Component, ElementRef, AfterViewInit,OnDestroy, Renderer} from '@angular/core';
-
-let template = require('./addon_list.html');
+import {Component, ElementRef, AfterViewInit, Input, OnDestroy, Renderer} from '@angular/core';
 import {Utils} from './../../../shared/utilities/index';
 import * as IScroll from 'iscroll';
 
@@ -21,16 +19,15 @@ import * as IScroll from 'iscroll';
 
 @Component({
 	selector: 'm-addon-list',
-	template: template,
-	inputs: ['data']
+	templateUrl: './addon_list.html'
 })
-export class AddonList implements AfterViewInit, OnDestroy {
+export class AddonListComponent implements AfterViewInit, OnDestroy {
 	// iScroll - iScroll Instantiation
 	iScroll;
 	// resizeTimeout - Prevents Resize trigger over triggering on browser resize
 	resizeTimeout;
 	// Array of Benefits
-	data: JourneyBenefit[];
+	@Input('data') data: JourneyBenefit[];
 
 	constructor(
 		private _renderer: Renderer,

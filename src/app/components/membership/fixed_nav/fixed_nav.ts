@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { UIStore } from './../../../stores/stores.modules';
-let template = require('./fixed_nav.html');
 
 /**
  *  Fixed Nav
@@ -27,7 +26,7 @@ let template = require('./fixed_nav.html');
 
 @Component({
 	selector: 'c-fixed-nav',
-	template: template,
+	templateUrl: './fixed_nav.html',
 })
 export class FixedNavComponent implements OnInit {
 	@Input() next: any;

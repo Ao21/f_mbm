@@ -2,11 +2,10 @@ import {Component, Input} from '@angular/core';
 import {UIStore} from './../../../stores/stores.modules';
 import {MyAAService} from './../../../services/index';
 
-let template = require('./save_quote_button.html');
 
 @Component({
 	selector: 'button[m-save-quote]',
-	template: template,
+	templateUrl: './save_quote_button.html',
 	host: {
 		'[class.btn--grey]': 'disabled',
 		'[class.btn--outline]': '!disabled',

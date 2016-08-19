@@ -1,12 +1,12 @@
 import { Component, Attribute, OnInit, Optional, SkipSelf, Host } from '@angular/core';
 import {isPresent} from '@angular/platform-browser/src/facade/lang';
 import {TabsDispatcher} from './tab_dispatcher';
-import {TabGroup} from './tab_group';
+import {TabGroupComponent} from './tab_group';
 
 @Component({
 	selector: 'c-tab',
 	inputs: ['id', 'name', 'selected', 'disabled', 'value'],
-	template: require('./tab.html'),
+	templateUrl: './tab.html',
 	host: {
 		'[id]': 'id',
 		'[tabindex]': 'tabindex',
@@ -14,7 +14,7 @@ import {TabGroup} from './tab_group';
 		'[attr.aria-disabled]': 'disabled'
 	}
 })
-export class Tab implements OnInit {
+export class TabComponent implements OnInit {
 	isSelected: boolean = false;
 	selected: boolean;
 	public id: string;
@@ -23,7 +23,7 @@ export class Tab implements OnInit {
 	private _disabled: boolean = false;
 
 	constructor(
-		@Optional() @SkipSelf() @Host() public tabGroup: TabGroup,
+		@Optional() @SkipSelf() @Host() public tabGroup: TabGroupComponent,
 		@Attribute('id') id: string,
 		@Attribute('selected') selected: boolean,
 		@Attribute('tabindex') tabindex: string,

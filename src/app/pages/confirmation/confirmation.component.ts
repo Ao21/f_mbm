@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UIStore, DataStore } from './../../stores/stores.modules';
-let template = require('./confirmation.html');
 
 /**
  *  Confirmation Page Component
@@ -9,7 +8,7 @@ let template = require('./confirmation.html');
 
 @Component({
 	selector: 'p-confirmation',
-	template: template
+	templateUrl: './confirmation.html'
 })
 export class MembershipConfirmationPageComponent implements OnInit {
 	// UI Settings for Confirmation
@@ -19,6 +18,7 @@ export class MembershipConfirmationPageComponent implements OnInit {
 	members: any = [];
 
 	constructor(
+		private _changeRef: ChangeDetectorRef,
 		private _el: ElementRef,
 		private _uiStore: UIStore,
 		private _dataStore: DataStore,
@@ -55,12 +55,13 @@ export class MembershipConfirmationPageComponent implements OnInit {
 		this._dataStore.resetConfig();
 
 		// Workaround for Safari Not Updating on Event
-		if (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) {
-			document.querySelector('body > app-root > c-top-nav > .c-top_nav__back ').classList.add('isInvisible');
-			document.querySelector('body > app-root > c-top-nav > .c-top_nav__header > h3 ').innerHTML = 'Confirmation';
-			document.querySelector('body > app-root > c-top-nav > .c-top_nav__header > h3 ').textContent = 'Confirmation';
-			document.querySelector('body > app-root > c-top-nav > .c-top_nav__price').classList.add('isInvisible');
-		}
+		this._changeRef.detectChanges();
+		// if (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) {
+		// 	document.querySelector('body > app-root > c-top-nav > .c-top_nav__back ').classList.add('isInvisible');
+		// 	document.querySelector('body > app-root > c-top-nav > .c-top_nav__header > h3 ').innerHTML = 'Confirmation';
+		// 	document.querySelector('body > app-root > c-top-nav > .c-top_nav__header > h3 ').textContent = 'Confirmation';
+		// 	document.querySelector('body > app-root > c-top-nav > .c-top_nav__price').classList.add('isInvisible');
+		// }
 	}
 
 }

@@ -9,7 +9,7 @@ import {
 import { Analytics } from './../../../../services/analytics.service';
 @Component({
 	selector: 'c-notification',
-	template: require('./notification.html'),
+	templateUrl: './notification.html',
 	animations: [
 		trigger('visibleState', [
 			state('open', style({ marginTop: 0 })),

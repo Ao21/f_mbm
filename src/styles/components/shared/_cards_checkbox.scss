@@ -82,6 +82,9 @@ c-checkbox-card,
         box-shadow: 0 2px 3px rgba(48, 48, 48, 0.25);
         color: $light;
         @include flex(0 0);
+        @include media($upToDesktop){
+            min-height: initial;
+        }
 
         .checkbox-card__checked {
             position: absolute;
