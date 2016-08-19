@@ -1,8 +1,12 @@
-import {Injectable} from '@angular/core';
-import {isPresent} from '@angular/platform-browser/src/facade/lang';
-import {CONSTS} from './../constants';
+import { Injectable } from '@angular/core';
+import { isPresent } from '@angular/platform-browser/src/facade/lang';
+import { CONSTS } from './../constants';
 import { DispatcherStore, Dispatcher } from './../shared/common/index';
 import { InitService } from './../services/init.service';
+
+import { Analytics } from './../services/analytics.service';
+import { ReferenceService } from './../services/reference.service.ts';
+import { UIStore } from './uistore.store';
 
 import * as Baobab from 'Baobab';
 import * as _ from 'lodash';
@@ -16,10 +20,10 @@ export class DataStore extends DispatcherStore {
 	public ACTIVE_TITLES = ['Miss', 'Mr', 'Ms', 'Mrs'];
 
 	constructor(
-		// private _analytics: Analytics,
+		private _analytics: Analytics,
 		private _productService: InitService,
-		// private _referenceService: ReferenceService,
-		// private _uiStore: UIStore,
+		private _referenceService: ReferenceService,
+		private _uiStore: UIStore,
 		dispatcher: Dispatcher
 	) {
 		super(dispatcher, 'UIStore', createDataStore(_productService));
@@ -32,7 +36,7 @@ export class DataStore extends DispatcherStore {
 	}
 
 	convertQuote(convertedQuote: any) {
-		// this._analytics.triggerEvent('convert-quote', null, convertedQuote);
+		this._analytics.triggerEvent('convert-quote', null, convertedQuote);
 		sessionStorage.setItem('convertedQuote', JSON.stringify(convertedQuote));
 		this.update(['config', 'convertedQuote'], convertedQuote);
 	}
@@ -45,7 +49,7 @@ export class DataStore extends DispatcherStore {
 		let level: CoverLevel = this.get(['config', 'coverLevel', index]);
 		if (!level.disabled) {
 			this.deleteQuote();
-			// this._analytics.triggerEvent('coverLevel', active, this.get(['config', 'coverLevel', index, 'name']));
+			this._analytics.triggerEvent('coverLevel', active, this.get(['config', 'coverLevel', index, 'name']));
 			this.update(
 				['config', 'coverLevel', index, 'active'], active, CONSTS.ADDONS_UPDATE);
 		}
@@ -54,26 +58,25 @@ export class DataStore extends DispatcherStore {
 	getTitles() {
 		let titles = this.get(['titles']);
 		let defaultTitles = [{ 'id': 'Miss', 'value': 'Miss.' },
-			{ 'id': 'Mr', 'value': 'Mr.' },
-			{ 'id': 'Mrs', 'value': 'Mrs.' },
-			{ 'id': 'Ms', 'value': 'Ms.' }];
+		{ 'id': 'Mr', 'value': 'Mr.' },
+		{ 'id': 'Mrs', 'value': 'Mrs.' },
+		{ 'id': 'Ms', 'value': 'Ms.' }];
 
-		// if (!_.values(titles).length) {
-		// 	this._referenceService.getTitles().subscribe((next) => {
-		// 		titles = next.json();
-		// 		titles.shift();
-		// 		titles = _.filter(titles, (e: any) => {
-		// 			return _.find(this.ACTIVE_TITLES, (x: any) => { return e.id === x; });
-		// 		});
-		// 		this.update(['titles'], titles, CONSTS.TITLE_OPTION);
-		// 	}, (err) => {
-		// 		this.update(['titles'], defaultTitles);
-		// 	});
-		// 	return defaultTitles;
-		// } else {
-		// 	return this.get(['titles']);
-		// }
-		return defaultTitles;
+		if (!_.values(titles).length) {
+			this._referenceService.getTitles().subscribe((next) => {
+				titles = next.json();
+				titles.shift();
+				titles = _.filter(titles, (e: any) => {
+					return _.find(this.ACTIVE_TITLES, (x: any) => { return e.id === x; });
+				});
+				this.update(['titles'], titles, CONSTS.TITLE_OPTION);
+			}, (err) => {
+				this.update(['titles'], defaultTitles);
+			});
+			return defaultTitles;
+		} else {
+			return this.get(['titles']);
+		}
 	}
 
 	setActivePaymentType(i) {
@@ -140,20 +143,20 @@ export class DataStore extends DispatcherStore {
 
 
 	setConfig = (config) => {
-		// this._uiStore.update(['UIOptions', 'isQuoteSaved'], false);
+		this._uiStore.update(['UIOptions', 'isQuoteSaved'], false);
 		this.update(['config'], config, CONSTS.QUOTE_UPDATE);
 	}
 
 	setQuote = (quote: Quote) => {
-		// this._uiStore.update(['UIOptions', 'isQuoteSaved'], false);
+		this._uiStore.update(['UIOptions', 'isQuoteSaved'], false);
 		this.update(['config', 'quotation'], quote, CONSTS.QUOTE_UPDATE);
 	}
 
 	resetConfig() {
-		// this._uiStore.reset();
-		// this._productService.getConfig().subscribe((next) => {
-		// 	this.setConfig(next.json());
-		// });
+		this._uiStore.reset();
+		this._productService.getConfig().subscribe((next) => {
+			this.setConfig(next.json());
+		});
 	}
 
 	deleteMembers() {
@@ -429,94 +432,94 @@ function generateMembersFromScheme(count, defaults, overrides, type, memberData)
 
 function PaymentMethods() {
 	return {
-			iban: {
-				name: 'iban',
-				fields: [
-					{
-						name: 'accountName',
-						label: 'Full Name',
-						placeholder: 'Full Name',
-						type: 'text',
-						validation: ['required']
-					},
-					{
-						name: 'BIC',
-						label: 'BIC',
-						placeholder: 'BIC',
-						type: 'text',
-						validation: ['required', 'checkBic']
-					},
-					{
-						name: 'IBAN',
-						label: 'IBAN',
-						placeholder: 'IBAN',
-						type: 'text',
-						validation: ['required', 'checkIban']
-					}
-				]
-			},
+		iban: {
+			name: 'iban',
+			fields: [
+				{
+					name: 'accountName',
+					label: 'Full Name',
+					placeholder: 'Full Name',
+					type: 'text',
+					validation: ['required']
+				},
+				{
+					name: 'BIC',
+					label: 'BIC',
+					placeholder: 'BIC',
+					type: 'text',
+					validation: ['required', 'checkBic']
+				},
+				{
+					name: 'IBAN',
+					label: 'IBAN',
+					placeholder: 'IBAN',
+					type: 'text',
+					validation: ['required', 'checkIban']
+				}
+			]
+		},
 
-			debit: {
-				name: 'debit',
-				fields: [
-					{
-						name: 'accountName',
-						label: 'Full Name',
-						placeholder: 'Full Name',
-						type: 'text',
-						validation: ['required']
-					},
-					{
-						name: 'accountNumber',
-						label: 'Account Number',
-						placeholder: 'Account Number',
-						type: 'text',
-						validation: ['required', 'minAccount']
-					},
-					{
-						name: 'sortCode',
-						label: 'Sort Code',
-						placeholder: 'Sort Code',
-						type: 'sortcode',
-						validation: ['required', 'sortCode']
-					}
-				]
-			},
-			credit:
-			{
-				name: 'credit',
-				fields: [
-					{
-						name: 'accountName',
-						label: 'Full Name',
-						placeholder: 'Full Name',
-						type: 'text',
-						validation: ['required']
-					},
-					{
-						name: 'expiryDate',
-						label: 'Expiry Date',
-						placeholder: 'Expiry Date',
-						type: 'date',
-						validation: ['required']
-					},
-					{
-						name: 'ccv',
-						label: 'CCV',
-						placeholder: 'CCV',
-						type: 'number',
-						validation: ['required', 'notLetters', 'ccv']
-					},
-					{
-						name: 'cardNumber',
-						label: 'Card Number',
-						placeholder: 'Card Number',
-						type: 'text',
-						validation: ['required', 'notLetters']
-					}
-				]
-			}
-		};
+		debit: {
+			name: 'debit',
+			fields: [
+				{
+					name: 'accountName',
+					label: 'Full Name',
+					placeholder: 'Full Name',
+					type: 'text',
+					validation: ['required']
+				},
+				{
+					name: 'accountNumber',
+					label: 'Account Number',
+					placeholder: 'Account Number',
+					type: 'text',
+					validation: ['required', 'minAccount']
+				},
+				{
+					name: 'sortCode',
+					label: 'Sort Code',
+					placeholder: 'Sort Code',
+					type: 'sortcode',
+					validation: ['required', 'sortCode']
+				}
+			]
+		},
+		credit:
+		{
+			name: 'credit',
+			fields: [
+				{
+					name: 'accountName',
+					label: 'Full Name',
+					placeholder: 'Full Name',
+					type: 'text',
+					validation: ['required']
+				},
+				{
+					name: 'expiryDate',
+					label: 'Expiry Date',
+					placeholder: 'Expiry Date',
+					type: 'date',
+					validation: ['required']
+				},
+				{
+					name: 'ccv',
+					label: 'CCV',
+					placeholder: 'CCV',
+					type: 'number',
+					validation: ['required', 'notLetters', 'ccv']
+				},
+				{
+					name: 'cardNumber',
+					label: 'Card Number',
+					placeholder: 'Card Number',
+					type: 'text',
+					validation: ['required', 'notLetters']
+				}
+			]
+		}
+	};
 }
 
 

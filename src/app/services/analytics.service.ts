@@ -4,6 +4,7 @@ import { Subject, Observable } from 'rxjs/Rx';
 @Injectable()
 export class Analytics {
 	public uiStore: any;
+	public dataStore: any;
 	public pageEvents: Subject<any> = new Subject();
 	public userEvents: Subject<any> = new Subject();
 	public formEvents: Subject<any> = new Subject();
@@ -16,7 +17,6 @@ export class Analytics {
 	private userId: any;
 
 	constructor() {
-
 		this._dataLayer = window['dataLayer'] || [];
 		this.pageEvents.subscribe((next) => { this.triggerPageEvent(next); });
 		this.formEvents.subscribe((next) => { this.triggerFormEvent(next); });

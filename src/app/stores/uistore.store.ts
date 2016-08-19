@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DefaultStore } from './../shared/common/default_store';
-import {Analytics} from './../services/analytics.service';
-import * as Baobab from 'Baobab';
-
-let monkey: any = Baobab.monkey;
+import { Analytics } from './../services/analytics.service';
 
 @Injectable()
 export class UIStore extends DefaultStore {

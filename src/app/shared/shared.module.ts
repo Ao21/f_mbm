@@ -74,7 +74,6 @@ export class SharedModule {
 				Analytics,
 				AUTH_PROVIDERS,
 				Config,
-				DataStore,
 				ErrorService,
 				InitService,
 				MyAAService,
@@ -82,7 +81,6 @@ export class SharedModule {
 				PaymentService,
 				QuoteService,
 				ReferenceService,
-				UIStore,
 				// Adds Cookie to Allow Http Requests - Maybe Remove this?
 				provide(BrowserXhr, { useClass: CORSBrowserXHR })
 			]

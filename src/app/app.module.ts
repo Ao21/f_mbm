@@ -16,6 +16,7 @@ import { SharedModule } from './shared/shared.module';
 import { ConfirmationModule } from './pages/confirmation/';
 import { ErrorPageModule } from './pages/error/';
 import { Dispatcher } from './shared/common/index';
+import { UIStore, DataStore } from './stores/stores.modules';
 
 @NgModule({
 	declarations: [
@@ -39,6 +40,8 @@ import { Dispatcher } from './shared/common/index';
 	providers: [
 		Dispatcher,
 		InitService,
+		DataStore,
+		UIStore,
 		appRoutingProviders,
 		{ provide: LocationStrategy, useClass: HashLocationStrategy },
 	],

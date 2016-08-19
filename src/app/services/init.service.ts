@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {AuthHttp} from './../shared/common/authHttp';
-import {CONSTS} from './../constants';
-import {environment } from './../index';
+import { Injectable } from '@angular/core';
+import { AuthHttp } from './../shared/common/authHttp';
+import { CONSTS } from './../constants';
+import { environment } from './../index';
 
 export class Config {
 	baseUrl: string = `${CONSTS.getBaseUrlWithContext()}config`;
@@ -15,11 +15,16 @@ export class ProductConfig {
 @Injectable()
 export class InitService {
 	public current: ProductConfig = null;
+	baseUrl: string = `${CONSTS.getBaseUrlWithContext()}config`;
 	public isProductConfigPreloaded = false;
 	constructor(
 		private http: AuthHttp,
 		private config: Config
-	) {}
+	) { }
+
+	getConfig() {
+		return this.http.get(this.baseUrl);
+	}
 
 	load(): Promise<ProductConfig> {
 		if (this.current !== null) {
