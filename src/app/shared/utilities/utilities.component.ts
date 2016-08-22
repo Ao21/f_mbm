@@ -3,7 +3,7 @@ import { CustomValidators } from './../validators/validators';
 
 export class Utils {
 
-	static mapPrice(price: Price) {
+	static mapPrice(price: BasicPrice) {
 		return {
 			amount: price.amount / 100,
 			str: price.str,
