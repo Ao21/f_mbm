@@ -1,10 +1,10 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import {DataStore, UIStore } from './../stores/stores.modules';
-import {AuthHttp} from './../shared/common/authHttp';
-import {CONSTS} from './../constants';
-import {Subject} from 'rxjs/Rx';
+import { DataStore, UIStore } from './../stores/stores.modules';
+import { AuthHttp } from './../shared/common/authHttp';
+import { CONSTS } from './../constants';
+import { Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class QuoteService {
@@ -32,21 +32,21 @@ export class QuoteService {
 	}
 
 	/**
-	 * 	Update the Cover Level
+	 * 	Update the Cover Level on the server
 	 */
-	updateCover(coverLevel: CoverLevel|QuoteBreakdownItem, active: boolean) {
-		return this._auth.put(this.BASE_URL + this.UPDATE_COVER_URL + coverLevel.name, JSON.stringify({active: active}));
+	updateCover(coverLevel: CoverLevel | QuoteBreakdownItem, active: boolean) {
+		return this._auth.put(this.BASE_URL + this.UPDATE_COVER_URL + coverLevel.name, JSON.stringify({ active: active }));
 	}
 
 	/**
-	 * 	Add a Member
+	 * 	Add a Member on the server
 	 */
 	addMember(memberIndex: number, memberObject: Member) {
 		return this._auth.put(this.BASE_URL + this.UPDATE_MEMBER_URL + memberIndex, JSON.stringify(memberObject));
 	}
 
 	/**
-	 * 	Remove a member
+	 * 	Remove a member on the server
 	 */
 	removeMember(memberIndex: number) {
 		return this._auth.delete(this.BASE_URL + this.UPDATE_MEMBER_URL + memberIndex);
@@ -76,6 +76,7 @@ export class QuoteService {
 			});
 		}
 	}
+
 	/**
 	 * 	Get a Quote
 	 */
@@ -106,14 +107,15 @@ export class QuoteService {
 	 * 	Retrieves a previous quote if the user is already verified through a MyAA session cookie
 	 */
 	retrieveQuote(quoteReference: string) {
-		return this._auth.get(this.BASE_URL + this.RETRIEVE_QUOTE_URL+quoteReference);
+		return this._auth.get(this.BASE_URL + this.RETRIEVE_QUOTE_URL + quoteReference);
 	}
+
 	/**
 	 * 	Retrieves a previous quote using the webreference and the users date of birth
 	 * 	@param string quoteReference
 	 * 	@param string dateOfBirth
 	 */
 	retrieveQuoteWeb(quoteReference: string, dateOfBirth: string) {
-		return this._auth.get(this.BASE_URL + this.RETRIEVE_QUOTE_URL+quoteReference+'&dateOfBirth='+dateOfBirth);
+		return this._auth.get(this.BASE_URL + this.RETRIEVE_QUOTE_URL + quoteReference + '&dateOfBirth=' + dateOfBirth);
 	}
 }

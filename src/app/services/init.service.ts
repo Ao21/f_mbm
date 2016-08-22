@@ -8,8 +8,15 @@ export class Config {
 }
 
 export class ProductConfig {
+	code: {
+		id: string;
+		description: string;
+	};
+	name: string;
+	schemaCode: string;
 	criteria: any[];
-	coverLevel: any[];
+	paymentOptions: PaymentOption[];
+	coverLevel: CoverLevel[];
 }
 
 @Injectable()
