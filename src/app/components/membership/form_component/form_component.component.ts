@@ -95,6 +95,8 @@ export class FormComponent implements OnInit, AfterViewInit {
 			'invalidBIC',
 			'invalidCCV',
 			'invalidIBAN',
+			'underage',
+			'overage',
 			'invalidAccount',
 			'invalidSortCode',
 			'invalidPhoneNumber'];

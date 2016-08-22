@@ -9,11 +9,10 @@ import {
 	HostBinding,
 	HostListener,
 	animate,
-	trigger} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
-import {Utils} from './../../../shared/utilities/index';
-
-let nextCheckboxId = 0;
+	trigger
+} from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { Utils } from './../../../shared/utilities/index';
 
 /**
  *  Checkbox Card
@@ -58,6 +57,19 @@ export class CheckboxCardComponent {
 	public isContentCollapsed: string = 'visible';
 	public isContentCollapsable: boolean = false;
 
+	// Event Emitted on toggling of the checkbox
+	@Output() onSelect: EventEmitter<any> = new EventEmitter();
+	// Tab index for the checkbox
+	@Input() tabindex: number = 0;
+	// Either get an ID from the component or autogenerate one
+	@Input('name') name: string;
+	// Set whether the Checkbox is preselected
+	@Input('isSelected') private isSelected: boolean = false;
+	// Whether the checkbox is disabled - prevents it from being toggled
+	@Input('isDisabled') private isDisabled: boolean = false;
+	// The Index of the Checkbox that is emitted by the onSelect event
+	@Input('index') private index: number;
+
 	@HostBinding('attr.role') role: string = 'checkbox';
 	@HostBinding('class.c-checkbox-card') checkBoxClass: boolean = true;
 	@HostBinding('class.isDisabled') get _disabled() { return this.isDisabled; };
@@ -65,23 +77,17 @@ export class CheckboxCardComponent {
 	@HostBinding('attr.aria-disabled') get _ariaDisabled() { return this.isDisabled; };
 	@HostBinding('attr.aria-checked') get _ariaChecked() { return this.isSelected; };
 	@HostBinding('attr.tabIndex') get _tabIndex() { return this.tabindex; };
-	/** The id that is attached to the checkbox's label. */
-	@HostBinding('attr.aria-labelledby') get labelId() { return `${this.id}-label`; };
-	@HostBinding('attr.id') get id() { return this._id; }
 
-	// Event Emitted on toggling of the checkbox
-	@Output() onSelect: EventEmitter<any> = new EventEmitter();
-	// Tab index for the checkbox
-	@Input() tabindex: number = 0;
-	// Either get an ID from the component or autogenerate one
-	@Input('id') set ind(id) { this._id = `md-checkbox-${++nextCheckboxId}`;}
-	// Set whether the Checkbox is preselected
-	@Input('isSelected') private isSelected: boolean = false;
-	// Whether the checkbox is disabled - prevents it from being toggled
-	@Input('isDisabled') private isDisabled: boolean = false;
-	// The Index of the Checkbox that is emitted by the onSelect event
-	@Input('index') private index: number;
-	private _id: string;
+	/** The id that is attached to the checkbox's label. */
+	@HostBinding('attr.aria-labelledby') get labelId() { return `${this.name}--${this.index}-label`; };
+
+	@HostBinding('id') get attrId() {
+		if (this.name) {
+			return `${this.name}--${this.index}`;
+		} else {
+			return `md-checkbox--${this.index}`;
+		}
+	}
 
 	constructor() {
 		let resizeEvent = Observable.fromEvent(window, 'resize')
@@ -126,7 +132,7 @@ export class CheckboxCardComponent {
 		}
 	}
 
-	 /** Toggles the checked state of the checkbox. If the checkbox is disabled, this does nothing. */
+	/** Toggles the checked state of the checkbox. If the checkbox is disabled, this does nothing. */
 
 	toggle() {
 		if (!this.isDisabled) {

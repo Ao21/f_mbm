@@ -6,7 +6,6 @@ import {
 	transition,
 	HostBinding,
 	style,
-	Input,
 	Output,
 	EventEmitter
 } from '@angular/core';

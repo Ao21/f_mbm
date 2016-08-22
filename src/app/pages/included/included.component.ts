@@ -1,15 +1,10 @@
 import {
 	OnInit,
 	Component,
-	animate,
-	transition,
-	style,
-	keyframes,
-	trigger,
 	ElementRef
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { COLORS, CONSTS } from './../../constants';
+import { CONSTS } from './../../constants';
 import { DataStore, UIStore } from './../../stores/stores.modules';
 import { QuoteService } from './../../services/quote.service';
 import { Observable } from 'rxjs/Rx';

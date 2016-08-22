@@ -1,7 +1,7 @@
 <div class="container ">
     <div class="u-flex-container u-flex-grid">
         <article class="u-flex-grid__item" *ngFor="let option of coverLevels, let ind = index" [ngClass]="{selected:option.active}">
-            <c-checkbox-card id="included_addon_checkbox-{{ind}}" (onSelect)="selectAddon($event)" [isSelected]="option.active" [isDisabled]="option.disabled"
+            <c-checkbox-card name="included_addon_checkbox" (onSelect)="selectAddon($event)" [isSelected]="option.active" [isDisabled]="option.disabled"
                 [index]="ind">
                 <div header>
                     <h3>{{option.display}}</h3>
