@@ -1,21 +1,9 @@
 interface Price {
-    annual: {
-        amount: number;
-        str: string;
-        symbol: string;
-        currency: string;
-        pretty: string;
-    },
-    monthly: {
-        amount: number;
-        str: string;
-        symbol: string;
-        currency: string;
-        pretty: string;
-    }
+    annual: BasicPrice,
+    monthly: BasicPrice
 }
 
-interface Price {
+interface BasicPrice {
     amount: number;
     str: string;
     symbol: string;

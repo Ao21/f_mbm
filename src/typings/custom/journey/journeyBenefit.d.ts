@@ -2,6 +2,6 @@ interface JourneyBenefit {
     name: string;
     icon: string;
     pkg: string;
-    desc: string;
+    description: string;
     code: string;
 }

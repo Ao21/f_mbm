@@ -4,7 +4,7 @@ interface JourneySchema {
     coverLevel: {
         benefits: JourneyBenefit[];
     };
-    paymentOptions: PaymentOptions;
+    paymentOptions: PaymentOption[];
     criteria: {
         adults?: {
             header: string;
