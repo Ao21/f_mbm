@@ -297,10 +297,10 @@ export class DataStore extends DispatcherStore {
 
 };
 
-function createDataStore(pService) {
+function createDataStore(pService: InitService) {
 	let storeObject: any = {};
 	// Get From Window Object
-	storeObject.config = pService.schema;
+	storeObject.config = pService.current;
 	storeObject.memberSetup = MemberSetup();
 	storeObject.pricing = new Pricing();
 	storeObject.paymentMethods = PaymentMethods();
