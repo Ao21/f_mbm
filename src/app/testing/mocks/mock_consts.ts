@@ -5,17 +5,57 @@ export class MOCKCONSTS {
 		surname: 'Brett'
 	};
 
-	static additionalMember = {
+	static additionalMember: Member = {
 		dateOfBirth: '29/12/1987',
 		firstName: 'Ronan',
-		surname: 'Brett'
+		surname: 'Brett',
+	};
+
+	static defaultMember: Member = {
+		dateOfBirth: '29/12/1987',
+		firstName: 'Ronan',
+		surname: 'Brett',
+		index: 2,
+		price: {
+			amount: 499,
+			str: '4.99',
+			symbol: '$',
+			currency: 'USD',
+			pretty: '$4.99'
+		},
+		typeDisplay: 'Adults',
+		type: 'adults'
+	}
+
+	static breakdownItemMember: QuoteBreakdownItem = {
+		description: 'Ronan Brett',
+		index: 2,
+		type: 'member',
+		'name': 'RESCUE',
+		'price': {
+			'monthly': {
+				'amount': 825,
+				'str': '8.25',
+				'symbol': '€',
+				'currency': 'EUR',
+				'pretty': '€8.25'
+			},
+			'annual': {
+				'amount': 9900,
+				'str': '99',
+				'symbol': '€',
+				'currency': 'EUR',
+				'pretty': '€99'
+			}
+		},
+		'mandatory': false
 	};
 
 	static breakdownItem: QuoteBreakdownItem = {
 		description: 'Sixto Cantolla',
-		index: 0,
+		index: 2,
 		type: 'cover',
-		'name': 'RESCUE',
+		'name': 'RESCUEPLUS',
 		'price': {
 			'monthly': {
 				'amount': 825,

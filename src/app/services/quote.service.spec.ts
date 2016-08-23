@@ -1,9 +1,9 @@
-import { inject, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { inject, fakeAsync, TestBed, tick, async, flushMicrotasks } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Response, HttpModule, ResponseOptions } from '@angular/http';
 import { QuoteService } from './quote.service';
 import { MOCK_DATASTORE_PROVIDERS, MockRouter, MOCK_HTTP_PROVIDERS, MOCKCONSTS, defaultConfig } from './../testing/mocks/';
-import { UIStore } from './../stores/stores.modules';
+import { UIStore, DataStore } from './../stores/stores.modules';
 import { Router } from '@angular/router';
 
 const mockRouter = new MockRouter();
@@ -145,10 +145,57 @@ describe('QuoteService', () => {
 		);
 	});
 
+
+
+
+	describe('Remove Breakdown Item', () => {
+
+		beforeEach(inject([DataStore], (ds: DataStore) => {
+			ds.update(['config', 'members', MOCKCONSTS.defaultMember.type, MOCKCONSTS.defaultMember.index], MOCKCONSTS.defaultMember);
+			ds.toggleCoverLevel(2, true);
+		}));
+
+		it('should be able to remove a member', inject([QuoteService, MockBackend, DataStore], fakeAsync(
+			(qs: QuoteService, be: MockBackend, ds: DataStore) => {
+				let mbIdx = 2;
+				let t = 0;
+				expect(ds.get(['config', 'members', MOCKCONSTS.defaultMember.type, MOCKCONSTS.defaultMember.index])).toBeDefined();
+				be.connections.subscribe((c: MockConnection) => {
+					if (t === 0) {
+						expect(c.request.url).toEqual(qs.BASE_URL + qs.UPDATE_MEMBER_URL + mbIdx);
+						t++;
+					} else {
+						expect(c.request.url).toEqual(qs.BASE_URL + qs.GET_QUOTE_URL);
+						expect(ds.get(['config', 'members', MOCKCONSTS.defaultMember.type, MOCKCONSTS.defaultMember.index])).toBeUndefined();
+					}
+				});
+				qs.removeBreakdownItem(MOCKCONSTS.breakdownItemMember);
+			})
+		));
+
+		it('should be able to remove a cover level', inject([QuoteService, MockBackend, DataStore], fakeAsync(
+			(qs: QuoteService, be: MockBackend, ds: DataStore) => {
+				let t = 0;
+				expect(ds.get(['config', 'coverLevel', 2])).toBeTruthy();
+				be.connections.subscribe((c: MockConnection) => {
+					if (t === 0) {
+						expect(c.request.url).toEqual(qs.BASE_URL + qs.UPDATE_COVER_URL + MOCKCONSTS.breakdownItem.name);
+						t++;
+					} else {
+						expect(c.request.url).toEqual(qs.BASE_URL + qs.GET_QUOTE_URL);
+						expect(ds.get(['config', 'coverLevel', 2])).toBeFalsy();
+					}
+				});
+				qs.removeBreakdownItem(MOCKCONSTS.breakdownItem);
+			})
+		));
+	});
+
 	describe('Set Quote', () => {
 		it('should be able to set an expired quote and navigate', inject([QuoteService, MockBackend, UIStore], fakeAsync(
 			(qs: QuoteService, be: MockBackend, uiStore: UIStore) => {
 				qs.setQuote(defaultConfig, true, false);
+				tick(1000);
 				expect(mockRouter.navigate.calls.mostRecent().args).toEqual([['/']]);
 			}))
 		);
@@ -156,6 +203,7 @@ describe('QuoteService', () => {
 		it('should be able to set an unexpired quote and navigate', inject([QuoteService, MockBackend, UIStore], fakeAsync(
 			(qs: QuoteService, be: MockBackend, uiStore: UIStore) => {
 				qs.setQuote(defaultConfig, false, false);
+				tick(1000);
 				expect(uiStore.get(['UIOptions', 'isSaveQuoteVisible'])).toEqual('hidden');
 				expect(mockRouter.navigate.calls.mostRecent().args).toEqual([['breakdown']]);
 			}))
