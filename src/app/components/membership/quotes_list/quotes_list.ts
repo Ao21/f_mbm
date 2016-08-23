@@ -7,10 +7,11 @@ import {
 	HostBinding,
 	style,
 	transition,
-	animate} from '@angular/core';
+	animate
+} from '@angular/core';
 import { Router } from '@angular/router';
-import {DataStore} from './../../../stores/stores.modules';
-import {QuoteService, MyAAService, NotificationService} from './../../../services/index';
+import { DataStore } from './../../../stores/stores.modules';
+import { QuoteService, MyAAService, NotificationService } from './../../../services/index';
 
 @Component({
 	selector: 'm-quotes-list',
@@ -30,9 +31,9 @@ import {QuoteService, MyAAService, NotificationService} from './../../../service
 	]
 })
 export class QuotesListComponent {
-
-	@HostBinding('class.isOpen') isOpenId: boolean = true;
 	@Input('isVisible') isVisible: boolean = false;
+	@HostBinding('class.isOpen') isOpen: boolean = true;
+
 	isLoading: boolean = false;
 	quotes: any;
 	open: string;
@@ -76,7 +77,7 @@ export class QuotesListComponent {
 					this.notificationService.createError(`Sorry, there was a problem retrieving your AA Membership quote. 
 					Please try again.`);
 				}
-		});
+			});
 	}
 	/**
 	 * 	Retrieves a specific from the quote service, updates the dataStore with the quote
@@ -99,6 +100,6 @@ export class QuotesListComponent {
 					this.notificationService.createError(`Sorry, there was a problem retrieving your AA Membership quote. 
 					Please try again.`);
 				}
-		});
+			});
 	}
 }
