@@ -23,9 +23,6 @@ export class TestimonialPopupComponent {
 
 	activate = (e) => {
 		this.goToBreakdownPage();
-		// this._quoteService.getQuote().subscribe((next) => {
-		// 	this._dataStore.setConfig(next.json());
-		// });
 
 	}
 
