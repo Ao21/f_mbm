@@ -82,7 +82,32 @@ describe('Reference Service', () => {
 					expect(res[14].value).toEqual('Other');
 				}))
 		);
-	})
+	});
+
+
+	describe('Address Services', () => {
+		it('should be able ', inject([ReferenceService, MockBackend], fakeAsync(
+			(rs: ReferenceService, be: MockBackend) => {
+				let res;
+				be.connections.subscribe((c: MockConnection) => {
+					expect(c.request.url).toEqual(rs['_SELECT_ADDRESS_URL']);
+					expect(c.request.getBody()).toBe('{"id":0}');
+					let response = new ResponseOptions({ body: `{"addressLine1":"12 Harcourt Street","addressLine2":"","county":"Dublin 2","area":"Harcourt Street","lookups":[{"id":0,"address":"12 Harcourt Street,Dublin 2"},{"id":1,"address":"12 Harcourt Street,Dublin 2"}],"selected":{"id":0,"address":"12 Harcourt Street,Dublin 2"}}` });
+					c.mockRespond(new Response(response));
+				});
+				rs.selectAddress(0).subscribe((_response) => {
+					res = _response.json();
+				});
+				tick();
+				expect(res.addressLine1).toEqual('12 Harcourt Street');
+				expect(res.area).toEqual('Harcourt Street');
+				expect(res.county).toEqual('Dublin 2');
+				expect(res.selected.id).toEqual(0);
+				expect(res.selected.address).toEqual('12 Harcourt Street,Dublin 2');
+
+			})
+		));
+	});
 
 
 });
