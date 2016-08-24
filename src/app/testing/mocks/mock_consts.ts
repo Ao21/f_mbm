@@ -1,10 +1,23 @@
 export class MOCKCONSTS {
+
+
+	static validateBankDetailsAttempt = {
+		accountName: 'Sixto Cantolla',
+		BIC: 'BOFIIE2DXXX',
+		IBAN: 'IE38BOFI90003344938316'
+	};
 	static proposalItem: ProposalObject = {
 		email: 'ro.brett@gmail.com',
 		firstName: 'Ronan',
 		surname: 'Brett'
 	};
 
+	static userLoginSuccess = {
+		'access_token': '20000000-0000-0000-0000-000000000000',
+		'token_type': 'bearer',
+		'expires_in': 43190,
+		'scope': 'read trust write'
+	};
 	static additionalMember: Member = {
 		dateOfBirth: '29/12/1987',
 		firstName: 'Ronan',
@@ -25,7 +38,7 @@ export class MOCKCONSTS {
 		},
 		typeDisplay: 'Adults',
 		type: 'adults'
-	}
+	};
 
 	static breakdownItemMember: QuoteBreakdownItem = {
 		description: 'Ronan Brett',
@@ -55,7 +68,7 @@ export class MOCKCONSTS {
 		description: 'Sixto Cantolla',
 		index: 2,
 		type: 'cover',
-		'name': 'RESCUEPLUS',
+		name: 'RESCUEPLUS',
 		'price': {
 			'monthly': {
 				'amount': 825,

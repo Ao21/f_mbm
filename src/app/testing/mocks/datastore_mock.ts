@@ -1,20 +1,21 @@
-import { DataStore } from './../../stores/datastore.store';
+import { Analytics } from './../../services/analytics.service';
 import { Dispatcher } from './../../shared/common/dispatcher';
-import { MockInitService } from './mock_init_service';
+import { DataStore } from './../../stores/datastore.store';
 import { InitService } from './../../services/init.service';
 import { ReferenceService } from './../../services/reference.service';
+import { MockInitService } from './mock_init_service';
 import { MockReferenceService } from './mock_reference_service';
-import { Analytics } from './../../services/analytics.service';
+
 export var MOCK_DATASTORE_PROVIDERS = [
-	DataStore,
-	Dispatcher,
 	Analytics,
-	{
-		provide: InitService,
-		useClass: MockInitService
-	},
+	Dispatcher,
+	DataStore,
 	{
 		provide: ReferenceService,
 		useClass: MockReferenceService
 	},
-]
+	{
+		provide: InitService,
+		useClass: MockInitService
+	},
+];
