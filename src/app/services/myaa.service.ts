@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, forwardRef } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { UIStore, DataStore } from './../stores/stores.modules';
+import { DataStore } from './../stores/datastore.store';
 import { AuthHttp } from './../shared/common/authHttp';
 import { Observable, Subject } from 'rxjs/Rx';
 import { Analytics } from './analytics.service';
@@ -24,20 +24,19 @@ export class MyAAService {
 	loginSubscription: Subject<any> = new Subject();
 	loginFailure: Subject<any> = new Subject();
 	userCheckSubscription: any = new Subject();
-	private baseURL = CONSTS.getBaseUrlWithContext();
-	private _USER_EXISTS_URL = this.baseURL + 'users/me/email';
-	private _LOGIN_URL = this.baseURL + 'oauth/token';
-	private _GET_USER_URL = this.baseURL + 'users/me';
-	private _SAVE_QUOTE_URL = this.baseURL + 'users/me';
-	private _REGISTER_URL = this.baseURL + 'users';
-	private _AUTH_COOKIE = this.baseURL + 'cookie/ronan';
+	baseURL = CONSTS.getBaseUrlWithContext();
+	_USER_EXISTS_URL = this.baseURL + 'users/me/email';
+	_LOGIN_URL = this.baseURL + 'oauth/token';
+	_GET_USER_URL = this.baseURL + 'users/me';
+	_SAVE_QUOTE_URL = this.baseURL + 'users/me';
+	_REGISTER_URL = this.baseURL + 'users';
+	_AUTH_COOKIE = this.baseURL + 'cookie/ronan';
 
 	constructor(
 		private auth: AuthHttp,
 		private analytics: Analytics,
 		private http: Http,
-		private uiStore: UIStore,
-		private dataStore: DataStore,
+		@Inject(forwardRef(() => DataStore)) private dataStore: DataStore,
 		private quoteService: QuoteService,
 		private notifications: NotificationService
 	) {

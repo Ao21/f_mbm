@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, forwardRef} from '@angular/core';
 import { Router } from '@angular/router';
-
-import { DataStore, UIStore } from './../stores/stores.modules';
+import { DataStore } from './../stores/datastore.store';
+import { UIStore} from './../stores/uistore.store';
 import { AuthHttp } from './../shared/common/authHttp';
 import { CONSTS } from './../constants';
 import { Subject } from 'rxjs/Rx';
@@ -17,7 +17,7 @@ export class QuoteService {
 	retrieveQuoteList: Subject<any> = new Subject();
 
 	constructor(
-		private _dataStore: DataStore,
+		@Inject(forwardRef(() => DataStore)) private _dataStore: DataStore,
 		private _uiStore: UIStore,
 		private _auth: AuthHttp,
 		private _router: Router,
