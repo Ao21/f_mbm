@@ -1,10 +1,10 @@
 import { CanActivateQuote } from './canActivateQuote';
 import { ConfigResolveGuard } from './resolve_config_guard';
 import { CanActivateConfirmation } from './canActivateConfirmation';
-import { CanComponentDeactivate, CanDeactivateGuard} from './canDeactivateYourDetails';
+import { CanDeactivateGuardGeneric } from './canDeactivateGuardGeneric.ts';
 export var GUARD_MODULES = [
 	CanActivateQuote,
 	ConfigResolveGuard,
-	CanDeactivateGuard,
-	CanActivateConfirmation
+	CanActivateConfirmation,
+	CanDeactivateGuardGeneric
 ];
