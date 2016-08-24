@@ -9,15 +9,15 @@ import { TabGroupComponent } from './tab_group';
 })
 export class TabComponent implements OnInit {
 
-	@HostBinding('attr.id') get _attrId() { return this.id; };
-	@HostBinding('attr.tabindex') get attrTabIndex() { return this._tabIndex; };
-	@HostBinding('class.selected') get attrSelected() { return this._isSelected; };
-	@HostBinding('class.aria-disabled') get attrDisabled() { return this._isDisabled; };
-
 	@Input('id') set id(v) { this._id = v ? v : 'tab'; };
 	@Input('name') name: string;
 	@Input('tabIndex') set tabIndex(v) { this._tabIndex = v ? v : -1; };
 	@Input('value') value: string;
+
+	@HostBinding('id') get _attrId() { return this._id; };
+	@HostBinding('attr.tabindex') get attrTabIndex() { return this._tabIndex; };
+	@HostBinding('class.selected') get attrSelected() { return this._isSelected; };
+	@HostBinding('class.aria-disabled') get attrDisabled() { return this._isDisabled; };
 
 	@Input('disabled')
 	set disabled(v: boolean) { this._isDisabled = v ? v : false; }
