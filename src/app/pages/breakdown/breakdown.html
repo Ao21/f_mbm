@@ -29,7 +29,7 @@
                     <c-selector *ngFor="let option of paymentOptions" [value]="option.type" class="btn c-selector--outline">Pay {{option.type}}</c-selector>
                 </c-selector-group> 
                 <ul class="c-breakdown__list" [class.no-removable-items]="!hasRemovableItems">
-                    <li @breakdownItemVisiblity="'visible'"  *ngFor="let item of breakdownOptions, let i = index" [class.isOpen]="item.isDeleteOpen" [class.hasDelete]="!item.mandatory" class="c-breakdown__item">
+                    <li [@breakdownItemVisiblity]="'visible'"  *ngFor="let item of breakdownOptions, let i = index" [class.isOpen]="item.isDeleteOpen" [class.hasDelete]="!item.mandatory" class="c-breakdown__item">
                         <span class="c-breakdown__name">{{item.description}}</span>
                         <template [ngIf]="frequencyControl.value==='monthly' && item.price.monthly">
                             <span *ngIf="item.price.monthly.amount===0" class="c-breakdown__value">Free</span>
@@ -45,13 +45,13 @@
                 </ul>
                 <button (click)="emitNext()" class="btn btn--expand btn--yellow">Buy Now</button>
             </div>
-            <div @saveQuoteStatus="saveQuoteVisiblity" class="c-breakdown__footer">
+            <div [@saveQuoteStatus]="saveQuoteVisiblity" class="c-breakdown__footer">
                 <section>
                     <button [disabled]="quoteIsSaved" class="btn btn--expand btn--outline btn--dark" m-save-quote></button>
                 </section>
             </div>
         </section>
-        <section @aaSectionStatus="aaSectionVisiblity" [isVisible]="aaVisiblity" [breakdownHeightDrawer]="breakdownHeight" class="c-breakdown__myAA c-breakdown__carousel-item">
+        <section [@aaSectionStatus]="aaSectionVisiblity" [isVisible]="aaVisiblity" [breakdownHeightDrawer]="breakdownHeight" class="c-breakdown__myAA c-breakdown__carousel-item">
             <header (click)="triggerSaveQuote()">
                 <img src="http://uat1-travel-insurance.theaa.local/membership3/assets/images/icons/myAA.svg" alt="">
                 <h6>Login to save your quote</h6>

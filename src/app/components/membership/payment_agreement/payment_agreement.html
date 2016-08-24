@@ -18,7 +18,7 @@
 			<button [outline]="{color:'primary'}" (onClick)="state = 'rejectCardholder' " class="btn btn--expand">I am not the cardholder</button>
 		</template>
 		<template [ngIf]="type==='Card' && state === 'rejectCardholder'">
-			<button [outline]="{color:'primary'}" (onClick)="acceptAgreement('single')" @successBump="singleSuccessBtn" class="btn btn--expand">Confirm</button>
+			<button [outline]="{color:'primary'}" (onClick)="acceptAgreement('single')" [@successBump]="singleSuccessBtn" class="btn btn--expand">Confirm</button>
 		</template>
 		<template [ngIf]="type==='Card' && state === 'storePayment'">
 			<button [outline]="{color:'primary'}" (onClick)="acceptAgreement('all')" class="btn btn--expand">All Products</button>

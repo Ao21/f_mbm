@@ -1,5 +1,5 @@
 <div class="o-dd_form">
-	<section class="o-dd_form__form" *ngIf="!isValidating" @fadeInOut="isValidating === false ? 'active' : 'inactive'">
+	<section class="o-dd_form__form" *ngIf="!isValidating" [@fadeInOut]="isValidating === false ? 'active' : 'inactive'">
 		<h2 class="title">Please enter your bank details</h2>
 		<c-tab-group>
 			<c-tab selected="true" id="debit" selected value="Use Account and Sort Code">
@@ -10,7 +10,7 @@
 			</c-tab>
 		</c-tab-group>
 	</section>
-	<section class="o-dd_form__validation" @fadeInOut="isValidating === true ? 'active' : 'inactive'" *ngIf="isValidating">
+	<section class="o-dd_form__validation" [@fadeInOut]="isValidating === true ? 'active' : 'inactive'" *ngIf="isValidating">
 		<label for="BIC">BIC</label>
 		<h5>{{validationDetails.BIC}}</h5>
 		<label for="">IBAN</label>

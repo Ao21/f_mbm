@@ -1,4 +1,4 @@
-<div class="container" @openList="open">
+<div class="container" [@openList]="open">
     <div *ngFor="let quote of quotes" class="m-quote is-small">
         <div class="m-quote__content">
             <span class="m-quote__date">{{quote.date}}</span>
