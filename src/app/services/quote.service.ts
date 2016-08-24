@@ -9,11 +9,11 @@ import { Subject } from 'rxjs/Rx';
 @Injectable()
 export class QuoteService {
 	BASE_URL: string = CONSTS.getBaseUrlWithContext();
-	GET_QUOTE_URL: string = 'users/me/quote';
-	RETRIEVE_QUOTE_URL: string = 'users/me/quote?reference=';
-	UPDATE_PROPOSAL_URL: string = 'users/me';
-	UPDATE_COVER_URL: string = 'users/me/cover/';
-	UPDATE_MEMBER_URL: string = 'users/me/members/';
+	GET_QUOTE_URL: string = this.BASE_URL + 'users/me/quote';
+	RETRIEVE_QUOTE_URL: string = this.BASE_URL + 'users/me/quote?reference=';
+	UPDATE_PROPOSAL_URL: string = this.BASE_URL + 'users/me';
+	UPDATE_COVER_URL: string = this.BASE_URL + 'users/me/cover/';
+	UPDATE_MEMBER_URL: string = this.BASE_URL + 'users/me/members/';
 	retrieveQuoteList: Subject<any> = new Subject();
 
 	constructor(
@@ -28,28 +28,28 @@ export class QuoteService {
 	 * 	@param ProposalObject obj - Quote Object
 	 */
 	updateProposal(obj: ProposalObject) {
-		return this._auth.put(this.BASE_URL + this.UPDATE_PROPOSAL_URL, JSON.stringify(obj));
+		return this._auth.put(this.UPDATE_PROPOSAL_URL, JSON.stringify(obj));
 	}
 
 	/**
 	 * 	Update the Cover Level on the server
 	 */
 	updateCover(coverLevel: CoverLevel | QuoteBreakdownItem, active: boolean) {
-		return this._auth.put(this.BASE_URL + this.UPDATE_COVER_URL + coverLevel.name, JSON.stringify({ active: active }));
+		return this._auth.put(this.UPDATE_COVER_URL + coverLevel.name, JSON.stringify({ active: active }));
 	}
 
 	/**
 	 * 	Add a Member on the server
 	 */
 	addMember(memberIndex: number, memberObject: Member) {
-		return this._auth.put(this.BASE_URL + this.UPDATE_MEMBER_URL + memberIndex, JSON.stringify(memberObject));
+		return this._auth.put(this.UPDATE_MEMBER_URL + memberIndex, JSON.stringify(memberObject));
 	}
 
 	/**
 	 * 	Remove a member on the server
 	 */
 	removeMember(memberIndex: number) {
-		return this._auth.delete(this.BASE_URL + this.UPDATE_MEMBER_URL + memberIndex);
+		return this._auth.delete(this.UPDATE_MEMBER_URL + memberIndex);
 	}
 
 	/**
@@ -82,7 +82,7 @@ export class QuoteService {
 	 */
 	getQuote() {
 		this._uiStore.update(['UIOptions', 'isSaveQuoteVisible'], 'visible');
-		return this._auth.get(this.BASE_URL + this.GET_QUOTE_URL);
+		return this._auth.get(this.GET_QUOTE_URL);
 	}
 
 	/**
@@ -107,7 +107,7 @@ export class QuoteService {
 	 * 	Retrieves a previous quote if the user is already verified through a MyAA session cookie
 	 */
 	retrieveQuote(quoteReference: string) {
-		return this._auth.get(this.BASE_URL + this.RETRIEVE_QUOTE_URL + quoteReference);
+		return this._auth.get(this.RETRIEVE_QUOTE_URL + quoteReference);
 	}
 
 	/**
@@ -116,6 +116,6 @@ export class QuoteService {
 	 * 	@param string dateOfBirth
 	 */
 	retrieveQuoteWeb(quoteReference: string, dateOfBirth: string) {
-		return this._auth.get(this.BASE_URL + this.RETRIEVE_QUOTE_URL + quoteReference + '&dateOfBirth=' + dateOfBirth);
+		return this._auth.get(this.RETRIEVE_QUOTE_URL + quoteReference + '&dateOfBirth=' + dateOfBirth);
 	}
 }
