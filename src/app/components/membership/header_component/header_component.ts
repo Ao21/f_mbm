@@ -18,7 +18,6 @@ export class HeaderComponent {
 		private _router: Router
 	) {
 		this.uiStore.select('activePage').on('update', (e) => {
-			console.log('update', e);
 			this.updateByPageObject(e.data.currentData);
 		});
 		this.price = this._dataStore.get(['pricing', 'estimate', 'calculatedPrice']);

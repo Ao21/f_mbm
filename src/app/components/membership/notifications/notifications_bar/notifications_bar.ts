@@ -29,7 +29,7 @@ export class NotificationBarComponent {
 
 		this._notificationService.clearNotificationsObs.subscribe((next) => {
 			this.clearNotifications();
-		})
+		});
 	}
 
 	consumeNotification() {

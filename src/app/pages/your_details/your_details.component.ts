@@ -6,7 +6,6 @@ import { isPresent, isBlank } from '@angular/platform-browser/src/facade/lang';
 import { DataStore, UIStore } from './../../stores/stores.modules';
 import { Observable } from 'rxjs/Observable';
 import { Utils } from './../../shared/utilities/utilities.component';
-// import {CanComponentDeactivate, CanDeactivateGuard} from './../../../common/canDeactivateGuard';
 import { CanDeactivate } from '@angular/router';
 import { CONSTS } from './../../constants';
 import { NotificationService, QuoteService } from './../../services/index';

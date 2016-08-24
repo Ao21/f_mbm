@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable , Inject, forwardRef} from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
+import { Router } from '@angular/router';
+import { UIStore } from './../stores/uistore.store';
 
 @Injectable()
 export class Analytics {
-	public uiStore: any;
-	public dataStore: any;
 	public pageEvents: Subject<any> = new Subject();
 	public userEvents: Subject<any> = new Subject();
 	public formEvents: Subject<any> = new Subject();
@@ -16,7 +16,9 @@ export class Analytics {
 	private _dataLayer: any;
 	private userId: any;
 
-	constructor() {
+	constructor(
+		private router: Router
+	) {
 		this._dataLayer = window['dataLayer'] || [];
 		this.pageEvents.subscribe((next) => { this.triggerPageEvent(next); });
 		this.formEvents.subscribe((next) => { this.triggerFormEvent(next); });
@@ -27,7 +29,7 @@ export class Analytics {
 
 	createEvent(evt) {
 		let obj = _.assign({}, {
-			'page-name': this.uiStore.get(['activePage']).address
+			'page-name': this.router.url
 		}, evt);
 		this._dataLayer.push(obj);
 	}

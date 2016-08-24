@@ -8,7 +8,6 @@ export class UIStore extends DefaultStore {
 		private _analytics: Analytics
 	) {
 		super('UIStore', new UI());
-		this._analytics.uiStore = this;
 		this.update('activePage', this.get(['pages', 'included']));
 	}
 

@@ -14,8 +14,8 @@ export class NotificationService {
 	private notificationId: number = 0;
 	private newNotifications: Subject<AANotification> = new Subject<AANotification>();
 	private confirmationNotification: Subject<boolean> = new Subject<boolean>();
-	private confirmationPromise;
-	private lastErrMsg: string;
+	private confirmationPromise: Promise<any>;
+	private lastErrMsg: string = null;
 	private errorNotifications;
 	private nNotifications;
 
@@ -33,20 +33,7 @@ export class NotificationService {
 			this.errorNotifications
 		);
 
-		// Debugging		
-		setTimeout(() => {
-			// this.createLogin('login@gmail.com');
-			// this.createNotification('Blah');
-			// this.createError('Use 24 characters or fewer for file names.');
-			// this.createTimedError("There was a fatal error, please wait!", 12);
-			// this.createTimedError("There was a fatal error 2, please wait!", 12);
-			// this.createTimedError("There was a fatal error 3, please wait!", 12);
-
-		}, 100);
-
-		this.confirmationNotification.subscribe((next) => {
-
-		});
+		this.confirmationNotification.subscribe((next) => {});
 	}
 
 	// Grab the next notification from the array and delete it
@@ -156,7 +143,7 @@ export class NotificationService {
 	}
 
 	public clearLastErrorMsg() {
-		this.lastErrMsg = '';
+		this.lastErrMsg = null;
 	}
 	public clearNotifications() {
 		this.clearNotificationsObs.next(true);
