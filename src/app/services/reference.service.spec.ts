@@ -86,7 +86,7 @@ describe('Reference Service', () => {
 
 
 	describe('Address Services', () => {
-		it('should be able ', inject([ReferenceService, MockBackend], fakeAsync(
+		it('should be able to select an address', inject([ReferenceService, MockBackend], fakeAsync(
 			(rs: ReferenceService, be: MockBackend) => {
 				let res;
 				be.connections.subscribe((c: MockConnection) => {
@@ -107,6 +107,20 @@ describe('Reference Service', () => {
 
 			})
 		));
+
+		it('should be able to check an address',
+			inject([ReferenceService, MockBackend], fakeAsync(
+				(rs: ReferenceService, be: MockBackend) => {
+					let res;
+					be.connections.subscribe((c: MockConnection) => {
+					// expect(c.request.url).toEqual(rs['_SELECT_ADDRESS_URL']);
+					// expect(c.request.getBody()).toBe('{"id":0}');
+					// let response = new ResponseOptions({ body: `{"addressLine1":"12 Harcourt Street","addressLine2":"","county":"Dublin 2","area":"Harcourt Street","lookups":[{"id":0,"address":"12 Harcourt Street,Dublin 2"},{"id":1,"address":"12 Harcourt Street,Dublin 2"}],"selected":{"id":0,"address":"12 Harcourt Street,Dublin 2"}}` });
+					// c.mockRespond(new Response(response));
+				});
+				})
+			)
+		);
 	});
 
 
