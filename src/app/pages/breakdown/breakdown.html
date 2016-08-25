@@ -19,7 +19,7 @@
                 class="c-breakdown__selector-group"
                 [init]="frequencyControl"
                 [control]="frequencyControl">
-                <c-selector *ngFor="let option of paymentOptions" [value]="option.type" class="btn c-breakdown__selector">{{quote.premium[option.type].pretty}}<span> /{{option.type}}</span></c-selector>
+                <c-selector *ngFor="let option of paymentOptions" [value]="option.type" [id]="option.type" class="btn c-breakdown__selector">{{quote.premium[option.type].pretty}}<span> /{{option.type}}</span></c-selector>
             </c-selector-group>
             <div class="c-breakdown__body">
                 <c-selector-group 

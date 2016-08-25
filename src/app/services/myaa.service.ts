@@ -64,6 +64,7 @@ export class MyAAService {
 	mapUserResponse(res) {
 		let obj = res.json();
 		obj.res = this.checkIfUserExistsResponseMapping(obj.login).res;
+		this.analytics.triggerEvent('previous-user-detected', obj.res);
 		return obj;
 	}
 

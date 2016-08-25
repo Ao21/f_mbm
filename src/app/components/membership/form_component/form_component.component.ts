@@ -155,6 +155,9 @@ export class FormComponent implements OnInit, AfterViewInit {
 		if (!control.touched && e === 'INVALID') {
 			evt['input-status-value'] = 'INIT-INVALID';
 		}
+		if (this.field.type === 'password') {
+			delete evt[`input-value`];
+		}
 		this._analytics.formEvents.next(evt);
 
 	}

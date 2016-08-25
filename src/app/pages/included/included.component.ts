@@ -10,6 +10,7 @@ import { QuoteService } from './../../services/quote.service';
 import { Observable } from 'rxjs/Rx';
 import { Utils } from './../../shared/utilities/utilities.component';
 import { NotificationService } from './../../services/notifications.service';
+import { Analytics } from './../../services/analytics.service';
 
 
 /**
@@ -31,6 +32,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 	private pricingFrequency: string;
 
 	constructor(
+		private analytics: Analytics,
 		private route: ActivatedRoute,
 		private dataStore: DataStore,
 		private uiStore: UIStore,
@@ -88,6 +90,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 
 	public updateTermsBool(active: boolean) {
 		this.hasAgreedTermsConditions = active;
+		this.analytics.triggerEvent('terms-conditions-acceptance', null, active);
 		// Clear the Notifications Service once user accepts
 		this.notificationService.clearLastErrorMsg();
 		this.notificationService.clearNotifications();

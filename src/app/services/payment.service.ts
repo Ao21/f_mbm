@@ -22,6 +22,7 @@ export class PaymentService {
 
 
 	updatePaymentType(type?: string, frequency?: string) {
+		this._analytics.triggerEvent('paymentOptions', 'type', type);
 		return this._auth.put(this.UPDATE_PAYMENT_URL, JSON.stringify({ type: type, frequency: frequency }));
 	}
 

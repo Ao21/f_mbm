@@ -1,6 +1,6 @@
 import { Component, OnDestroy, ElementRef, EventEmitter, OnInit, AfterViewInit, Renderer } from '@angular/core';
 import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-
+import { Analytics } from './../../services/analytics.service';
 import { isPresent, isBlank } from '@angular/platform-browser/src/facade/lang';
 
 import { DataStore, UIStore } from './../../stores/stores.modules';
@@ -44,6 +44,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 	sub: ISubscriptionDefinition<any>;
 
 	constructor(
+		private _analytics: Analytics,
 		private _uiStore: UIStore,
 		private _el: ElementRef,
 		private _dataStore: DataStore,
@@ -216,6 +217,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 	onUserUpdate = (user) => {
 		let sessionUser = this._dataStore.constructUserObjFromSession('adults', 0);
 		if (sessionUser) {
+			this._analytics.triggerEvent('aa-populate-fields', 'success');
 			_.forIn(sessionUser, (e, k) => {
 				if (this.userDetailsForm.controls[k]) {
 					let control: any = this.userDetailsForm.controls[k];

@@ -57,8 +57,6 @@ export class DebitFormComponent {
 			});
 
 		this.data = this._dataStore.get(['paymentMethods', 'debit']);
-		console.log(this._dataStore.get(['paymentMethods']))
-		console.log(this.data);
 		this.fields = this.data.fields;
 		_.forEach(this.data.fields, (e: any) => {
 			let valids = Utils.retrieveValidator(e.validation);

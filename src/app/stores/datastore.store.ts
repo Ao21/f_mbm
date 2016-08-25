@@ -198,7 +198,6 @@ export class DataStore extends DispatcherStore {
 
 	setAuthenticatedUser(user) {
 		this.update(['session', 'user'], user, CONSTS.LOGIN_UPDATE);
-		// this._analytics.triggerEvent('aa-populate-fields', 'success');
 		this.constructUserObjFromSession('adults', 0);
 	}
 

@@ -141,7 +141,9 @@ export class AdditionalMemberCardComponent implements OnInit {
 		evt.stopPropagation();
 		if (this.data.placeholder) {
 			this.deleteMember(evt);
+			this._analytics.triggerEvent('additionalMember', 'cancelledPlaceholder', this.data.index);
 		} else {
+			this._analytics.triggerEvent('additionalMember', 'cancelled', this.data.index);
 			this.state.placeholder = true;
 		}
 

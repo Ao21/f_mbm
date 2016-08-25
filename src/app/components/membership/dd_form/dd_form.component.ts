@@ -41,7 +41,6 @@ export class DirectDebitFormComponent {
 	}
 
 	triggerValidationLoading($event) {
-		console.log('validation loading', $event);
 		if ($event) {
 			this.isLoadingValidate = true;
 		} else {
@@ -50,7 +49,6 @@ export class DirectDebitFormComponent {
 	}
 
 	openBankValidation($event: boolean | any) {
-		console.log('validation success', $event);
 		this.isLoadingValidate = false;
 		if ($event !== null && $event.valid) {
 			this.isReadyValidate = true;
@@ -70,7 +68,7 @@ export class DirectDebitFormComponent {
 	}
 
 	makePayment() {
-		this._analytics.triggerPaymentEvent('bank', 'success');
+		this._analytics.triggerPaymentEvent('Bank', 'success');
 		this.onSuccess.next(this.validationDetails.accepted);
 	}
 }

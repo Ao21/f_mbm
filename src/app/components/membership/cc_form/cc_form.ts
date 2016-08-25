@@ -48,12 +48,12 @@ export class CreditCardFormComponent implements OnInit {
 		if (evt.data !== null && isString(evt.data) && evt.origin === 'https://hpp.sandbox.realexpayments.com') {
 			let data = JSON.parse(evt.data);
 			if (data.QUOTE_REFERENCE && data.RESULT === '00') {
-				this._analytics.triggerPaymentEvent('credit', 'success');
+				this._analytics.triggerPaymentEvent('Card', 'success');
 				this._uiStore.getPage('confirmationHidden');
 				this.onSuccess.next(data.QUOTE_REFERENCE);
 			}
 			if (data.RESULT === '101') {
-				this._analytics.triggerPaymentEvent('credit', 'declined');
+				this._analytics.triggerPaymentEvent('Card', 'declined');
 				this.iframeVisible = false;
 				this.errorMessageVisible = true;
 				this._changeRef.detectChanges();
@@ -70,7 +70,7 @@ export class CreditCardFormComponent implements OnInit {
 		}
 
 		if (evt.data === 'SUCESS') {
-			this._analytics.triggerPaymentEvent('credit', 'success');
+			this._analytics.triggerPaymentEvent('Card', 'success');
 			this.onSuccess.next(true);
 
 		}

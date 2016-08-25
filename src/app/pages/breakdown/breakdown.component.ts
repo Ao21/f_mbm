@@ -171,6 +171,7 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 	triggerSaveQuote() {
 		this.breakdownVisiblity = this.breakdownVisiblity === 'hidden' ? 'visible' : 'hidden';
 		this.aaVisiblity = !this.aaVisiblity;
+		this._analytics.triggerEvent('login-save-quote', 'visibility', this.aaVisiblity);
 	}
 
 	onSuccessLoginMyAA() {

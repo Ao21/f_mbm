@@ -1,7 +1,7 @@
 import {Directive, Input, EventEmitter, OnInit, Output} from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 import {Control} from '@angular/common';
-import {NotificationService, MyAAService} from './../../services/';
+import {NotificationService, MyAAService, Analytics} from './../../services/';
 import {DataStore} from './../../stores/stores.modules';
 
 @Directive({
@@ -18,6 +18,7 @@ export class MyAALoginDetectionDirective implements OnInit {
 
 	constructor(
 		private dataStore: DataStore,
+		private analytics: Analytics,
 		private myAA: MyAAService,
 		private notifications: NotificationService) {
 		this.emailInput

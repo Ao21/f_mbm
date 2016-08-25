@@ -101,7 +101,7 @@ export class Analytics {
 	triggerPageEvent(evt) {
 		let evtObj: AnalyticsPageEvent = {
 			'event': 'page-view',
-			'page-name': evt.title
+			'page-name': evt.address
 		};
 		this.createEvent(evtObj);
 	}
