@@ -16,7 +16,7 @@ export class SelectorComponent implements OnInit {
 	@HostBinding('attr.aria-checked') get _isAriaChecked() { return this.isChecked; };
 	@HostBinding('attr.aria-disabled') get _isAriaDisabled() { return this.disabled; };
 	@HostBinding('attr.tabindex') get _tabIndex() { return this.tabindex; };
-	@HostBinding('attr.id') get _id() { return this.id; };
+	@HostBinding('id') get _id() { return this.id; };
 
 	@Input('id') id: string;
 	@Input('value') value: any;
@@ -53,7 +53,7 @@ export class SelectorComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.id = isPresent(this.id) ? this.id : `selector-${_uniqueIdCounter++}`;
+		this.id = isPresent(this.id) ? `selector-${this.id}` : `selector-${_uniqueIdCounter++}`;
 		if (isPresent(this.selectorGroup)) {
 			this.name = this.selectorGroup.getName();
 
