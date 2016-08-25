@@ -1,15 +1,14 @@
-import {Component, Output, EventEmitter} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import {SHARED_MODULES} from './../../shared/shared_modules';
-import {MyAAService} from './../../../services/myaa.service.ts';
-
-import {Utils} from './../../../shared/utilities/utilities.component';
-import {Subject} from 'rxjs/Rx';
+import { MyAAService } from './../../../services/myaa.service';
+import { Analytics } from './../../../services/analytics.service';
+import { Utils } from './../../../shared/utilities/utilities.component';
+import { Subject } from 'rxjs/Rx';
 
 @Component({
 	selector: 'm-save-quote-signin',
 	templateUrl: './myAA_signin.html',
-	// directives: [SHARED_MODULES]
 })
 export class MyAASaveQuoteSignInComponent {
 	// Event Emitters
@@ -42,25 +41,26 @@ export class MyAASaveQuoteSignInComponent {
 		label: 'Confirm password',
 		placeholder: 'password',
 		type: 'password',
-		validation: Utils.retrieveValidator(['required', 'invalidPassword','invalidPasswordConf'])
+		validation: Utils.retrieveValidator(['required', 'invalidPassword', 'invalidPasswordConf'])
 	};
 
-	loginVisible: boolean = true;	
+	loginVisible: boolean = true;
 
 	constructor(
-		private _formBuilder: FormBuilder,
-		private _myAA: MyAAService) {
+		private analytics: Analytics,
+		private formBuilder: FormBuilder,
+		private myAA: MyAAService) {
 		let loginCtrls = [];
 		loginCtrls['email'] = ['', Validators.compose(this.emailField.validation)];
 		loginCtrls['password'] = ['', Validators.compose(this.passwordField.validation)];
-		this.loginForm = this._formBuilder.group(loginCtrls);
+		this.loginForm = this.formBuilder.group(loginCtrls);
 		this.loginForm['name'] = 'Login to MyAA Form';
 
 		let registerCtrls = [];
 		registerCtrls['email'] = ['', Validators.compose(this.emailField.validation)];
 		registerCtrls['password'] = ['', Validators.compose(this.passwordField.validation)];
 		registerCtrls['confirmPassword'] = ['', Validators.compose(this.passwordFieldConf.validation)];
-		this.registrationForm = this._formBuilder.group(registerCtrls);
+		this.registrationForm = this.formBuilder.group(registerCtrls);
 		this.loginForm['name'] = 'Register for MyAA Form';
 
 		this.loginForm.controls['password'].valueChanges.subscribe((next) => {
@@ -74,7 +74,7 @@ export class MyAASaveQuoteSignInComponent {
 		this.loginObservable
 			.distinctUntilChanged()
 			.do(() => this.loginLoading = true)
-			.switchMap((x: any) => this._myAA.login(x.email, x.password))
+			.switchMap((x: any) => this.myAA.login(x.email, x.password))
 			.do(() => this.loginLoading = false)
 			.subscribe((next) => {
 				let res = next.json();
@@ -111,7 +111,7 @@ export class MyAASaveQuoteSignInComponent {
 			return;
 		}
 
-		this._myAA.register(this.registrationForm.value.email, this.registrationForm.value.password)
+		this.myAA.register(this.registrationForm.value.email, this.registrationForm.value.password)
 			.subscribe((next) => {
 				this.onSuccessLogin.next(true);
 			}, (err) => {
