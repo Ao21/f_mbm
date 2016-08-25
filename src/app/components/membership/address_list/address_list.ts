@@ -113,7 +113,7 @@ export class AddressListComponent implements OnChanges {
 	setAddress(address: any) {
 		// If No Address Listed Fire a No Address Found Event for Analytics		
 		this._geoService.selectAddress(address.id).subscribe((next) => {
-			if (address.address === 'My address is not listed') {
+			if (address.isEcho) {
 				this._analytics.triggerEvent('validateAddress', 'noAddress');
 			} else {
 				this._analytics.triggerEvent('validateAddress', 'selectAddress');
