@@ -26,7 +26,7 @@ module.exports = function (config) {
     },
     remapIstanbulReporter: {
       reports: {
-        html: 'coverage'
+        html: 'test-results/coverage'
       }
     },
     angularCliConfig: './angular-cli.json',

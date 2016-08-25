@@ -3,6 +3,7 @@
 
 /*global jasmine */
 var SpecReporter = require('jasmine-spec-reporter');
+var Jasmine2HtmlReporter = require('protractor-jasmine2-html-reporter');
 
 exports.config = {
   allScriptsTimeout: 11000,
@@ -13,7 +14,7 @@ exports.config = {
     'browserName': 'chrome'
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'http://uat1-travel-insurance.theaa.local/membership5/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
@@ -28,5 +29,11 @@ exports.config = {
   },
   onPrepare: function() {
     jasmine.getEnv().addReporter(new SpecReporter());
+    jasmine.getEnv().addReporter(
+        new Jasmine2HtmlReporter({
+        savePath: 'test-results/',
+        screenshotsFolder: 'images/'
+        })
+      );
   }
 };
