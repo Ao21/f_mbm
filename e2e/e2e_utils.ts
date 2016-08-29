@@ -10,7 +10,7 @@ export class E2EUtils {
 		return list[list.length - 1];
 	}
 	static getLastEventOfEventType(list, event) {
-		let filteredList = _.filter(list, (e: any) => { return e.event === event });
+		let filteredList = _.filter(list, (e: any) => { return e.event === event; });
 		return filteredList[filteredList.length - 1];
 	}
 	static getXIndexLastEvent(list, inx) {
@@ -19,7 +19,7 @@ export class E2EUtils {
 	}
 	static getXIndexLastEventOfEventType(list, inx, event) {
 		inx = inx + 1;
-		let filteredList = _.filter(list, (e: any) => { return e.event === event });
+		let filteredList = _.filter(list, (e: any) => { return e.event === event; });
 		return filteredList[filteredList.length - inx];
 	}
 }

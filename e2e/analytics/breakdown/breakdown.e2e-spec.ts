@@ -7,7 +7,12 @@ describe('Breakdown Page Analytics', function () {
 
 	beforeEach(() => {
 		page = new FLASH_BREAKDOWN_PAGE();
-	})
+
+		let domain = 'theaa.local';
+		browser.driver.get('http://uat1-travel-insurance.' + domain + '/');
+		browser.manage().addCookie('xsrftoken', 'HOMESTART', '/');
+
+	});
 
 	it('should trigger a page event', (done) => {
 		page.navigateTo();

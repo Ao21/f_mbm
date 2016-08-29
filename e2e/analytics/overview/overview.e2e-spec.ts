@@ -11,28 +11,28 @@ describe('Overview Component Analytics', function () {
 
 	it('should be able to open the overview and trigger an event', () => {
 		overview.navigateTo();
-		browser.sleep(500);
 		overview.toggleOverView();
 		browser.sleep(500);
 		browser.executeScript('return window.dataLayer;')
 			.then((eventList: any[]) => {
-				let evt = E2EUtils.getLastEvent(eventList);
+				let evt = E2EUtils.getLastEventOfEventType(eventList, 'overview');
+				console.log(evt);
 				expect(evt.event).toEqual('overview');
-				expect(evt.staus).toEqual('visiblity');
+				expect(evt.status).toEqual('visiblity');
 				expect(evt.value).toEqual(true);
 			});
 	});
 	it('should be able to close the overview and trigger an event', () => {
 		overview.navigateTo();
-		browser.sleep(500);
 		overview.toggleOverView();
 		overview.toggleOverView();
 		browser.sleep(500);
 		browser.executeScript('return window.dataLayer;')
 			.then((eventList: any[]) => {
-				let evt = E2EUtils.getLastEvent(eventList);
+				let evt = E2EUtils.getLastEventOfEventType(eventList, 'overview');
+				console.log(evt);
 				expect(evt.event).toEqual('overview');
-				expect(evt.staus).toEqual('visiblity');
+				expect(evt.status).toEqual('visiblity');
 				expect(evt.value).toEqual(false);
 			});
 	});

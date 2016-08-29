@@ -2,9 +2,9 @@ import {browser, element, by, By, $, $$, ExpectedConditions} from 'protractor/gl
 
 export class OVERVIEW_COMPONENT {
 	navigateTo() {
-		return browser.get('/');
+		return browser.get('#/your_details');
 	}
 	toggleOverView() {
-		return element(by.css('/html/body/app/c-top-nav/div[2]')).click();
+		return element(by.css('body > app > c-top-nav > div.c-top_nav__price')).click();
 	}
 }

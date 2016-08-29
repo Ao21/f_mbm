@@ -10,6 +10,10 @@ describe('Terms and Conditions Analytics', function(){
 	beforeEach(() => {
 		termsConditionsPage = new FLASH_TERMS_CONDITIONS();
 		breakdownPage = new FLASH_BREAKDOWN_PAGE();
+
+		let domain = 'theaa.local';
+		browser.driver.get('http://uat1-travel-insurance.' + domain + '/');
+		browser.manage().addCookie('xsrftoken', 'HOMESTART', '/');
 	});
 
 	describe('Payment Type Events', () => {
