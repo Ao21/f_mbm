@@ -1,7 +1,8 @@
-import { Injectable, Inject, forwardRef} from '@angular/core';
+import { Injectable, Inject, forwardRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { Headers } from '@angular/http';
 import { DataStore } from './../stores/datastore.store';
-import { UIStore} from './../stores/uistore.store';
+import { UIStore } from './../stores/uistore.store';
 import { AuthHttp } from './../shared/common/authHttp';
 import { CONSTS } from './../constants';
 import { Subject } from 'rxjs/Rx';
@@ -28,39 +29,50 @@ export class QuoteService {
 	 * 	@param ProposalObject obj - Quote Object
 	 */
 	updateProposal(obj: ProposalObject) {
-		return this._auth.put(this.UPDATE_PROPOSAL_URL, JSON.stringify(obj));
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/json');
+		return this._auth.put(this.UPDATE_PROPOSAL_URL, JSON.stringify(obj),{headers: jsonHeader});
 	}
 
 	/**
 	 * 	Update the Cover Level on the server
+	 * 	@param CoverLevel|QuoteBreakdownItem - Get the name of either the coverlevel or quote breakdown item
+	 * 	@param boolean active - Whether the cover level is being set to active or false
 	 */
 	updateCover(coverLevel: CoverLevel | QuoteBreakdownItem, active: boolean) {
-		return this._auth.put(this.UPDATE_COVER_URL + coverLevel.name, JSON.stringify({ active: active }));
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/json');
+		return this._auth.put(this.UPDATE_COVER_URL + coverLevel.name, JSON.stringify({ active: active }),{headers: jsonHeader});
 	}
 
 	/**
 	 * 	Add a Member on the server
+	 *	@param number memberIndex - Index of Member to be added on the server
+	 *	@param Member memberObject - Member to be Added
 	 */
 	addMember(memberIndex: number, memberObject: Member) {
-		return this._auth.put(this.UPDATE_MEMBER_URL + memberIndex, JSON.stringify(memberObject));
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/json');
+		return this._auth.put(this.UPDATE_MEMBER_URL + memberIndex, JSON.stringify(memberObject), {headers: jsonHeader});
 	}
 
 	/**
 	 * 	Remove a member on the server
+	 * 	@param number memberIndex - Index of the member to be removed on the server
 	 */
 	removeMember(memberIndex: number) {
 		return this._auth.delete(this.UPDATE_MEMBER_URL + memberIndex);
 	}
 
 	/**
-	 * 	Update the local journey and calls getQuote again
+	 * 	Update the local journey with the breakdown item removed from the quote and calls getQuote again
 	 * 	@param QuoteBreakdownItem item
 	 */
 	removeBreakdownItem(item: QuoteBreakdownItem) {
 		if (item.type === 'member') {
 			this.removeMember(item.index).subscribe((next) => {
-				this.getQuote().subscribe((quote) => {
-					this._dataStore.setQuote(quote.json().quotation);
+				this.getQuote().subscribe((config) => {
+					this._dataStore.setConfig(config.json());
 				});
 			});
 
@@ -70,8 +82,8 @@ export class QuoteService {
 			});
 			this.updateCover(item, false).subscribe((next) => {
 				this._dataStore.toggleCoverLevel(coverIdx, false);
-				this.getQuote().subscribe((quote) => {
-					this._dataStore.setQuote(quote.json().quotation);
+				this.getQuote().subscribe((config) => {
+					this._dataStore.setConfig(config.json());
 				});
 			});
 		}
@@ -89,6 +101,7 @@ export class QuoteService {
 	 * 	On retrieving a quote either from the basic journey or retrieving a quote, updates the local
 	 * 	quotation/entire configuration and directs the user either to the whats included page or the
 	 * 	breakdown page.
+	 * 	
 	 */
 	setQuote(config: any, isExpired: boolean, isRetrieved?: boolean) {
 		if (isExpired) {
@@ -105,6 +118,7 @@ export class QuoteService {
 
 	/**
 	 * 	Retrieves a previous quote if the user is already verified through a MyAA session cookie
+	 * 	@param string quoteReference - reference number of the Quote to be retrieved
 	 */
 	retrieveQuote(quoteReference: string) {
 		return this._auth.get(this.RETRIEVE_QUOTE_URL + quoteReference);
@@ -112,8 +126,8 @@ export class QuoteService {
 
 	/**
 	 * 	Retrieves a previous quote using the webreference and the users date of birth
-	 * 	@param string quoteReference
-	 * 	@param string dateOfBirth
+	 * 	@param string quoteReference - reference number of the Quote to be retrieved
+	 * 	@param string dateOfBirth - date of the birth of the user (01012001)
 	 */
 	retrieveQuoteWeb(quoteReference: string, dateOfBirth: string) {
 		return this._auth.get(this.RETRIEVE_QUOTE_URL + quoteReference + '&dateOfBirth=' + dateOfBirth);

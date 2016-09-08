@@ -5,5 +5,6 @@ export * from './error.service';
 export * from './init.service';
 export * from './notifications.service';
 export * from './quote.service';
+export * from './rules_engine.service';
 export * from './reference.service';
 export * from './payment.service';

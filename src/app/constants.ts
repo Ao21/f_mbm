@@ -1,4 +1,4 @@
-import { environment } from './environments/environment';
+import { environment } from './../environments/environment';
 
 export class CONSTS {
 	static PRICING_UPDATE = 'price_update';
@@ -9,15 +9,16 @@ export class CONSTS {
 	static LOGIN_UPDATE = 'login_update';
 	static TITLE_OPTION = 'title_update';
 	static HALT_REQUESTS = 'halt_requests_update';
-	static BASE_URL = 'http://developie.theaa.local/';
+	static BASE_URL = 'http://aaweb.staging.theaa.local/aa-membership/journey/';
+	static BASE_URLPROD = 'http://aaweb.staging.theaa.local/aa-membership/journey/';
 	static LOCAL_CONTEXT = 'membership/';
 	static UAT_CONTEXT = 'membership-uat/';
 
 	static getBaseUrlWithContext() {
 		if (environment.production) {
-			return this.BASE_URL + this.UAT_CONTEXT;
+			return this.BASE_URLPROD;
 		} else {
-			return this.BASE_URL + this.LOCAL_CONTEXT;
+			return this.BASE_URL;
 		}
 	}
 }
@@ -93,13 +94,13 @@ export const TestimonialOutcomes: Outcome[] = [{
 		id: 0,
 		include: [0],
 		author: 'Debbie Whelan',
-		description: `I was really happy with the service. Mark was so good and very helpful. He had been out to us before and he was just as brilliant this time around!`
+		description: `[About AA Patrol] I was really happy with the service. Mark was so good and very helpful. He had been out to us before and he was just as brilliant this time around!`
 	},
 	{
 		id: 1,
 		include: [1],
 		author: 'Mark Ward',
-		description: `Absolutely amazing job, delighted with service. He gave it his best to assure a great service.`
+		description: `[About AA Patrol] Absolutely amazing job, delighted with servicve. He gave it his best to assure a great service.`
 	},
 	{
 		id: 2,
@@ -110,122 +111,80 @@ export const TestimonialOutcomes: Outcome[] = [{
 	{
 		id: 3,
 		include: [3],
-		author: 'Alison Rohan',
-		description: `I am delighted with the level and speed of service and Michael's expert advice.`
+		author: 'Ms Sarah Mc Cabe',
+		description: `[About AA Patrol] I was really happy with the service, Shane was lovely and very helpful. I had four kids with me and he escorted me to a garage to get a new tyre.`
 	},
 	{
 		id: 4,
 		include: [4],
-		author: 'Sister Eileen Mullins',
-		description: `I wish to thank Damien for the wonderful service he provided. He was brilliant and lovely and I can't say enough about him. `
+		author: `Ms G O'Carroll`,
+		description: `[About AA Patrol] I want to pass over complements to Shane McCabe, he was excellent and made me feel safe, also complements to the whole AA for making the process so easy.`
 	},
 	{
 		id: 5,
 		include: [5],
-		author: 'Ms Sarah Mc Cabe',
-		description: `I was really happy with the service, Shane was lovely and very helpful. I had four kids with me and he escorted me to a garage to get a new tyre.`
+		author: 'Helen Melady',
+		description: `[About AA Patrol] Thank you so much to Cormac for his assistance this morning in -5c temperatures. Never been so glad to have my AA membership.`
 	},
 	{
 		id: 6,
 		include: [6],
-		author: 'Ms Gemma Geraghty',
-		description: `Excellent service - Alan was very friendly and professional.`
+		author: 'Nigel Wallace',
+		description: `[About AA Patrol] Thank you all at the AA for the fast, efficient and helpful manner in which you dealt with my problems today. The car was collected and dropped off as requested in a very professional manner.`
 	},
 	{
 		id: 7,
 		include: [7],
-		author: `Ms G O'Carroll`,
-		description: `I want to pass over complements to Shane McCabe, he was excellent and made me feel safe, also compliments to the whole AA for making the process so easy.`
-	},
-	{
-		id: 8,
-		include: [8],
-		author: 'Helen Melady',
-		description: `Thank you so much to Cormac for his assistance this morning in -5c temperatures. Never been so glad to have my AA membership.`
-	},
-	{
-		id: 9,
-		include: [9],
-		author: 'Nigel Wallace',
-		description: `Thank you all at the AA for the fast, efficient and helpful manner in which you dealt with my problems today. The car was collected and dropped off as requested in a very professional manner. `
-	},
-	{
-		id: 10,
-		include: [10],
-		author: 'Mrs Jenny McCoy',
-		description: `Please tell Michael thanks as he was very helpful and friendly.`
-	},
-	{
-		id: 11,
-		include: [11],
-		author: 'Lynn Jo Chaney',
-		description: `Fantastic service from the AA this morning. Ronan delivered me safely to a garage. Your staff are a credit to you.`
-	},
-	{
-		id: 12,
-		include: [12],
-		author: 'Mr Brian Elliott',
-		description: `I was thrilled with the help Daniel gave us last night. We were very stressed out after what happened but Daniel was very helpful and got our car  to a garage.`
-	},
-	{
-		id: 1,
-		include: [1],
 		author: 'Angela McGeady',
 		description: `Thank you all very much, you've been a great help to me when I was in a spot of bother. Very quick and reliable service and the AA Patrol named Derek was fantastic.`
 	},
 	{
-		id: 13,
-		include: [13],
+		id: 8,
+		include: [8],
 		author: 'Ms Brid Durnin',
 		description: `I just wanted to say thank you for the great service I received. I spoke to a lovely man on the phone and the AA Patrol that came out was extremely helpful and sorted the problem for me. Thanks for the great service once again!!`
 	},
 	{
-		id: 14,
-		include: [14],
-		author: 'Mr M Murphy',
-		description: `I want to thank the AA patrol for his amazing helpfulness. `
-	},
-	{
-		id: 15,
-		include: [15],
+		id: 9,
+		include: [9],
 		author: 'Ms A Reilly',
 		description: `I was extremely pleased with the service today. The girl who answered my call was extremely pleasant and the AA Patrol got out in time. The Patrol was a lovely man and was so helpful. I am a member since 1976 and this is the reason why. Great service!!`
 	},
 	{
-		id: 16,
-		include: [16],
+		id: 10,
+		include: [10],
 		author: `Miss V O'Shaunnessey`,
 		description: `I was a nervous wreck when her car broke down. Sean repaired it and took the time to test the car serveral times which really put my nerves at ease about continuing driving. Thanks so much!`
 	},
 	{
-		id: 17,
-		include: [17],
+		id: 11,
+		include: [11],
 		author: 'Mr N Moran',
 		description: `I'm calling to thank you for your service and to say that the AA Patrol man naed Pat was lovely, he took my car for a test drive and got it sorted.`
 	},
 	{
-		id: 18,
-		include: [18],
+		id: 12,
+		include: [12],
 		author: 'Mrs MacEvilly',
 		description: `I had the misfortune of a flat battery earlier and had an NCT to get to in half an hour, the AA had someone out within 20 minutes. Paul who came out was just super he fitted a new battery and had me going within half an hour. He also wrote me a letter to give to the NCT explaining why I was late. It is people like Paul that are the reason we joined the AA and will definitely be renewing. Thanks so much Paul!!`
 	},
 	{
-		id: 19,
-		include: [19],
+		id: 13,
+		include: [13],
 		author: 'Ms A Moynihan',
 		description: `I was extremely pleased with the service from the start to finish and David is an absolute credit to the company. He was amazing. Such a lovely man. `
 	},
 	{
-		id: 20,
-		include: [20],
-		author: 'Ms A Mcnally',
-		description: `Dave was extremely pleasant and patient with me. He was a lovely lovely man and is a credit to your company. He took time to listen to me and was extremely helpful.`
+		id: 14,
+		include: [14],
+		author: 'Mrs Rogers',
+		description: `[About AA Patrol] I'm so happy with the service, the nicest young man - so helpful and patient. I couldn't say enough good things about this fine young man.`
 	},
 	{
-		id: 21,
-		include: [21],
-		author: 'James Murphy',
-		description: `Trevor is an absolute asset to the AA. His approach to his job is utterly professional. He is a mannerly gentleman and deserves credit for the job he does. `
-	}
+		id: 15,
+		include: [15],
+		author: 'Mark Mcdermott',
+		description: `[About AA Patrol] I was delighted with the level of service I received from everyone in the AA.`
+	},
 
 ];

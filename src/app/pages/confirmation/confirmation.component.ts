@@ -7,7 +7,7 @@ import { UIStore, DataStore } from './../../stores/stores.modules';
  */
 
 @Component({
-	selector: 'p-confirmation',
+	selector: 'c-page-confirmation',
 	templateUrl: './confirmation.html'
 })
 export class MembershipConfirmationPageComponent implements OnInit {
@@ -39,6 +39,8 @@ export class MembershipConfirmationPageComponent implements OnInit {
 		} else {
 			this.init();
 		}
+		// Workaround for Safari not updating
+		this._changeRef.detectChanges();
 	}
 
 	init() {
@@ -51,17 +53,7 @@ export class MembershipConfirmationPageComponent implements OnInit {
 		});
 		this.primaryUser = memberList.shift();
 		this.members = memberList;
-		// Deletes all data in the journey
 		this._dataStore.resetConfig();
-
-		// Workaround for Safari Not Updating on Event
-		this._changeRef.detectChanges();
-		// if (!!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)) {
-		// 	document.querySelector('body > app-root > c-top-nav > .c-top_nav__back ').classList.add('isInvisible');
-		// 	document.querySelector('body > app-root > c-top-nav > .c-top_nav__header > h3 ').innerHTML = 'Confirmation';
-		// 	document.querySelector('body > app-root > c-top-nav > .c-top_nav__header > h3 ').textContent = 'Confirmation';
-		// 	document.querySelector('body > app-root > c-top-nav > .c-top_nav__price').classList.add('isInvisible');
-		// }
 	}
 
 }

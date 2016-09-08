@@ -57,6 +57,10 @@ export class DirectDebitFormComponent {
 		}
 	}
 
+	updatePaymentType(type) {
+		this._analytics.triggerEvent('payments-bank-type', null, type);
+	}
+
 	swapPaymentType() {
 		this.onPaymentTypeChange.next(true);
 	}

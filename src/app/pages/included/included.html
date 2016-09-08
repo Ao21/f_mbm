@@ -6,8 +6,7 @@
                 <div header>
                     <h3>{{option.display}}</h3>
                     <h5 *ngIf="option.price.monthly.amount!=0 && !option.active">for only {{option.price | pricefrequency: pricingFrequency }} extra per <span *ngIf="pricingFrequency==='monthly'">month</span><span *ngIf="pricingFrequency==='annual'">year</span></h5>
-                    <p *ngIf="option.price.monthly.amount===0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium vitae provident aliquam eveniet exercitationem optio voluptas!</p>
-                    <p *ngIf="option.price.monthly.amount!=0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>                    
+                    <p>{{option.description}}</p>                    
                 </div>
                 <div subheader>
                     <h6>Features</h6>

@@ -96,7 +96,7 @@ export class MOCKCONSTS {
 		benefits: [
 			{
 				name: 'Roadside Rescue',
-				icon: 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/ROADSIDERESCUE.svg',
+				icon: 'assets/images/benefits/ROADSIDERESCUE.svg',
 				pkg: 'default',
 				description: `80% of the time we fix our Members cars on the roadside`,
 				code: 'ROADSIDERESCUE',

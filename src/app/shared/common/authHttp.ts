@@ -252,11 +252,13 @@ export function getCookie(name) {
 		}
 }
 
+export function AuthFactory(http: Http) {
+	return new AuthHttp(new AuthConfig(), http);
+}
+
 export const AUTH_PROVIDERS: any = [
 	provide(AuthHttp, {
-		useFactory: (http: Http) => {
-			return new AuthHttp(new AuthConfig(), http);
-		},
+		useFactory: AuthFactory,
 		deps: [Http]
 	})
 ];

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthHttp } from './../shared/common/authHttp';
 import { CONSTS } from './../constants';
-import { environment } from './../index';
+import { environment } from './../../environments/environment';
 
 export class Config {
 	baseUrl: string = `${CONSTS.getBaseUrlWithContext()}config`;
@@ -48,7 +48,7 @@ export class InitService {
 			// HOMESTARTPRICEADDITIONALPLATINUM
 			// QUOTEFEES
 			// LANDINGPAGE2ADDITIONAL
-			document.cookie = 'xsrftoken=HOMESTARTPRICE';
+			document.cookie = 'xsrftoken=HOMESTARTPRICEADDITIONALPLATINUM';
 		}
 		promise.then((site) => {
 			this.current = site;

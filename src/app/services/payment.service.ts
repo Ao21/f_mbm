@@ -1,9 +1,9 @@
-import { Injectable} from '@angular/core';
-import { Http, Response } from '@angular/http';
-import {AuthHttp} from './../shared/common/authHttp';
-import {CONSTS} from './../constants';
-import {Analytics} from './analytics.service';
-import {Observable} from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import { Http, Response, Headers } from '@angular/http';
+import { AuthHttp } from './../shared/common/authHttp';
+import { CONSTS } from './../constants';
+import { Analytics } from './analytics.service';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class PaymentService {
@@ -20,15 +20,32 @@ export class PaymentService {
 		public http: Http
 	) { }
 
-
+	/**
+	 * 	Set Payment Type & Frequency
+	 * 	@param string type - Bank/Card
+	 *	@param string frequency - monthly/annual
+	 * 	@url users/me/payment
+	 * 	@return Observable<any>
+	 */
 	updatePaymentType(type?: string, frequency?: string) {
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/json');
 		this._analytics.triggerEvent('paymentOptions', 'type', type);
-		return this._auth.put(this.UPDATE_PAYMENT_URL, JSON.stringify({ type: type, frequency: frequency }));
+		return this._auth.put(this.UPDATE_PAYMENT_URL, JSON.stringify({ type: type, frequency: frequency }), { headers: jsonHeader });
 	}
 
-	confirmTermsConditions(all: boolean) {
-		return this._auth.put(this.TOKEN_AGREEMENT, JSON.stringify({ all: all }));
+	/**
+	 * 	Confirm Acceptance of All/Single Credit T&C's'
+	 * 	@param boolean all
+	 * 	@url users/me/payment/cardAgreement
+	 * 	@return Observable<any>
+	 */
+	confirmTermsConditions(all: boolean): Observable<Response> {
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/json');
+		return this._auth.put(this.TOKEN_AGREEMENT, JSON.stringify({ all: all }), { headers: jsonHeader });
 	}
+
 	/**
 	 * 	Validates Bank Account Details
 	 * 	@param AccountDetails accountDetails
@@ -36,8 +53,11 @@ export class PaymentService {
 	 * 	@return Observable<AccountDetails>
 	 */
 	validateBankDetails(accountDetails: AccountDetails): Observable<Response> {
-		return this._auth.put(this.BANK_URL, JSON.stringify(accountDetails));
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/json');
+		return this._auth.put(this.BANK_URL, JSON.stringify(accountDetails), { headers: jsonHeader });
 	}
+
 	/**
 	 * 	Convert the Quote
 	 * 	@param string quoteReference

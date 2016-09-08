@@ -12,17 +12,19 @@ BENEFITS_LIST[`ANYVEHICLECOVER`] = true;
 BENEFITS_LIST[`UKCOVER`] = true;
 BENEFITS_LIST[`FUELSAVERCARD`] = true;
 BENEFITS_LIST[`AAREWARDS`] = true;
+// Home Start
 BENEFITS_LIST[`DOORSTEPCOVER`] = true;
+// Rescue Plus
 BENEFITS_LIST[`CARHIRE`] = true;
 BENEFITS_LIST[`ACCOMMODATION`] = true;
 BENEFITS_LIST[`TRAVELEXPENSES`] = true;
 
-import {Pipe} from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
 	name: 'benefitsFilter'
 })
-export class BenefitsFilter {
+export class BenefitsFilter implements PipeTransform{
 	transform(value: JourneyBenefit[], args: any): any {
 		if (isBlank(value) || value.length === 0) {
 			return null;

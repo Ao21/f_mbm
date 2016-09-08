@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ApplicationRef, APP_INITIALIZER } from '@angular/core';
-import {LocationStrategy, HashLocationStrategy} from '@angular/common';
+import {LocationStrategy, HashLocationStrategy, PathLocationStrategy} from '@angular/common';
 import { IncludedModule } from './pages/included/index';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
@@ -43,7 +43,7 @@ import { UIStore, DataStore } from './stores/stores.modules';
 		DataStore,
 		UIStore,
 		appRoutingProviders,
-		{ provide: LocationStrategy, useClass: HashLocationStrategy },
+		{ provide: LocationStrategy, useClass: PathLocationStrategy },
 	],
 	entryComponents: [AppComponent],
 	bootstrap: [AppComponent]

@@ -56,6 +56,7 @@ export class TabGroupComponent {
 		this.disabled = isPresent(this.disabled) && this.disabled !== false;
 		if (isPresent(tab.value) && tab.value !== '') {
 			this.tabsDispatcher.notify(this._name);
+			this.change.next(tab.value);
 			this._tabs.forEach(_tab => {
 				if (_tab.value === tab.value) {
 					_tab.isSelected = true;

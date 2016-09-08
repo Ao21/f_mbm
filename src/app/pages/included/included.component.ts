@@ -57,9 +57,12 @@ export class MembershipIncludedPageComponent implements OnInit {
 			_.cloneDeep(this.dataStore.select('config', 'coverLevel').get());
 	}
 
-	public navigateNext(e: Event) {
+	public navigateNext = (e: Event) => {
+		_.forEach(this.coverLevels, (level: CoverLevel) => {
+			this.analytics.triggerEvent('page-completion-included', level.active, level.name);
+		});
 		if (!this.hasAgreedTermsConditions) {
-			let el = this.el.nativeElement.querySelector('body > app-root > main > p-included > div > article > button');
+			let el = this.el.nativeElement.querySelector('body > app > main > p-included > div > article > button');
 			this.notificationService.createError('You must agree to the terms and conditions before continuing');
 			Utils.scrollToElement(el);
 		}
@@ -84,7 +87,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 				});
 			})
 			.subscribe((next) => {
-		});
+			});
 		this.dataStore.toggleCoverLevel(addonUpdate.index, addonUpdate.isSelected);
 	}
 

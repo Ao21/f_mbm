@@ -1,6 +1,7 @@
 import { Injectable , Inject, forwardRef} from '@angular/core';
 import { Subject, Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
+import { isPresent } from '@angular/platform-browser/src/facade/lang';
 import { UIStore } from './../stores/uistore.store';
 
 @Injectable()
@@ -39,9 +40,9 @@ export class Analytics {
 		// Event Name - name
 		evtObj.event = name;
 		// Event Status - status
-		if (status && status != null) { evtObj.status = status; };
+		if (isPresent(status) && status != null) { evtObj.status = status; };
 		// Event Value - value
-		if (value && value != null) { evtObj.value = value; };
+		if (isPresent(value) && value != null) { evtObj.value = value; };
 		this.createEvent(evtObj);
 	}
 

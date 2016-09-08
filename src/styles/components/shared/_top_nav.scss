@@ -7,21 +7,19 @@ c-top-nav,
     @include display(flex);
     @include media($mobile) {
         height: $navHeightMobile;
-    };
-
+    }
+    ;
     position: fixed;
     top:0;
     z-index: $topNavZ;
     width: 100%;
     height: $navHeightDefault;
     background-color: $yellow;
-
     &.border {
         @include media($mobile) {
-            height: $navHeightMobile + 2;
+            height: $navHeightMobile+ 2;
         }
-
-        height: $navHeightDefault + 2;
+        height: $navHeightDefault+ 2;
         border-bottom: 2px solid $dark
     }
     &.zIndexZero {
@@ -31,19 +29,15 @@ c-top-nav,
 
 .c-top_nav__header {
     @include flex(1);
-
     h3 {
         @include media($upToDesktop) {
             @include type-setting(2);
-
             line-height: $navHeightDefault;
         }
         @include media($mobile) {
             @include font-size(medium);
-
             line-height: $navHeightMobile;
         }
-
         align-self: center;
         margin: 0;
         text-align: center;
@@ -57,7 +51,6 @@ c-top-nav,
     @include media($mobile) {
         padding: 0 $navPaddingMobile;
     }
-
     padding: 0 $navPaddingDefault;
     cursor: pointer
 }
@@ -65,11 +58,16 @@ c-top-nav,
 .c-top_nav__back img,
 .c-top_nav__back svg {
     @include media($mobile) {
+        max-width: 50px;
         margin: 0px auto;
         width: 22px;
         height: $navHeightMobile;
+        &.aa_logo {
+            height: 35px;
+            width: 35px;
+            margin-top: 9px;
+        }
     }
-
     display: block;
     margin: 10px auto;
     width: 40px;
@@ -81,26 +79,21 @@ c-top-nav,
     @include media($mobile) {
         padding-right: $navPaddingMobile;
     }
-
     padding-right: 110px
 }
 
 .c-top_nav__price {
-    @include media($desktopUp){
+    @include media($desktopUp) {
         min-width: 190px;
     }
-
     position: relative;
     background-color: $light-gray;
     line-height: $navHeightDefault;
-
     h3 {
         @include media($mobile) {
             @include font-size(medium);
-
             line-height: $navHeightMobile;
         }
-
         margin: 0;
         padding-right: 10px;
         color: $dark;
@@ -120,7 +113,6 @@ c-top-nav,
         border-top: 1px solid $dark-gray;
         border-right: 1px solid $dark-gray;
     }
-
     position: absolute;
     top: calc(50% - 5px);
     display: inline-block;
@@ -137,9 +129,8 @@ c-top-nav,
     @include media($mobile) {
         padding: 0 $navPaddingMobile;
     }
-
     padding: 0 $navPaddingDefault;
-    padding-right: $navPaddingDefault + 15px;
+    padding-right: $navPaddingDefault+ 15px;
     padding-left: $navPaddingDefault - 15px
 }
 
@@ -149,7 +140,6 @@ c-top-nav,
         margin: 9px auto;
         width: 12px;
     }
-
     display: block;
     margin: 28px auto;
     width: 36px;

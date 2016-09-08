@@ -19,6 +19,7 @@ import {
 	PaymentService,
 	QuoteService,
 	ReferenceService,
+	RulesEngineService
 } from './../services/index';
 
 import { AUTH_PROVIDERS } from './common/authHttp';
@@ -79,6 +80,7 @@ export class SharedModule {
 				MyAAService,
 				NotificationService,
 				PaymentService,
+				RulesEngineService,
 				QuoteService,
 				ReferenceService,
 				// Adds Cookie to Allow Http Requests - Maybe Remove this?

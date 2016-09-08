@@ -88,7 +88,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 
 
 	set value(newValue: any) {
-
+		console.log(newValue);
 		if (this._value !== newValue) {
 			// Workaround to allow reset
 			if (newValue === '') {

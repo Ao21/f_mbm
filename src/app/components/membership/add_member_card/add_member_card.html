@@ -1,8 +1,8 @@
 <div class="o-flag" tabindex="0" (keydown.space)="setEditable()" (click)="setEditable()">
     <div class="o-flag__image">
-            <img [ngClass]="{active: state.valid}" svg src="http://uat1-travel-insurance.theaa.local/membership3/assets/images/icons/memb_valid.svg" alt="">
-            <img [ngClass]="{active: !state.valid && !state.placeholder}" svg src="http://uat1-travel-insurance.theaa.local/membership3/assets/images/icons/memb_details.svg" alt="">
-            <img [ngClass]="{active: state.placeholder}" svg src="http://uat1-travel-insurance.theaa.local/membership3/assets/images/icons/memb_add.svg" alt="">
+            <img [ngClass]="{active: state.valid}" svg src="assets/images/icons/memb_valid.svg" alt="">
+            <img [ngClass]="{active: !state.valid && !state.placeholder}" svg src="assets/images/icons/memb_details.svg" alt="">
+            <img [ngClass]="{active: state.placeholder}" svg src="assets/images/icons/memb_add.svg" alt="">
     </div>
     <div class="o-flag__body">
         <template [ngIf]="state.valid">

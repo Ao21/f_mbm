@@ -6,7 +6,6 @@ export const BreakdownRoutes: Routes = [
 	{
 		path: 'breakdown',
 		component: MembershipPriceBreakdownPageComponent,
-		resolve: { config: ConfigResolveGuard},
 		canActivate: [CanActivateQuote]
 	}
 ];

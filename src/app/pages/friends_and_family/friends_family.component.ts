@@ -1,11 +1,11 @@
-import { Component, ElementRef, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {isPresent} from '@angular/platform-browser/src/facade/lang';
-import {UIStore, DataStore} from './../../stores/stores.modules';
-import {CONSTS} from './../../constants';
-// import {RulesEngineService} from './../../../services/rules_engine_service';
-import {QuoteService} from './../../services/quote.service';
-import {Observable} from 'rxjs/Rx';
+import { isPresent } from '@angular/platform-browser/src/facade/lang';
+import { UIStore, DataStore } from './../../stores/stores.modules';
+import { Analytics } from './../../services/analytics.service';
+import { CONSTS } from './../../constants';
+import { QuoteService } from './../../services/quote.service';
+import { Observable } from 'rxjs/Rx';
 
 /**
  *  Friends & Family Page Component
@@ -17,7 +17,7 @@ import {Observable} from 'rxjs/Rx';
 	selector: 'p-friends-and-family',
 	templateUrl: './friends_family.html'
 })
-export class MembershipFriendsAndFamilyPageComponent implements OnDestroy {
+export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnInit {
 	// Default Settings for Friends and Family Page
 	page: UIPage;
 	// Array of Members without Primary Member
@@ -25,8 +25,7 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy {
 	// Member to be removed for the Remove Member modal
 	memberToBeRemoved: Member;
 	placeholderMemberToBeRemoved: any;
-	// Testimonial Outcome
-	outcome: Outcome;
+
 	sub: ISubscriptionDefinition<any>;
 
 	constructor(
@@ -34,15 +33,16 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy {
 		private _uiStore: UIStore,
 		private _dataStore: DataStore,
 		private _el: ElementRef,
-		// private _rulesEngine: RulesEngineService,
+		private _analytics: Analytics,
 		private _quoteService: QuoteService
-	) {
+	) {}
+
+	ngOnInit() {
 		this.page = this._uiStore.getPage('friendsFamily');
 		this.members = this._dataStore.getGeneratedAdditionalMembers();
 		this.sub = this._dataStore.subscribeAndGet(CONSTS.MEMBER_UPDATE, (event) => {
 			this.members = this._dataStore.getGeneratedAdditionalMembers();
 		});
-
 	}
 
 	/**
@@ -121,10 +121,8 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy {
 
 		/* istanbul ignore next */
 		if (!this.checkForPlaceholderMembers()) {
-			setTimeout(() => {
-				// this.outcome = this._rulesEngine.random();
-				this._uiStore.openModal('testimonials');
-			}, 0);
+			this._analytics.triggerEvent('page-completion-ff', null, this._dataStore.getCreatedMembers().length - 1);
+			this._uiStore.openModal('testimonials');
 		}
 
 	}

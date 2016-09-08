@@ -3,10 +3,11 @@
         
         <div class="c-breakdown__header">
             <h1 class="c-breakdown__title">{{config.code.description}}</h1>
-            <img (click)="triggerSaveQuote()" *ngIf="breakdownVisiblity==='hidden'" src="http://uat1-travel-insurance.theaa.local/membership3/assets/images/icons/dropdown_arrow.svg" alt="">
+            <img (click)="toggleSaveQuoteVisibleUI()" *ngIf="breakdownVisiblity==='hidden'" src="assets/images/icons/dropdown_arrow.svg" alt="">
         </div>
 
         <section (onHeightChange)="breakdownHeight=$event" class="c-breakdown__carousel-item" output-height>
+            
             <div class="c-breakdown__subheader">
                 <h6 class="c-breakdown__subtitle">Roadside Rescue</h6>
                 <ul class="c-breakdown__list u-flex-container">
@@ -22,6 +23,9 @@
                 <c-selector *ngFor="let option of paymentOptions" [value]="option.type" [id]="option.type" class="btn c-breakdown__selector">{{quote.premium[option.type].pretty}}<span> /{{option.type}}</span></c-selector>
             </c-selector-group>
             <div class="c-breakdown__body">
+                <div *ngIf="isLoadingQuote" class="c-breakdown__background">
+                    <div class="spinner loading"></div>
+                </div>
                 <c-selector-group 
                     class="c-selector-group--flex"
                     [init]="frequencyControl"
@@ -29,21 +33,30 @@
                     <c-selector *ngFor="let option of paymentOptions" [value]="option.type" class="btn c-selector--outline">Pay {{option.type}}</c-selector>
                 </c-selector-group> 
                 <ul class="c-breakdown__list" [class.no-removable-items]="!hasRemovableItems">
-                    <li [@breakdownItemVisiblity]="'visible'"  *ngFor="let item of breakdownOptions, let i = index" [class.isOpen]="item.isDeleteOpen" [class.hasDelete]="!item.mandatory" class="c-breakdown__item">
-                        <span class="c-breakdown__name">{{item.description}}</span>
-                        <template [ngIf]="frequencyControl.value==='monthly' && item.price.monthly">
-                            <span *ngIf="item.price.monthly.amount===0" class="c-breakdown__value">Free</span>
-                            <span *ngIf="item.price.monthly.amount!=0" class="c-breakdown__value">{{item.price.monthly.pretty}}</span>
-                        </template>
-                        <template [ngIf]="frequencyControl.value==='annual'">
-                            <span *ngIf="item.price.annual.amount===0" class="c-breakdown__value">Free</span>
-                            <span *ngIf="item.price.annual.amount!=0" class="c-breakdown__value">{{item.price.annual.pretty}}</span>
-                        </template>
-                        <c-confirm-delete *ngIf="item.mandatory===false" (onConfirm)="removeItem(item)" (onOpen)="item.isDeleteOpen=$event"></c-confirm-delete>
-                        
+                    <li [@breakdownItemVisiblity]="'visible'"  
+                        *ngFor="let item of breakdownOptions, let i = index" 
+                        [class.c-breakdown__item--discount]="item.type==='discount'" 
+                        [class.hasDelete]="!item.mandatory" 
+                        [class.isOpen]="item.isDeleteOpen" 
+                        class="c-breakdown__item">
+                            <span class="c-breakdown__name">{{item.description}}</span>
+                            <template [ngIf]="frequencyControl.value==='monthly' && item.price.monthly">
+                                <span *ngIf="item.price.monthly.amount===0" class="c-breakdown__value">Free</span>
+                                <span *ngIf="item.price.monthly.amount!=0" class="c-breakdown__value">{{item.price.monthly.pretty}}</span>
+                            </template>
+                            <template [ngIf]="frequencyControl.value==='annual'">
+                                <span *ngIf="item.price.annual.amount===0" class="c-breakdown__value">Free</span>
+                                <span *ngIf="item.price.annual.amount!=0" class="c-breakdown__value">{{item.price.annual.pretty}}</span>
+                            </template>
+                            <c-confirm-delete *ngIf="item.mandatory===false" (onConfirm)="removeItem(item)" (onOpen)="item.isDeleteOpen=$event"></c-confirm-delete>
+                            <div class="c-breakdown__discount" *ngIf="item.discount">
+                                <span class="c-breakdown__name">{{item?.discount?.description}}</span>
+                                <span *ngIf="frequencyControl.value==='monthly'" class="c-breakdown__value">{{item?.discount?.price?.monthly?.pretty}}</span>
+                                <span *ngIf="frequencyControl.value==='annual'" class="c-breakdown__value">{{item?.discount?.price?.annual?.pretty}}</span>
+                            </div> 
                     </li>
                 </ul>
-                <button (click)="emitNext()" class="btn btn--expand btn--yellow">Buy Now</button>
+                <button (click)="emitNextNavigation()" class="btn btn--expand btn--yellow">Buy Now</button>
             </div>
             <div [@saveQuoteStatus]="saveQuoteVisiblity" class="c-breakdown__footer">
                 <section>
@@ -52,11 +65,11 @@
             </div>
         </section>
         <section [@aaSectionStatus]="aaSectionVisiblity" [isVisible]="aaVisiblity" [breakdownHeightDrawer]="breakdownHeight" class="c-breakdown__myAA c-breakdown__carousel-item">
-            <header (click)="triggerSaveQuote()">
-                <img src="http://uat1-travel-insurance.theaa.local/membership3/assets/images/icons/myAA.svg" alt="">
+            <header (click)="toggleSaveQuoteVisibleUI()">
+                <img src="assets/images/icons/myAA.svg" alt="">
                 <h6>Login to save your quote</h6>
             </header>
-            <m-save-quote-signin [style.height]="breakdownHeight +'px'" (onSuccessLogin)="onSuccessLoginMyAA()" class="m-save-quote-signin"></m-save-quote-signin>
+            <m-save-quote-signin [style.height]="breakdownHeight +'px'" (onSuccessLogin)="setMyAASuccessLoginUI()" class="m-save-quote-signin"></m-save-quote-signin>
         </section>
         
     </div>

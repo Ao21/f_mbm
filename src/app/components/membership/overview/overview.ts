@@ -48,6 +48,7 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	priceFrequency: string;
 	quotation: Quote;
 	breakdown: QuoteBreakdownItem[];
+	isPriceFrequencyVisible: boolean = true;
 
 	constructor(
 		private _analytics: Analytics,
@@ -60,6 +61,10 @@ export class OverViewComponent implements OnInit, OnDestroy {
 		this.updateMembersSubscription = this._dataStore.subscribe(CONSTS.MEMBER_UPDATE, this.updateMembers);
 		this.updateOptionsSubscription = this._dataStore.subscribe(CONSTS.ADDONS_UPDATE, this.updateOptions);
 		this.updatePricingSubscription = this._dataStore.subscribe(CONSTS.PRICING_UPDATE, this.updatePrice);
+
+		this._uiStore.select('UIOptions', 'isFrequencySelectorVisible').on('update', (e) => {
+			this.isPriceFrequencyVisible = e.data.currentData;
+		});
 
 		let resizeEvent = Observable.fromEvent(window, 'resize')
 			.debounceTime(50);
@@ -156,11 +161,12 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	updateVisiblity = (event) => {
 		let toggle = isPresent(event.data.currentData) ? event.data.currentData : event;
 		this._isVisible = toggle;
-		this._analytics.triggerEvent('overview', 'visiblity', toggle);
 		if (toggle) {
 			this.open();
+			this._analytics.triggerEvent('overview', 'visiblity', true);
 		} else {
 			this.close();
+			this._analytics.triggerEvent('overview', 'visiblity', false);
 		}
 	}
 

@@ -62,7 +62,9 @@ export class OverView {
 }
 
 export class UIOptions implements UIOptions {
+	isTestimonialsTriggered = false;
 	isFieldsWarningVisible = false;
+	isFrequencySelectorVisible = true;
 	topNavVisible = true;
 	footerVisible = true;
 	isQuoteSaved = false;

@@ -75,6 +75,7 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 	saveQuoteVisiblity = 'hidden';
 	quoteIsSaved: boolean;
 	hasRemovableItems: boolean = false;
+	isLoadingQuote: boolean = false;
 
 	// Subscription Objects	
 	quoteUpdateSubscription: ISubscriptionDefinition<any>;
@@ -90,18 +91,16 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 		private _uiStore: UIStore,
 		private _dataStore: DataStore,
 		private _el: ElementRef,
-		// private _transitions: Transitions
 	) { }
 
 	ngOnInit() {
 		// Set Breakdown UI
 		this.page = this._uiStore.getPage('priceBreakdown');
-		// Get Base Config
-		this.config = this._dataStore.get(['config']);
 		// Watch for Quote Update Events and update on changes
 		this.quoteUpdateSubscription = this._dataStore.subscribeAndGet(CONSTS.QUOTE_UPDATE, (e) => {
 			this.config = this._dataStore.get(['config']);
 			this.quote = this.config.quotation;
+			this.isLoadingQuote = false;
 			if (this.quote) {
 				// Options without Primary Item (JS Objects are sealed so cant just splice the array)
 				this.options = _.filter(this.quote.breakdown, (item, i) => { return i !== 0; });
@@ -110,7 +109,7 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 				// Check to see if there are any for Removable Items
 				this.hasRemovableItems =
 					_.find(this.breakdownOptions, (item: any) => { return !item.mandatory; }) === undefined ? false : true;
-
+				this._uiStore.closeAllModals();
 			}
 		});
 
@@ -125,28 +124,19 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 	}
 
 	init() {
-
 		if (this.quote) {
 			this.options = _.filter(this.quote.breakdown, (item, i) => { return i !== 0; });
 			this.breakdownOptions = this.quote.breakdown;
 		}
 		this.paymentOptions = this._dataStore.get(['config', 'paymentOptions']);
-		this.quoteIsSaved = this._uiStore.get(['UIOptions', 'isQuoteSaved']);
-
-		this._uiStore.select('UIOptions', 'isQuoteSaved').on('update', (update) => {
-			this.quoteIsSaved = this._uiStore.get(['UIOptions', 'isQuoteSaved']);
-		});
+		this.setAndWatchMyAASaveQuoteIsSaved();
 
 		if (this.quoteIsSaved || this._dataStore.isUserLoggedIn()) {
-			this.breakdownVisiblity = 'visible';
-			this.aaVisiblity = false;
-			this.aaSectionVisiblity = 'hidden';
-			this.saveQuoteVisiblity = 'visible';
+			this.setMyAASuccessLoginUI();
 		}
 
 		if (this._uiStore.get(['UIOptions', 'isSaveQuoteVisible']) === 'hidden') {
-			this.aaSectionVisiblity = 'hidden';
-			this.saveQuoteVisiblity = 'hidden';
+			this.setMyAAHiddenUI();
 		}
 
 		this.price = this._dataStore.get(['pricing', 'estimate', 'calculatedPrice']);
@@ -159,26 +149,39 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 	}
 
 
-	emitNext() {
+	emitNextNavigation() {
 		this._router.navigate([this._uiStore.get(['pages', this.page.next]).address]);
 	}
 
 	removeItem(item: QuoteBreakdownItem) {
-		// Calls the Quote Service and gets a new quote
+		this.isLoadingQuote = true;
+		this._analytics.triggerEvent('breakdown-remove-item', item.name, item.type);
 		this._quoteService.removeBreakdownItem(item);
 	}
 
-	triggerSaveQuote() {
+	toggleSaveQuoteVisibleUI() {
 		this.breakdownVisiblity = this.breakdownVisiblity === 'hidden' ? 'visible' : 'hidden';
 		this.aaVisiblity = !this.aaVisiblity;
 		this._analytics.triggerEvent('login-save-quote', 'visibility', this.aaVisiblity);
 	}
 
-	onSuccessLoginMyAA() {
+	setMyAASuccessLoginUI() {
 		this.breakdownVisiblity = 'visible';
 		this.aaVisiblity = false;
 		this.aaSectionVisiblity = 'hidden';
 		this.saveQuoteVisiblity = 'visible';
+	}
+
+	setMyAAHiddenUI() {
+		this.aaSectionVisiblity = 'hidden';
+		this.saveQuoteVisiblity = 'hidden';
+	}
+
+	setAndWatchMyAASaveQuoteIsSaved() {
+		this.quoteIsSaved = this._uiStore.get(['UIOptions', 'isQuoteSaved']);
+		this._uiStore.select('UIOptions', 'isQuoteSaved').on('update', (update) => {
+			this.quoteIsSaved = this._uiStore.get(['UIOptions', 'isQuoteSaved']);
+		});
 	}
 
 	ngOnDestroy() {
@@ -186,12 +189,4 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 		this._dataStore.unsubscribe(this.pricingUpdateSubscription);
 	}
 
-	/* istanbul ignore next */
-	routerOnActivate() {
-		// this._transitions.animatePageIn(this._el);
-	}
-	/* istanbul ignore next */
-	routerOnDeactivate() {
-		// return this._transitions.animatePageOut(this._el);
-	}
 }

@@ -1,7 +1,7 @@
 //-------------------------------------
 // Confirmation Page
 //-------------------------------------
-p-confirmation {
+c-page-confirmation {
     img#digitalPack {
         display: block;
         margin: 0 auto;
@@ -130,7 +130,7 @@ p-confirmation {
             }
         }
     }
-    #p-confirmation__mid_container {
+    #c-page-confirmation__mid_container {
         background-color:$light-gray;
     }
 }

@@ -44,10 +44,11 @@ export class CreditCardFormComponent implements OnInit {
 	 * 	Method called when window recieves messages from the Realex form
 	 */
 	watchEvents = (evt) => {
+		console.log(evt);
 		// TODO: Change This Origin to Real Address for Deployment
 		if (evt.data !== null && isString(evt.data) && evt.origin === 'https://hpp.sandbox.realexpayments.com') {
 			let data = JSON.parse(evt.data);
-			if (data.QUOTE_REFERENCE && data.RESULT === '00') {
+			if (data.QUOTE_REFERENCE && data.RESULT === '01') {
 				this._analytics.triggerPaymentEvent('Card', 'success');
 				this._uiStore.getPage('confirmationHidden');
 				this.onSuccess.next(data.QUOTE_REFERENCE);
@@ -72,6 +73,7 @@ export class CreditCardFormComponent implements OnInit {
 		if (evt.data === 'SUCESS') {
 			this._analytics.triggerPaymentEvent('Card', 'success');
 			this.onSuccess.next(true);
+			this._changeRef.detectChanges();
 
 		}
 	}

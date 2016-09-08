@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UIStore, DataStore } from './../../../stores/stores.modules';
+import { Analytics } from './../../../services/analytics.service';
 
 @Component({
 	selector: 'c-top-nav',
@@ -13,7 +14,9 @@ export class HeaderComponent {
 	isPriceVisible: boolean = false;
 
 	constructor(
+		private _changeRef: ChangeDetectorRef,
 		public uiStore: UIStore,
+		private _analytics: Analytics,
 		private _dataStore: DataStore,
 		private _router: Router
 	) {
@@ -39,6 +42,8 @@ export class HeaderComponent {
 		} else {
 			this.isPriceVisible = true;
 		}
+		// Safari Workaround
+		this._changeRef.detectChanges();
 	}
 
 	toggleDropdown() {
@@ -48,6 +53,7 @@ export class HeaderComponent {
 
 	triggerBack() {
 		if (this.prev) {
+			this._analytics.triggerEvent('navigation-event', null, 'back');
 			this._router.navigate([this.prev.address]);
 		}
 	}

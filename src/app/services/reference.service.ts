@@ -3,17 +3,17 @@ import { Http, RequestOptions, Headers } from '@angular/http';
 import { AuthHttp } from './../shared/common/authHttp';
 import { isJsObject, isBlank } from '@angular/platform-browser/src/facade/lang';
 import { Observable } from 'rxjs/Observable';
-import { NotificationService } from './notifications.service.ts';
+import { NotificationService } from './notifications.service';
 import { Analytics } from './analytics.service';
 import { CONSTS } from './../constants';
 
 @Injectable()
 export class ReferenceService {
-	private _baseURL = CONSTS.BASE_URL;
-	private _ADDRESS_URL = `${this._baseURL}XREFService/xref/address`;
-	private _SELECT_ADDRESS_URL = `${this._baseURL}XREFService/xref/address/selected`;
+	private _baseURL = CONSTS.getBaseUrlWithContext();
+	private _ADDRESS_URL = `${this._baseURL}xref/address`;
+	private _SELECT_ADDRESS_URL = `${this._baseURL}xref/address/selected`;
 	private _BANK_URL = `${CONSTS.getBaseUrlWithContext()}users/me/bank`;
-	private _TITLE_URL = `${this._baseURL}XREFService/xref/titles`;
+	private _TITLE_URL = `${this._baseURL}xref/titles`;
 
 	constructor(
 		private analytics: Analytics,
@@ -32,7 +32,7 @@ export class ReferenceService {
 				'Content-Type': 'application/json;charset=UTF-8'
 			})
 		});
-		return this.http.post(this._SELECT_ADDRESS_URL, JSON.stringify({ id: id }), options);
+		return this.auth.post(this._SELECT_ADDRESS_URL, JSON.stringify({ id: id }), options);
 	}
 
 	checkAddress(input: any) {

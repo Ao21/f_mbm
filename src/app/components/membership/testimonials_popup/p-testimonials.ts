@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import {QuoteService} from './../../../services/quote.service';
-import {DataStore, UIStore} from './../../../stores/stores.modules';
+import { QuoteService } from './../../../services/quote.service';
+import { DataStore, UIStore } from './../../../stores/stores.modules';
 
 @Component({
 	selector: 'pu-testimonials',
@@ -22,17 +22,23 @@ export class TestimonialPopupComponent {
 	}
 
 	activate = (e) => {
-		this.goToBreakdownPage();
+		if (e.data.currentData === true) {
+			this.goToBreakdownPage();
+		}
 
 	}
 
 	goToBreakdownPage() {
-		if (this.countdownStarted === false) {
-			this.countdownStarted = true;
-			setTimeout(() => {
+		this._uiStore.update(['UIOptions', 'isTestimonialsTriggered'], true);
+		this._quoteService.getQuote().subscribe(
+			(next) => {
+				console.log('get quote');
+				this._dataStore.setConfig(next.json());
 				this._router.navigate(['/breakdown']);
-				this._uiStore.closeAllModals();
-			}, 3000);
-		}
+			},
+			(err) => {
+				this._router.navigate(['/error']);
+			});
 	}
+
 }

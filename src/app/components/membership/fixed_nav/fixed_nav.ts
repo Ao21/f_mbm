@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Analytics } from './../../../services/analytics.service';
 import { UIStore } from './../../../stores/stores.modules';
 
 /**
@@ -38,7 +39,8 @@ export class FixedNavComponent implements OnInit {
 
 	constructor(
 		private _router: Router,
-		private _uiStore: UIStore
+		private _uiStore: UIStore,
+		private _analytics: Analytics
 	) {}
 
 	/**
@@ -65,10 +67,10 @@ export class FixedNavComponent implements OnInit {
 	 */
 	emitNext() {
 		this.onNavigate.next(true);
-		this._uiStore.closeAllModals();
 		if (this.next && !this.disabled) {
 			this.onNext.next(true);
 			setTimeout(() => {
+				this._analytics.triggerEvent('navigation-event', null, 'forward');
 				this._uiStore.update('activePage', this.next);
 				this._router.navigate([this.next.address]);
 			}, 100);
@@ -85,9 +87,9 @@ export class FixedNavComponent implements OnInit {
 
 	emitPrev() {
 		if (this.prev) {
-			this._uiStore.closeAllModals();
 			// Dehydrated Error
 			// this.onPrev.next(true);
+			this._analytics.triggerEvent('navigation-event', null, 'back');
 			this._uiStore.update('activePage', this.prev);
 			this._router.navigate([this.prev.address]);
 		}

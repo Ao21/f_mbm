@@ -1,7 +1,7 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ErrorService} from './../../services/index';
-import {UIStore} from './../../stores/stores.modules';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ErrorService } from './../../services/index';
+import { UIStore } from './../../stores/stores.modules';
+import { ActivatedRoute } from '@angular/router';
 
 /**
  * 	Error Page Component
@@ -11,7 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 	selector: 'p-error',
 	templateUrl: './error.html'
 })
-export class MembershipErrorPageComponent implements OnInit, OnDestroy{
+export class MembershipErrorPageComponent implements OnInit, OnDestroy {
 	page: UIPage;
 	errMsg: ErrorMessage;
 	private sub: any;
@@ -21,7 +21,7 @@ export class MembershipErrorPageComponent implements OnInit, OnDestroy{
 		private _errorService: ErrorService,
 		private _uiStore: UIStore
 	) {
-		this.page = this._uiStore.getPage('error');		
+		this.page = this._uiStore.getPage('error');
 	}
 
 	ngOnInit() {

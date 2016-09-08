@@ -5,7 +5,7 @@ import { DispatcherStore, Dispatcher } from './../shared/common/index';
 import { InitService } from './../services/init.service';
 
 import { Analytics } from './../services/analytics.service';
-import { ReferenceService } from './../services/reference.service.ts';
+import { ReferenceService } from './../services/reference.service';
 import { UIStore } from './uistore.store';
 
 import * as Baobab from 'Baobab';
@@ -164,7 +164,8 @@ export class DataStore extends DispatcherStore {
 	}
 
 	deleteQuote() {
-		// this._uiStore.update(['UIOptions', 'isQuoteSaved'], false);
+		this._uiStore.update(['UIOptions', 'isQuoteSaved'], false);
+		this._uiStore.update(['UIOptions', 'isTestimonialsTriggered'], false);
 		this.remove(['config', 'quotation'], CONSTS.QUOTE_UPDATE);
 	}
 

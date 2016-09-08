@@ -14,37 +14,37 @@ export var defaultConfig: ProductConfig = {
 		'disabled': true,
 		'benefits': [{
 			'name': 'Roadside Rescue',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/ROADSIDERESCUE.svg',
+			'icon': 'assets/images/benefits/ROADSIDERESCUE.svg',
 			'pkg': 'default',
 			'description': '80% of the time we fix our Members cars on the roadside*',
 			'code': 'ROADSIDERESCUE'
 		}, {
 			'name': '24/7 Emergency Cover',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/24-7EMERGENCYCOVER.svg',
+			'icon': 'assets/images/benefits/24-7EMERGENCYCOVER.svg',
 			'pkg': 'default',
 			'description': 'So youâ€™ll never be left stranded',
 			'code': '24-7EMERGENCYCOVER'
 		}, {
 			'name': 'We cover you in any car even if youâ€™re a passenger',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/ANYVEHICLECOVER.svg',
+			'icon': 'assets/images/benefits/ANYVEHICLECOVER.svg',
 			'pkg': 'default',
 			'description': '',
 			'code': 'ANYVEHICLECOVER'
 		}, {
 			'name': 'UK Cover',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/UKCOVER.svg',
+			'icon': 'assets/images/benefits/UKCOVER.svg',
 			'pkg': 'default',
 			'description': 'UK Cover',
 			'code': 'UKCOVER'
 		}, {
 			'name': 'Fuel Saver Card',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/FUELSAVERCARD.svg',
+			'icon': 'assets/images/benefits/FUELSAVERCARD.svg',
 			'pkg': 'default',
 			'description': 'Fuel Saver Card',
 			'code': 'FUELSAVERCARD'
 		}, {
 			'name': 'AA Rewards',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/AAREWARDS.svg',
+			'icon': 'assets/images/benefits/AAREWARDS.svg',
 			'pkg': 'default',
 			'description': 'Access to great offers and deals across lots of big brands',
 			'code': 'AAREWARDS'
@@ -88,7 +88,7 @@ export var defaultConfig: ProductConfig = {
 		},
 		'benefits': [{
 			'name': 'Cover on your doorstep',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/DOORSTEPCOVER.svg',
+			'icon': 'assets/images/benefits/DOORSTEPCOVER.svg',
 			'pkg': 'HOMESTART',
 			'description': 'Cover at home or where your car is usually kept',
 			'code': 'DOORSTEPCOVER'
@@ -116,19 +116,19 @@ export var defaultConfig: ProductConfig = {
 		},
 		'benefits': [{
 			'name': 'Travel Expenses',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/TRAVELEXPENSES.svg',
+			'icon': 'assets/images/benefits/TRAVELEXPENSES.svg',
 			'pkg': 'RESCUEPLUS',
 			'description': 'Travel Expenses',
 			'code': 'TRAVELEXPENSES'
 		}, {
 			'name': 'Car Hire',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/CARHIRE.svg',
+			'icon': 'assets/images/benefits/CARHIRE.svg',
 			'pkg': 'RESCUEPLUS',
 			'description': 'Car Hire',
 			'code': 'CARHIRE'
 		}, {
 			'name': 'Accommodation',
-			'icon': 'http://uat1-travel-insurance.theaa.local/membership3/assets/images/benefits/ACCOMMODATION.svg',
+			'icon': 'assets/images/benefits/ACCOMMODATION.svg',
 			'pkg': 'RESCUEPLUS',
 			'description': 'Accommodation',
 			'code': 'ACCOMMODATION'

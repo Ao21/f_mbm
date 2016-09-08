@@ -6,11 +6,10 @@ import { AddonListComponent } from './../../components/membership/addon_list/add
 import { SharedModule } from './../../shared/shared.module';
 import { QuoteService } from './../../services/quote.service';
 import { ConfirmationToggleButtonDirective } from './../../shared/directives/buttons/confirmation_toggle.button';
-
 @NgModule({
 	imports: [
 		CommonModule,
-		SharedModule
+		SharedModule,
 	],
 	providers: [
 		QuoteService

@@ -3,20 +3,20 @@
 //-------------------------------------
 .btn:hover .u-loader,
 .btn:hover .u-loader:before,
-.btn:hover .u-loader:after{
-	background: $primary;
-	color: $primary;
+.btn:hover .u-loader:after {
+  background: $primary;
+  color: $primary;
 }
 
-.u-loader{
-	margin: 7.5px auto 0;
+.u-loader {
+  margin: 7.5px auto 0;
 }
 
 .u-loader,
 .u-loader:before,
 .u-loader:after {
-	background: #ffffff;
-	color: #ffffff;
+  background: #ffffff;
+  color: #ffffff;
 }
 
 .u-loader--lines,
@@ -27,17 +27,20 @@
   -webkit-animation: load1 1s infinite ease-in-out;
   animation: load1 1s infinite ease-in-out;
 }
+
 .u-loader--lines:before,
 .u-loader--lines:after {
   position: absolute;
   top: 0em;
   content: '';
 }
+
 .u-loader--lines:before {
   left: -0.5em;
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
+
 .u-loader--lines {
   position: relative;
   color: #ffffff;
@@ -49,9 +52,11 @@
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
+
 .u-loader--lines:after {
   left: 0.5em;
 }
+
 @-webkit-keyframes load1 {
   0%,
   80%,
@@ -64,6 +69,7 @@
     box-shadow: 0 -1em;
   }
 }
+
 @keyframes load1 {
   0%,
   80%,
@@ -77,3 +83,26 @@
   }
 }
 
+.spinner.loading {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 0rem;
+  padding: 20px;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: $dark-gray;
+  &:before {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $color-light;
+    background-position: center;
+    content: '';
+    transition: all ease 0.25s;
+    transform-origin: 0% 0%;
+    animation: spinner-animate 1.5s cubic-bezier(.3, .5, .7, .5) infinite;
+    transform-style: preserve-3D;
+  }
+}

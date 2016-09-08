@@ -7,7 +7,7 @@ import { NotificationService } from './notifications.service';
 
 @Injectable()
 export class AutoCompleteService {
-	baseURL = CONSTS.BASE_URL;
+	baseURL = CONSTS.getBaseUrlWithContext();
 	areas: Subject<any> = new Subject();
 	counties: Subject<any> = new Subject();
 	searching: Subject<any> = new Subject();
@@ -22,6 +22,7 @@ export class AutoCompleteService {
 
 	/**
 	 * 	Sets a filter from a single autocomplete that will affect all linked autocompletes
+	 * 	@param string type - Restricts one autocomplete with the selection from another
 	 */
 	setFilter(type) {
 		this._filter = type;
@@ -34,7 +35,7 @@ export class AutoCompleteService {
 		let options = new RequestOptions({
 			search: new URLSearchParams(`town_filter=${input}`)
 		});
-		return this.http.get(`${this.baseURL}XREFService/xref/area2`, options)
+		return this.http.get(`${this.baseURL}xref/area2`, options)
 			.retryWhen((attempts) => {
 				return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
 					let time = i * 6;
@@ -51,7 +52,7 @@ export class AutoCompleteService {
 		let options = new RequestOptions({
 			search: new URLSearchParams(`county_filter=${input}`)
 		});
-		return this.http.get(`${this.baseURL}XREFService/xref/area2`, options)
+		return this.http.get(`${this.baseURL}xref/area2`, options)
 			.retryWhen((attempts) => {
 				return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
 					let time = i * 6;
@@ -65,7 +66,6 @@ export class AutoCompleteService {
 	}
 
 	reset() {
-		console.log('reset');
 		this._filter = null;
 	}
 

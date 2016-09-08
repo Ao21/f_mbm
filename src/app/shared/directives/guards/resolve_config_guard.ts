@@ -14,7 +14,7 @@ export class ConfigResolveGuard implements Resolve<ProductConfig> {
 		private dataStore: DataStore,
 		private router: Router) { }
 	resolve(route: ActivatedRouteSnapshot): Observable<any> | Promise<any> | any {
-		if (this.initService.isProductConfigPreloaded) {
+		if (this.initService.isProductConfigPreloaded || this.dataStore.exists(['config', 'code'])) {
 			return true;
 		}
 		return this.initService.load().then(productConfig => {

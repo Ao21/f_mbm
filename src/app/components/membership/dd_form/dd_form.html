@@ -1,7 +1,7 @@
 <div class="o-dd_form">
 	<section class="o-dd_form__form" *ngIf="!isValidating" [@fadeInOut]="isValidating === false ? 'active' : 'inactive'">
 		<h2 class="title">Please enter your bank details</h2>
-		<c-tab-group>
+		<c-tab-group (change)="updatePaymentType($event)">
 			<c-tab selected="true" id="debit" selected value="Use Account and Sort Code">
 				<m-debit-form (onValidationInit)="triggerValidationLoading($event)"  (onValidationSuccess)="openBankValidation($event)"></m-debit-form>
 			</c-tab>

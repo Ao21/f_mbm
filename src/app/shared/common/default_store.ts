@@ -17,6 +17,14 @@ export class DefaultStore {
 
 	}
 
+	/**
+	 *	Fire Events on Updates to store
+	 *
+	 *	````
+	 *	this._uiStore.select('value').on('update', (e) => { doSomething(e.data.currentData;); });
+	 *	````
+	 *	
+	 */
 	on(event: string, e: any) {
 		return this._store.on(event, e);
 	}

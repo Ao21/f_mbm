@@ -1,5 +1,8 @@
-<div [class.isInvisible]="!prev" (click)="triggerBack()" class="c-top_nav__back">
-    <img src="http://uat1-travel-insurance.theaa.local/membership3/assets/images/icons/backArrow.svg" alt="Back Arrow">
+<div *ngIf="prev" [class.isInvisible]="!prev" (click)="triggerBack()" class="c-top_nav__back">
+    <img src="assets/images/icons/backArrow.svg" alt="Back Arrow">
+</div>
+<div *ngIf="!prev" [class.isInvisible]="prev" class="c-top_nav__back">
+    <a href="http://www.theaa.ie/"><img class="aa_logo" src="assets/images/icons/aaLogo.jpg" alt="Back Arrow"></a>
 </div>
 <header class="c-top_nav__header"><h3>{{header}}</h3></header>
 <div [class.isInvisible]="!isPriceVisible" (click)="toggleDropdown()" class="c-top_nav__price"><h3>{{ price.pretty }}</h3></div>

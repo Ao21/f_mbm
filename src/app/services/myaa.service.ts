@@ -1,5 +1,5 @@
 import { Injectable, Inject, forwardRef } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 import { DataStore } from './../stores/datastore.store';
 import { AuthHttp } from './../shared/common/authHttp';
@@ -58,7 +58,9 @@ export class MyAAService {
 	}
 
 	checkIfUserExists(email) {
-		return this.auth.put(this._USER_EXISTS_URL, JSON.stringify({ email: email }));
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/json');
+		return this.auth.put(this._USER_EXISTS_URL, JSON.stringify({ email: email }),{headers: jsonHeader});
 	}
 
 	mapUserResponse(res) {
@@ -70,22 +72,26 @@ export class MyAAService {
 
 	checkIfUserExistsResponseMapping(resID: string) {
 		let USER_EXISTS_MAP = [];
-		USER_EXISTS_MAP["0"] = { res: 'Not Registered' };
-		USER_EXISTS_MAP["1"] = { res: 'Registered' };
-		USER_EXISTS_MAP["2"] = { res: 'Logged In' };
+		USER_EXISTS_MAP['0'] = { res: 'Not Registered' };
+		USER_EXISTS_MAP['1'] = { res: 'Registered' };
+		USER_EXISTS_MAP['2'] = { res: 'Logged In' };
 		return USER_EXISTS_MAP[resID];
 	}
 
 	saveQuote() {
-		return this.auth.put(this._SAVE_QUOTE_URL, JSON.stringify({ saveMyAA: true }));
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/json');
+		return this.auth.put(this._SAVE_QUOTE_URL, JSON.stringify({ saveMyAA: true }),{headers: jsonHeader});
 	}
 
 	register(user, pass) {
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/json');
 		let registerObject = {
 			email: user,
 			password: pass
 		};
-		let res = this.auth.post(this._REGISTER_URL, JSON.stringify(registerObject));
+		let res = this.auth.post(this._REGISTER_URL, JSON.stringify(registerObject), {headers: jsonHeader});
 		res.subscribe((next) => {
 			this.analytics.registerEvent.next('success');
 		}, (err) => {
@@ -95,7 +101,9 @@ export class MyAAService {
 	}
 
 	login(user: string, pass: string, triggerRetrieveQuote?: boolean) {
-		let res = this.auth.post(this._LOGIN_URL, `email=${user}&password=${pass}&grant_type=password`)
+		let jsonHeader = new Headers();
+		jsonHeader.append('Content-Type', 'application/x-www-form-urlencoded');
+		let res = this.auth.post(this._LOGIN_URL, `email=${user}&password=${pass}&grant_type=password`, {headers: jsonHeader})
 			.retryWhen((attempts) => {
 				return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
 					let time = i * 6;

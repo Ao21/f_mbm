@@ -246,7 +246,8 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 					(`<a href="http://www.theaa.ie/">Are you a current AA Member looking to renew? 
 					Click here to go to the renewals page.</a>`);
 			};
-		});
+			});
+		// TODO: Included Errors
 
 		_.assign(member,
 			{

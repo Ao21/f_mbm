@@ -73,7 +73,7 @@
         </ul>
 
     </article>
-    <div class="btn--group">
+    <div class="btn--group" *ngIf="isPriceFrequencyVisible">
         <button [class.btn--primary]="priceFrequency==='monthly'" (click)="setPricingFrequency('monthly')" class="btn btn--outline">Pay Monthly</button>
         <button [class.btn--primary]="priceFrequency==='annual'" (click)="setPricingFrequency('annual')" class="btn btn--outline">Pay Annually</button>
     </div>
