@@ -13,14 +13,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "2.0.0-rc.5",
-    "@angular/compiler": "2.0.0-rc.5",
-    "@angular/core": "2.0.0-rc.5",
-    "@angular/forms": "0.3.0",
-    "@angular/http": "2.0.0-rc.5",
-    "@angular/platform-browser": "2.0.0-rc.5",
-    "@angular/platform-browser-dynamic": "2.0.0-rc.5",
-    "@angular/router": "3.0.0-rc.1",
+    "@angular/common": "2.0.0-rc.6",
+    "@angular/compiler": "2.0.0-rc.6",
+    "@angular/core": "2.0.0-rc.6",
+    "@angular/forms": "2.0.0-rc.6",
+    "@angular/http": "2.0.0-rc.6",
+    "@angular/platform-browser": "2.0.0-rc.6",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.6",
+    "@angular/router": "3.0.0-rc.2",
     "@types/async": "^2.0.31",
     "@types/iban": "0.0.27",
     "@types/lodash": "^4.14.34",
@@ -43,7 +43,7 @@
     "velocity-animate": "^1.2.3",
     "velocity-ui-pack": "^1.2.2",
     "web-animations-js": "^2.2.2",
-    "zone.js": "0.6.12"
+    "zone.js": "0.6.17"
   },
   "devDependencies": {
     "@types/jasmine": "^2.2.30",
@@ -58,6 +58,6 @@
     "protractor": "4.0.3",
     "ts-node": "1.2.1",
     "tslint": "3.13.0",
-    "typescript": "2.0.0"
+    "typescript": "2.0.2"
   }
 }
