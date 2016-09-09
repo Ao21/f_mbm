@@ -9,6 +9,9 @@ c-auto-complete,
 
     input {
         z-index: -1;
+        &.hasValue{
+            border-color: $primary!important;   
+        }
     }
     &.ng-invalid.ng-touched input {
         border-color: $warning-red!important;   

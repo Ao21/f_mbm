@@ -8,8 +8,8 @@ c-top-nav,
     @include media($mobile) {
         height: $navHeightMobile;
     }
-    ;
     position: fixed;
+    position: sticky;
     top:0;
     z-index: $topNavZ;
     width: 100%;

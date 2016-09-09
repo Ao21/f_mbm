@@ -17,7 +17,7 @@ form-component,
         }
     }
 
-    .loading {
+    c-spinner {
         position: absolute;
         right: 0;
         bottom: 0;
@@ -25,21 +25,6 @@ form-component,
         padding: 20px;
         width: 1.5rem;
         height: 1.5rem;
-        color: $dark-gray;
-
-        &:before {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: $color-light;
-            background-position: center;
-            content: '';
-            transition: all ease 0.25s;
-            transform-origin: 0% 0%;
-            animation: spinner-animate 1.5s cubic-bezier(.3, .5, .7, .5) infinite;
-            transform-style: preserve-3D;
-        }
     }
     input {
         outline: none;

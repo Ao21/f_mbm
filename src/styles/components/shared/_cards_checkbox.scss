@@ -19,9 +19,9 @@ c-checkbox-card,
         background-color: $light;
     }
     &.isDisabled {
-        header {
-            background-color: $primary;
-        }
+        // header {
+        //     background-color: $primary;
+        // }
     }
     &.isChecked {
         header {
@@ -125,7 +125,7 @@ c-checkbox-card,
         pointer-events: all;
         background-color: $light;
         @include media($upToDesktop){
-            @include flex(0 0 180px);
+            @include flex(0 0 200px);
         }
     }
     button.btn {
