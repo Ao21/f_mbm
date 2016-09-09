@@ -7,7 +7,7 @@
    
     <h3 class="title">Simply fill in some details below</h3>
     
-    <form #form [formGroup]="userDetailsForm">
+    <form #form [formGroup]="userDetailsForm" autocomplete="off">
         <form-component 
             *ngFor="let field of fields" 
             class="c-form-component--default" 

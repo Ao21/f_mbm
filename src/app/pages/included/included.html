@@ -13,7 +13,8 @@
                 </div>
                 <m-addon-list content [data]="option.benefits"></m-addon-list>
                 <div cta>
-                    <button *ngIf="option.disabled===true" class="btn">Included</button>
+                    <button *ngIf="option.disabled===true && option.active===false" class="btn">Unavailable</button>
+                    <button *ngIf="option.disabled===true && option.active===true" class="btn">Included</button>
                     <button *ngIf="option.disabled===false && option.active===false"class="btn">Upgrade</button>
                     <button *ngIf="option.disabled===false && option.active===true"class="btn">Remove From Plan</button>
                 </div>

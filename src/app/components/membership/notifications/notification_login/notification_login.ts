@@ -84,23 +84,6 @@ export class NotificationLoginComponent implements OnInit {
 		private _myAA: MyAAService,
 		private formBuilder: FormBuilder
 	) {
-		this.loginObservable
-			.distinctUntilChanged()
-			.do(() => this.loginLoading = true)
-			.switchMap((x: any) => this._myAA.login(x.email, x.password, true))
-			.do(() => this.loginLoading = false)
-			.subscribe((next) => {
-				let res = next.json();
-				if (res.error) {
-					this.loginForm.controls['password']['invalidPassword'] = true;
-					this.loginForm.controls['password'].updateValueAndValidity();
-					return;
-				}
-				this.emitCancel();
-			}, (err) => {
-				// console.log(err);
-			});
-
 
 		let ctrls = [];
 		ctrls['email'] = ['', Validators.compose(this.emailField.validation)];
@@ -122,11 +105,16 @@ export class NotificationLoginComponent implements OnInit {
 		this.isOpen = 'open';
 	}
 
-	login(email: any, password: any) {
-		this.loginObservable.next({
-			email: this.loginForm.value.email,
-			password: this.loginForm.value.password
-		});
+	login() {
+		this.loginLoading = true;
+		this._myAA.login(this.loginForm.value.email, this.loginForm.value.password, true)
+			.subscribe((next) => {
+				this.emitCancel();
+				this.loginLoading = false;
+			}, (err) => {
+				this.loginForm.controls['password']['invalidPassword'] = true;
+				this.loginForm.controls['password'].updateValueAndValidity();
+			});
 	}
 
 	emitCancel() {

@@ -14,7 +14,6 @@ export class MyAASaveQuoteSignInComponent {
 	// Event Emitters
 	@Output('onSuccessLogin') onSuccessLogin: EventEmitter<any> = new EventEmitter<any>();
 	// Login Observable
-	loginObservable: Subject<any> = new Subject();
 	loginLoading: boolean;
 	retryActive: boolean = false;
 	isLoginToMyAA: boolean = false;
@@ -71,32 +70,20 @@ export class MyAASaveQuoteSignInComponent {
 			Utils.resetCustomValidators(this.registrationForm.controls['confirmPassword']);
 		});
 
-		this.loginObservable
-			.distinctUntilChanged()
-			.do(() => this.loginLoading = true)
-			.switchMap((x: any) => this.myAA.login(x.email, x.password))
-			.do(() => this.loginLoading = false)
-			.subscribe((next) => {
-				let res = next.json();
-				if (res.error) {
-					this.loginForm.controls['password']['invalidPassword'] = true;
-					this.loginForm.controls['password'].updateValueAndValidity();
-					this.resetPassword = true;
-					return;
-				}
-				this.onSuccessLogin.next(true);
-			}, (err) => {
-				// console.log(err);
-			});
-
-
 	}
 
 	login() {
-		this.loginObservable.next({
-			email: this.loginForm.value.email,
-			password: this.loginForm.value.password
-		});
+		this.loginLoading = true;
+		this.myAA.login(this.loginForm.value.email, this.loginForm.value.password, false)
+			.subscribe((next) => {
+				this.onSuccessLogin.next(true);
+				this.loginLoading = false;
+			}, (err) => {
+				this.loginForm.controls['password']['invalidPassword'] = true;
+				this.loginForm.controls['password'].updateValueAndValidity();
+				this.resetPassword = true;
+				this.loginLoading = false;
+			})
 	}
 
 	register() {

@@ -45,7 +45,7 @@ import { Utils } from './../../../shared/utilities/index';
 	templateUrl: './checkbox_card.html',
 	animations: [
 		trigger('collapseContent', [
-			state('hidden', style({ marginTop: '-180px' })),
+			state('hidden', style({ marginTop: '-200px' })),
 			state('visible', style({ marginTop: '0' })),
 			transition('hidden => visible', [animate('350ms')]),
 			transition('visible => hidden', [animate('350ms')])
@@ -115,7 +115,7 @@ export class CheckboxCardComponent {
 			// event.stopPropagation();
 			return;
 		}
-		this.toggle();
+		this.toggleCheckboxActive();
 	}
 
 	// Prevent Spacebar bubbling (Scrolling Down)
@@ -134,7 +134,7 @@ export class CheckboxCardComponent {
 
 	/** Toggles the checked state of the checkbox. If the checkbox is disabled, this does nothing. */
 
-	toggle() {
+	toggleCheckboxActive() {
 		if (!this.isDisabled) {
 			this.isSelected = !this.isSelected;
 			let update = {
