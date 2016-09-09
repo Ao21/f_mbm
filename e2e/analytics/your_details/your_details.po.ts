@@ -35,31 +35,31 @@ export class FLASH_YOUR_DETAILS_PAGE {
 		return element(by.css('#addressLine2')).sendKeys(value);
 	}
 	inputTextOnlyToArea(value) {
-		return element(by.css('form-component.fc--area > form-group > c-auto-complete > input')).sendKeys(value);
+		return element(by.css('form-component.fc--area > .form-group > c-auto-complete > input')).sendKeys(value);
 	}
 	inputAndSelectTextToArea(value) {
-		element(by.css('form-component.fc--area > form-group > c-auto-complete > input')).sendKeys(value);
+		element(by.css('form-component.fc--area > .form-group > c-auto-complete > input')).sendKeys(value);
 		browser.sleep(1500);
 		let EC = ExpectedConditions;
-		let e = element(by.css('form-component.fc--area > form-group > c-auto-complete > div > div > button'));
+		let e = element(by.css('form-component.fc--area > .form-group > c-auto-complete > div > div > button'));
 		browser.wait(EC.presenceOf(e), 10000);
-		return element(by.css('form-component.fc--area > form-group > c-auto-complete > div > div > button')).click();
+		return element(by.css('form-component.fc--area > .form-group > c-auto-complete > div > div > button')).click();
 	}
 	inputTextOnlyToCounty(value) {
-		return element(by.css('form-component.fc--county > form-group > c-auto-complete > input')).sendKeys(value);
+		return element(by.css('form-component.fc--county > .form-group > c-auto-complete > input')).sendKeys(value);
 	}
 	inputAndSelectTextToCounty(value) {
-		element(by.css('form-component.fc--county > form-group > c-auto-complete > input')).sendKeys(value);
+		element(by.css('form-component.fc--county > .form-group > c-auto-complete > input')).sendKeys(value);
 		let EC = ExpectedConditions;
-		let e = element(by.css('form-component.fc--county > form-group > c-auto-complete > div > div > button'));
+		let e = element(by.css('form-component.fc--county > .form-group > c-auto-complete > div > div > button'));
 		browser.wait(EC.presenceOf(e), 10000);
-		return element(by.css('form-component.fc--county > form-group > c-auto-complete > div > div > button')).click();
+		return element(by.css('form-component.fc--county > .form-group > c-auto-complete > div > div > button')).click();
 	}
 	resetArea() {
-		return element(by.css('form-component.fc--area > form-group > button.rset')).click();
+		return element(by.css('form-component.fc--area > .form-group > button.rset')).click();
 	}
 	resetCounty() {
-		return element(by.css('form-component.fc--county > form-group > button.rset')).click();
+		return element(by.css('form-component.fc--county > .form-group > button.rset')).click();
 	}
 	chooseAddress() {
 		let EC = ExpectedConditions;
