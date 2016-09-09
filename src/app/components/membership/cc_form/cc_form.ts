@@ -91,9 +91,9 @@ export class CreditCardFormComponent implements OnInit {
 	ngOnInit() {
 		if (window.addEventListener) {
 			window.addEventListener('message', this.watchEvents, false);
-			// document.querySelector('iframe').addEventListener("message", this.watchEvents, false);
 		} else {
-			// window.attachEvent('message', this.watchEvents);
+			let w: any = window;
+			w.attachEvent('message', this.watchEvents);
 		}
 	}
 }
