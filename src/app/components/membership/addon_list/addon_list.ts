@@ -35,9 +35,6 @@ export class AddonListComponent implements AfterViewInit, OnDestroy {
 	) { }
 
 	ngAfterViewInit() {
-		// Add Iscroll to Benefits List
-		// let element = this._el.nativeElement.querySelector('.m-addon-list__wrapper');
-		// this.iScroll = new IScroll(element, { el: 'li', snap: true, scrollX: true, scrollY: true });
 		// Listen for Resize Event Trigger and Throttle Event
 		window.addEventListener('resize', this.throttle, false);
 		// Resize Iscroll on load
@@ -72,7 +69,6 @@ export class AddonListComponent implements AfterViewInit, OnDestroy {
 	resizeIscroll() {
 		let li = this._el.nativeElement.querySelectorAll('li');
 		let scroller = this._el.nativeElement.querySelector('.m-addon-list__scroller');
-
 		if (Utils.isViewportTablet()) {
 			let width = this._el.nativeElement.querySelector('article').scrollWidth + 'px';
 			let scrollerWidth = li.length * (this._el.nativeElement.scrollWidth - 15);
@@ -81,7 +77,7 @@ export class AddonListComponent implements AfterViewInit, OnDestroy {
 				this._renderer.setElementStyle(e, 'width', width);
 			});
 			let element = this._el.nativeElement.querySelector('.m-addon-list__wrapper');
-			this.iScroll = new IScroll(element, { el: 'li', snap: true, scrollX: true, scrollY: true });
+			this.iScroll = new IScroll(element, { el: 'li', snap: 'li', scrollX: true, scrollY: true });
 		} else {
 			this._renderer.setElementStyle(scroller, 'width', 'inherit');
 			_.each(li, (e) => {
@@ -91,6 +87,8 @@ export class AddonListComponent implements AfterViewInit, OnDestroy {
 			if (_.has(this.iScroll, 'destroy')) {
 				this.iScroll.destroy();
 			}
+			let element = this._el.nativeElement.querySelector('.m-addon-list__wrapper');
+			this.iScroll = new IScroll(element, { el: 'li', snap: 'li', scrollX: true, scrollY: true });
 		}
 		if (_.has(this.iScroll, 'refresh')) {
 			this.iScroll.refresh();
