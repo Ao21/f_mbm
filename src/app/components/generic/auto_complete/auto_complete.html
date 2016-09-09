@@ -1,10 +1,10 @@
 <input 	 
         [formControl]="inputValue"
         (input)="handleChange($event)"
+        [class.hasValue]="hasValue"
         type="autocomplete" 
         required
         (blur)="onBlur()"
-        [disabled]="disabled"
         [placeholder]="placeholder">
 
 <div  class="c-auto-complete__search"  *ngIf="(options|filter:filter).length > 0 && isSearchResultsVisible">

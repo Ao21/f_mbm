@@ -76,7 +76,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 	private _data: Observable<Array<any>>;
 
 	private _isInitialized: boolean = false;
-
+	private hasValue: boolean = false;
 	private _value: any = '';
 	private _onTouchedCallback: () => void = noop;
 	private _onChangeCallback: (_: any) => void = noop;
@@ -88,23 +88,24 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 
 
 	set value(newValue: any) {
-		console.log(newValue);
 		if (this._value !== newValue) {
 			// Workaround to allow reset
-			if (newValue === '') {
+			if (newValue === '' || newValue === undefined || newValue === null) {
 				this.reset(this.inputValue);
 				return;
 			}
 			// Set this before proceeding to ensure no circular loop occurs with selection.
 			this._value = newValue;
 			if (this.value.description) {
-				this.inputValue.updateValue(this.value.description);
-			} else {
-				this.inputValue.updateValue(this.value);
-			}
+				this.inputValue.setValue(this.value.description);
 
+			} else {
+				this.inputValue.setValue(this.value);
+			}
+			this.hasValue = true;
+
+			this.inputValue.disable();
 			this.inputValue.markAsTouched();
-			this.disabled = true;
 			this._onChangeCallback(this.value);
 		}
 	}
@@ -121,14 +122,13 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 
 	reset(ctrl) {
 		let control: any = ctrl;
+		// Set Value to '' to Prevent Loop Between Autocompletes
 		this._value = '';
-
-		control._touched = false;
-		control._untouched = true;
-		control._pristine = true;
-		control._dirty = false;
+		control.reset();
+		this.hasValue = false;
 		this.disabled = false;
-		control.updateValue('');
+		control.setValue('');
+		this.inputValue.enable();
 		control.updateValueAndValidity();
 	}
 

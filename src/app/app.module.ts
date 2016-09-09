@@ -25,6 +25,7 @@ import { UIStore, DataStore } from './stores/stores.modules';
 	imports: [
 		BrowserModule,
 		CommonModule,
+		routing,
 		SharedModule.forRoot(),
 		IncludedModule,
 		FriendsFamilyModule,
@@ -34,8 +35,7 @@ import { UIStore, DataStore } from './stores/stores.modules';
 		PaymentModule,
 		ErrorPageModule,
 		RetrieveQuoteModule,
-		ConfirmationModule,
-		routing
+		ConfirmationModule
 	],
 	providers: [
 		Dispatcher,
