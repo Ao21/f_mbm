@@ -42,6 +42,7 @@ export class MyAAService {
 	) {
 
 		this.loginSubscription.subscribe((next) => {
+			console.log('login subscription');
 			this.auth.setToken(next);
 			this.getUser().subscribe(
 				(user) => {
@@ -60,7 +61,7 @@ export class MyAAService {
 	checkIfUserExists(email) {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		return this.auth.put(this._USER_EXISTS_URL, JSON.stringify({ email: email }),{headers: jsonHeader});
+		return this.auth.put(this._USER_EXISTS_URL, JSON.stringify({ email: email }), { headers: jsonHeader });
 	}
 
 	mapUserResponse(res) {
@@ -81,17 +82,17 @@ export class MyAAService {
 	saveQuote() {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		return this.auth.put(this._SAVE_QUOTE_URL, JSON.stringify({ saveMyAA: true }),{headers: jsonHeader});
+		return this.auth.put(this._SAVE_QUOTE_URL, JSON.stringify({ saveMyAA: true }), { headers: jsonHeader });
 	}
 
 	register(user, pass) {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		let registerObject = {
-			email: user,
-			password: pass
-		};
-		let res = this.auth.post(this._REGISTER_URL, JSON.stringify(registerObject), {headers: jsonHeader});
+
+		let res = this.auth
+			.post(this._REGISTER_URL, JSON.stringify({ email: user, password: pass }), { headers: jsonHeader })
+			.share();
+
 		res.subscribe((next) => {
 			this.analytics.registerEvent.next('success');
 		}, (err) => {
@@ -103,24 +104,12 @@ export class MyAAService {
 	login(user: string, pass: string, triggerRetrieveQuote?: boolean) {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/x-www-form-urlencoded');
-		let res = this.auth.post(this._LOGIN_URL, `email=${user}&password=${pass}&grant_type=password`, {headers: jsonHeader})
-			.retryWhen((attempts) => {
-				return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
-					let time = i * 6;
-					this.notifications.createTimedError(`Sorry, we could not connect at the moment.`, time);
-					this.analytics.errorEvents.next({
-						service: 'MYAA_LOGIN',
-						error: 'Couldnt reach the error service.'
-					});
-					return Observable.timer(time * 1000);
-				});
-			});
-		res.subscribe((next) => {
-			let lgnObj = next.json();
-			if (lgnObj.error === 'unauthorized') {
-				return this.analytics.loginEvents.next('failure');
-			}
+
+		let res = this.auth.post(this._LOGIN_URL, `email=${user}&password=${pass}&grant_type=password`, { headers: jsonHeader }).share();
+
+		res.subscribe((next: any) => {
 			this.analytics.loginEvents.next('success');
+			let lgnObj = next.json();
 			if (triggerRetrieveQuote) {
 				lgnObj.retrieveQuote = true;
 			}
@@ -128,6 +117,7 @@ export class MyAAService {
 		}, (err) => {
 			this.analytics.loginEvents.next('failure');
 		});
+
 		return res;
 	}
 

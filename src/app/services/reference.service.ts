@@ -23,7 +23,12 @@ export class ReferenceService {
 	) { }
 
 	getTitles() {
-		return this.auth.get(this._TITLE_URL);
+		let options = new RequestOptions({
+			headers: new Headers({
+				'Content-Type': 'application/json;charset=UTF-8'
+			})
+		});
+		return this.auth.get(this._TITLE_URL, options);
 	}
 
 	selectAddress(id) {

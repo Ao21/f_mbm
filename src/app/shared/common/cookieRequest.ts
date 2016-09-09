@@ -1,5 +1,5 @@
-import {BrowserXhr, HTTP_PROVIDERS} from '@angular/http';
-import {Injectable, provide} from '@angular/core';
+import {BrowserXhr} from '@angular/http';
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class CORSBrowserXHR extends BrowserXhr {

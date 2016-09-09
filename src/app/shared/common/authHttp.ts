@@ -1,4 +1,4 @@
-import {provide, Injectable} from '@angular/core';
+import {Provider, Injectable} from '@angular/core';
 import {Http, Headers, Request, RequestOptions, RequestOptionsArgs, RequestMethod, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import * as moment from 'moment';
@@ -256,9 +256,6 @@ export function AuthFactory(http: Http) {
 	return new AuthHttp(new AuthConfig(), http);
 }
 
-export const AUTH_PROVIDERS: any = [
-	provide(AuthHttp, {
-		useFactory: AuthFactory,
-		deps: [Http]
-	})
+export const AUTH_PROVIDERS: Provider = [
+	{provide: AuthHttp, useFactory: AuthFactory, deps: [Http]}
 ];
