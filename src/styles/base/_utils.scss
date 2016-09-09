@@ -17,6 +17,10 @@
     display: block!important;
 }
 
+.isInputDisabled {
+    pointer-events: none;
+}
+
 .isInvisible {
     opacity: 0;
     pointer-events: none;
