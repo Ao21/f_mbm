@@ -1,8 +1,7 @@
 import { Component, OnDestroy, ElementRef, EventEmitter, OnInit, AfterViewInit, Renderer } from '@angular/core';
-import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Analytics } from './../../services/analytics.service';
 import { isPresent, isBlank } from '@angular/platform-browser/src/facade/lang';
-
 import { DataStore, UIStore } from './../../stores/stores.modules';
 import { Observable } from 'rxjs/Observable';
 import { Utils } from './../../shared/utilities/utilities.component';
@@ -109,7 +108,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 			return true;
 		}
 		// Check the address Line1 and Area against previous Address
-		if (this.validatedAddress) {
+		if (this.validatedAddress && this.userDetailsForm.controls['area'].value) {
 			if (_.isEqual(this.userDetailsForm.controls['addressLine1'].value, this.validatedAddress.addressLine1) &&
 				_.isEqual(this.userDetailsForm.controls['area'].value.description, this.validatedAddress.area)) {
 				this.isValidated = true;
@@ -160,6 +159,9 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 	 */
 	onReadyAddress() {
 		this.isReadyToValidate = true;
+		if (this._el.nativeElement.querySelector('#validateAddBtn')) {
+			Utils.scrollToElement(this._el.nativeElement.querySelector('#validateAddBtn'));
+		}
 		this.validateAddressText = 'Validate your Address';
 	}
 
@@ -193,13 +195,13 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 			let area: any = this.userDetailsForm.controls['area'];
 			let county: any = this.userDetailsForm.controls['county'];
 
-			addressLine1.updateValue(obj.addressLine1);
+			addressLine1.setValue(obj.addressLine1);
 			addressLine1.markAsTouched();
-			addressLine2.updateValue(obj.addressLine2);
+			addressLine2.setValue(obj.addressLine2);
 			addressLine2.markAsTouched();
-			area.updateValue({ description: obj.area });
+			area.setValue({ description: obj.area });
 			area.markAsTouched();
-			county.updateValue({ description: obj.county });
+			county.setValue({ description: obj.county });
 
 			this.isUpdatingMultipleAddressFields = false;
 			county.markAsTouched();
@@ -221,7 +223,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 			_.forIn(sessionUser, (e, k) => {
 				if (this.userDetailsForm.controls[k]) {
 					let control: any = this.userDetailsForm.controls[k];
-					control.updateValue(e);
+					control.setValue(e);
 					control.markAsTouched();
 				}
 			});
@@ -265,6 +267,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 
 		if (this.isReadyToValidate && !this.isValidated) {
 			let button = this._el.nativeElement.querySelector('#validateAddBtn');
+			Utils.scrollToElement(button);
 			// Velocity(button, 'callout.shake');
 			if (this.validateAddressText === 'Please click here to validate your address') {
 				this.validateAddressText = 'You must validate your address to contiunue';

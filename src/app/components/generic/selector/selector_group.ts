@@ -115,7 +115,7 @@ export class SelectorGroupComponent implements ControlValueAccessor, OnInit {
 	updateValue(value: any) {
 		this.value = value;
 		this.onChanges(_);
-		this.control.updateValue(this.value, true);
+		this.control.setValue(this.value, true);
 		this.onTouched.emit(true);
 		this.onChange.emit(this.value);
 	}

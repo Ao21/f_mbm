@@ -1,5 +1,5 @@
-import { Directive, Input, OnInit, ElementRef, Attribute, HostListener } from '@angular/core';
-import { REACTIVE_FORM_DIRECTIVES, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Directive, Input, ElementRef, Attribute, HostListener } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 /**
  *  Input Mask
@@ -76,7 +76,7 @@ export class InputMaskDirective {
 
 	updateValue(value) {
 		if (this.formControl) {
-			this.formControl.updateValue(value);
+			this.formControl.setValue(value);
 		} else {
 			this.elRef.nativeElement.value = value;
 		}

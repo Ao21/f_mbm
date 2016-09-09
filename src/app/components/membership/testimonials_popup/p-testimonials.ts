@@ -32,7 +32,6 @@ export class TestimonialPopupComponent {
 		this._uiStore.update(['UIOptions', 'isTestimonialsTriggered'], true);
 		this._quoteService.getQuote().subscribe(
 			(next) => {
-				console.log('get quote');
 				this._dataStore.setConfig(next.json());
 				this._router.navigate(['/breakdown']);
 			},

@@ -1,6 +1,6 @@
 import {Directive, Input, EventEmitter, OnInit, Output} from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
-import {Control} from '@angular/common';
+import {FormControl} from '@angular/forms';
 import {NotificationService, MyAAService, Analytics} from './../../services/';
 import {DataStore} from './../../stores/stores.modules';
 
@@ -9,7 +9,7 @@ import {DataStore} from './../../stores/stores.modules';
 	providers: [MyAAService]
 })
 export class MyAALoginDetectionDirective implements OnInit {
-	@Input('formControl') formControl: Control;
+	@Input('formControl') formControl: FormControl;
 	isUserLoggedIn: boolean = false;
 	@Output() results: EventEmitter<any> = new EventEmitter();
 	@Output() loading: EventEmitter<any> = new EventEmitter();

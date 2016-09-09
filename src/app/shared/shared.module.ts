@@ -1,10 +1,10 @@
 import {
 	NgModule,
 	ModuleWithProviders,
-	provide
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { HttpModule, BrowserXhr } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {CORSBrowserXHR } from './common/cookieRequest';
@@ -38,6 +38,7 @@ import { TestimonialPopupComponent } from './../components/membership/testimonia
 	imports: [
 		CommonModule,
 		FormComponentModule,
+		RouterModule,
 		NotificationsModule,
 	],
 	declarations: [
@@ -84,7 +85,7 @@ export class SharedModule {
 				QuoteService,
 				ReferenceService,
 				// Adds Cookie to Allow Http Requests - Maybe Remove this?
-				provide(BrowserXhr, { useClass: CORSBrowserXHR })
+				{provide: BrowserXhr, useClass: CORSBrowserXHR}
 			]
 		};
 	}

@@ -77,11 +77,7 @@ export class QuoteService {
 			});
 
 		} else if (item.type === 'cover') {
-			let coverIdx = _.findIndex(this._dataStore.get(['config', 'coverLevel']), (e: any) => {
-				return e.name === item.name;
-			});
 			this.updateCover(item, false).subscribe((next) => {
-				this._dataStore.toggleCoverLevel(coverIdx, false);
 				this.getQuote().subscribe((config) => {
 					this._dataStore.setConfig(config.json());
 				});

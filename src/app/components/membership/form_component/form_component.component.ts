@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ElementRef, Renderer, AfterViewInit} from '@angular/core';
-import {FormGroup } from '@angular/forms';
+import {FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import {BooleanFieldValue} from './../../../shared/common/booleanFactory';
 import {Analytics} from './../../../services/analytics.service';
 import {Subject} from 'rxjs/Rx';
@@ -72,7 +72,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 
 	valueThrottle: Subject<any> = new Subject();
 
-	dynamicControl: any;
+	dynamicControl: AbstractControl;
 	errorList = [];
 	input: any;
 
@@ -163,12 +163,9 @@ export class FormComponent implements OnInit, AfterViewInit {
 	}
 
 	reset(evt: Event) {
-		this.dynamicControl._touched = false;
-		this.dynamicControl._untouched = true;
-		this.dynamicControl._pristine = true;
-		this.dynamicControl._dirty = false;
+		this.dynamicControl.reset();
 		this.triggerAnalyticEvent(this.field.name, this.dynamicControl, 'RESET');
-		this.dynamicControl.updateValue('');
+		this.dynamicControl.setValue('');
 	}
 
 

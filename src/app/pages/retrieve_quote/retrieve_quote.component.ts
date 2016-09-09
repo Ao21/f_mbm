@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NotificationService, QuoteService } from './../../services/index';
 import { AuthHttp } from './../../shared/common/authHttp';
 import { CustomValidators } from './../../shared/validators/validators';
@@ -67,13 +67,13 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 			let refCtrl: any = this.form.controls['webRef'];
 			let dobCtrl: any = this.form.controls['dateOfBirth'];
 			if (ref) {
-				refCtrl.updateValue(ref);
+				refCtrl.setValue(ref);
 				refCtrl.markAsTouched();
 				refCtrl.updateValueAndValidity();
 
 			}
 			if (dob) {
-				dobCtrl.updateValue(moment(dob, 'DDMMYYYY').format('DD/MM/YYYY'));
+				dobCtrl.setValue(moment(dob, 'DDMMYYYY').format('DD/MM/YYYY'));
 				dobCtrl.markAsTouched();
 				dobCtrl.updateValueAndValidity();
 			}

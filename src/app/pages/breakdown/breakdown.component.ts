@@ -117,7 +117,7 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 		this.pricingUpdateSubscription = this._dataStore.subscribeAndGet(CONSTS.PRICING_UPDATE, (e) => {
 			let pricingFrequency = this._dataStore.get(['pricing', 'frequency']);
 			if (pricingFrequency) {
-				this.frequencyControl.updateValue(pricingFrequency);
+				this.frequencyControl.setValue(pricingFrequency);
 			}
 		});
 		this.init();

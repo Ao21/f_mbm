@@ -22,7 +22,6 @@ export class MembershipTermsConditionsComponent implements OnInit {
 	paymentFrequency: any;
 	paymentSetStatusCard: string = 'inactive';
 	paymentSetStatusBank: string = 'inactive';
-	private isButtonActive: boolean = false;
 	constructor(
 		private _quoteService: QuoteService,
 		private _paymentService: PaymentService,
@@ -47,9 +46,7 @@ export class MembershipTermsConditionsComponent implements OnInit {
 		this.route.params.subscribe(params => {
 			let type: string = params['type'];
 			if (type === 'Card' || type === 'Bank') {
-				this._dataStore.update(['pricing', 'type'], type);
-				this.paymentType = type;
-				this.isPaymentTypeSet = true;
+				this.setPaymentType(type);
 			}
 		});
 	}
@@ -60,13 +57,10 @@ export class MembershipTermsConditionsComponent implements OnInit {
 		this._paymentService.updatePaymentType(type, this.paymentFrequency).subscribe((next) => {
 		}, (err) => {
 			this._router.navigateByUrl('/breakdown');
-		});
-		setTimeout(() => {
-			this.isPaymentTypeSet = true;
-		}, 350);
+			});
+		this.isPaymentTypeSet = true;
 	}
 	continue() {
-		this.isButtonActive = true;
 		setTimeout(() => { this._router.navigate([this._uiStore.getPageUrl(this.page.next)]); }, 300);
 
 	}

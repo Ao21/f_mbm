@@ -1,5 +1,4 @@
 import { Component, Host, Input, OnInit, Optional, HostBinding } from '@angular/core';
-import { NgFormModel } from '@angular/common';
 import {ErrorService} from './../../../services/error.service';
 import {isPresent} from '@angular/platform-browser/src/facade/lang';
 
@@ -17,7 +16,6 @@ export class ShowErrorComponent implements OnInit {
 	control: any;
 	constructor(
 		private _errorService: ErrorService,
-		@Optional() @Host() formDir: NgFormModel
 	) {}
 
 	get errorMessage(): ErrorMessage {

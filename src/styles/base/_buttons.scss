@@ -220,6 +220,8 @@ button {
     &.isActive {
         border: 3px solid $yellow;
         background-color: $yellow;
+        color: $dark;
+        font-weight: 400;
     }
 }
 

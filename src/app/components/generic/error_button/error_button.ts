@@ -1,5 +1,5 @@
-import { Component, Host, OnInit, Output, Input, Optional, EventEmitter } from '@angular/core';
-import { NgFormModel, ControlGroup } from '@angular/common';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import {ErrorService} from './../../../services/error.service';
 
 /**
@@ -28,14 +28,13 @@ import {ErrorService} from './../../../services/error.service';
 })
 
 export class ErrorButtonComponent implements OnInit {
-	@Input('form') form: ControlGroup;
+	@Input('form') form: FormGroup;
 	@Input('text') text: string;
 	@Input() short: string;
 	@Output() onContinue: EventEmitter<any> = new EventEmitter();
 	controls: any;
 	constructor(
 		private _errorService: ErrorService,
-		@Optional() @Host() formDir: NgFormModel
 	) {
 
 	}

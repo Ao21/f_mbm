@@ -1,4 +1,4 @@
-import { Validators } from '@angular/common';
+import { Validators } from '@angular/forms';
 import { CustomValidators } from './../validators/validators';
 
 export class Utils {
@@ -30,7 +30,7 @@ export class Utils {
 
 	static scrollToElement(el, complete?) {
 		// Using Smoothscroll Polyfill
-		el.scrollIntoView();
+		el.scrollIntoView({ behavior: 'smooth' });
 	}
 
 	static resetCustomValidators(control) {
