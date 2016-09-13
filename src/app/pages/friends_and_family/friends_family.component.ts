@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { isPresent } from '@angular/platform-browser/src/facade/lang';
 import { UIStore, DataStore } from './../../stores/stores.modules';
 import { Analytics } from './../../services/analytics.service';
-import { CONSTS } from './../../constants';
+import { CONSTS, ERRORS } from './../../constants';
 import { QuoteService } from './../../services/quote.service';
+import { NotificationService, ErrorService } from './../../services/index';
 import { Observable } from 'rxjs/Rx';
 
 /**
@@ -29,19 +30,20 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 	sub: ISubscriptionDefinition<any>;
 
 	constructor(
-		private _router: Router,
-		private _uiStore: UIStore,
-		private _dataStore: DataStore,
-		private _el: ElementRef,
-		private _analytics: Analytics,
-		private _quoteService: QuoteService
-	) {}
+		private uiStore: UIStore,
+		private dataStore: DataStore,
+		private el: ElementRef,
+		private analytics: Analytics,
+		private errorService: ErrorService,
+		private notificationService: NotificationService,
+		private quoteService: QuoteService
+	) { }
 
 	ngOnInit() {
-		this.page = this._uiStore.getPage('friendsFamily');
-		this.members = this._dataStore.getGeneratedAdditionalMembers();
-		this.sub = this._dataStore.subscribeAndGet(CONSTS.MEMBER_UPDATE, (event) => {
-			this.members = this._dataStore.getGeneratedAdditionalMembers();
+		this.page = this.uiStore.getPage('friendsFamily');
+		this.members = this.dataStore.getGeneratedAdditionalMembers();
+		this.sub = this.dataStore.subscribeAndGet(CONSTS.MEMBER_UPDATE, (event) => {
+			this.members = this.dataStore.getGeneratedAdditionalMembers();
 		});
 	}
 
@@ -50,7 +52,7 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 	 *  @listens onSave
 	 */
 	saveMember(member: Member) {
-		this._quoteService.addMember(member.index, {
+		this.quoteService.addMember(member.index, {
 			firstName: member.firstName,
 			surname: member.surname,
 			dateOfBirth: member.dateOfBirth
@@ -60,15 +62,20 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 					return i;
 				}).flatMap((i) => {
 					let time = i * 6;
+					this.errorService.errorHandlerWithTimedNotification(ERRORS.saveAdditionalMember, time);
 					return Observable.timer(time * 1000);
 				});
 			})
 			.subscribe((next) => {
-
+				this.dataStore.saveMember(member);
+				this.notificationService.clearNotifications();
 			}, (err) => {
-				console.log(err);
+				this.errorService.errorHandlerWithNotification(
+					_.assign({
+						err: 'Delete Additional Member Failure',
+						service: 'QuoteService'
+					}, ERRORS.defaultServiceErrorFinal, ));
 			});
-		this._dataStore.saveMember(member);
 	}
 
 
@@ -79,22 +86,27 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 	 *
 	 */
 	deleteMember(member: Member) {
-		// event.stopPropagation();
-		this._quoteService.removeMember(member.index)
+		this.quoteService.removeMember(member.index)
 			.retryWhen((attempts) => {
 				return Observable.range(1, 3).zip(attempts, (i) => {
 					return i;
 				}).flatMap((i) => {
 					let time = i * 6;
+					this.errorService.errorHandlerWithTimedNotification(ERRORS.deleteAdditionalMember, time);
 					return Observable.timer(time * 1000);
 				});
 			}).subscribe((next) => {
-
+				this.notificationService.clearNotifications();
+				this.dataStore.removeMember(member);
 			}, (err) => {
-				console.log(err);
+				this.errorService.errorHandlerWithNotification(
+					_.assign(
+						{
+							err: 'Delete Additional Member Failure',
+							service: 'QuoteService'
+						}, ERRORS.defaultServiceErrorFinal));
 			});
-		this._dataStore.removeMember(member);
-		this._uiStore.closeAllModals();
+		this.uiStore.closeAllModals();
 	}
 
 	/**
@@ -103,8 +115,8 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 	 *
 	 */
 	removePlaceholderMember(member: Member) {
-		this._dataStore.removeMember(member);
-		this._uiStore.closeAllModals();
+		this.dataStore.removeMember(member);
+		this.uiStore.closeAllModals();
 		this.openTestimonials();
 	}
 
@@ -121,8 +133,8 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 
 		/* istanbul ignore next */
 		if (!this.checkForPlaceholderMembers()) {
-			this._analytics.triggerEvent('page-completion-ff', null, this._dataStore.getCreatedMembers().length - 1);
-			this._uiStore.openModal('testimonials');
+			this.analytics.triggerEvent('page-completion-ff', null, this.dataStore.getCreatedMembers().length - 1);
+			this.uiStore.openModal('testimonials');
 		}
 
 	}
@@ -133,26 +145,26 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 	 *
 	 */
 	checkForPlaceholderMembers() {
-		let placeholder = _.find(this._dataStore.getCreatedMembers(), (e: Member) => {
+		let placeholder = _.find(this.dataStore.getCreatedMembers(), (e: Member) => {
 			return e.placeholder;
 		});
 
 		if (isPresent(placeholder)) {
 			this.placeholderMemberToBeRemoved = placeholder;
-			this._uiStore.openModal('removePlaceholderMember');
+			this.uiStore.openModal('removePlaceholderMember');
 			return true;
 		}
 	}
 
 	ngOnDestroy() {
-		this._dataStore.unsubscribe(this.sub);
+		this.dataStore.unsubscribe(this.sub);
 	}
 	/* istanbul ignore next */
 	routerOnActivate() {
-		// this._transitions.animatePageIn(this._el);
+		// this._transitions.animatePageIn(this.el);
 	}
 	/* istanbul ignore next */
 	routerOnDeactivate() {
-		// return this._transitions.animatePageOut(this._el);
+		// return this._transitions.animatePageOut(this.el);
 	}
 }

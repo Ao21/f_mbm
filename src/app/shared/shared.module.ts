@@ -30,16 +30,19 @@ import { FullscreenPopupComponent } from './../components/generic/fullscreen_pop
 import { HeaderComponent } from './../components/membership/header_component/header_component';
 import { NotificationsModule } from './../components/membership/notifications/notifications.module';
 import { OverViewComponent } from './../components/membership/overview/overview';
-import { QuotesListComponent } from './../components/membership/quotes_list/quotes_list';
+// import { QuotesListComponent } from './../components/membership/quotes_list/quotes_list';
 import { SHARED_DIRECTIVES } from './directives/directives.module';
 import { SHARED_PIPES } from './pipes/pipe_modules';
-import { TestimonialPopupComponent } from './../components/membership/testimonials_popup/p-testimonials';
+import { TestimonialPopupModule } from './../components/membership/testimonials_popup/p-testimonials.module';
+import { QuoteListModule } from './../components/membership/quotes_list/quotes_list.module';
 @NgModule({
 	imports: [
 		CommonModule,
 		FormComponentModule,
 		RouterModule,
 		NotificationsModule,
+		QuoteListModule,
+		TestimonialPopupModule
 	],
 	declarations: [
 		...SHARED_PIPES,
@@ -47,9 +50,7 @@ import { TestimonialPopupComponent } from './../components/membership/testimonia
 		FixedNavComponent,
 		OverViewComponent,
 		HeaderComponent,
-		QuotesListComponent,
 		FullscreenPopupComponent,
-		TestimonialPopupComponent
 	],
 	exports: [
 		...SHARED_DIRECTIVES,
@@ -62,9 +63,9 @@ import { TestimonialPopupComponent } from './../components/membership/testimonia
 		HttpModule,
 		NotificationsModule,
 		OverViewComponent,
-		QuotesListComponent,
 		ReactiveFormsModule,
-		TestimonialPopupComponent
+		QuoteListModule,
+		TestimonialPopupModule
 
 	]
 })

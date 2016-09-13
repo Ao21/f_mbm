@@ -66,7 +66,7 @@ export class CustomValidators {
 
 	static phoneNumber(c): { [key: string]: boolean } {
 		let re = /^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/gm;
-		if (isPresent(c.value) && isString(c.value) && c.value.match(re) && c.value.length <= 10) {
+		if (isPresent(c.value) && isString(c.value) && c.value.match(re) && c.value.length <= 32) {
 			return null;
 		} else {
 			return {

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, URLSearchParams, RequestOptions, Response } from '@angular/http';
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
-import { CONSTS } from './../constants';
-import { NotificationService } from './notifications.service';
+import { CONSTS, ERRORS } from './../constants';
+import { ErrorService,  } from './error.service';
 
 @Injectable()
 export class AutoCompleteService {
@@ -14,7 +14,7 @@ export class AutoCompleteService {
 	_filter: string;
 
 	constructor(
-		private _notificationsService: NotificationService,
+		private errorService: ErrorService,
 		public http: Http
 	) {
 
@@ -39,8 +39,7 @@ export class AutoCompleteService {
 			.retryWhen((attempts) => {
 				return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
 					let time = i * 6;
-					console.log('delay retry by ' + time + ' second(s)');
-					this._notificationsService.createTimedError(`Could not connect.`, time);
+					this.errorService.errorHandlerWithTimedNotification(ERRORS.townAreaService, time);
 					return Observable.timer(time * 1000);
 				});
 			})
@@ -56,8 +55,7 @@ export class AutoCompleteService {
 			.retryWhen((attempts) => {
 				return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
 					let time = i * 6;
-					console.log('delay retry by ' + time + ' second(s)');
-					this._notificationsService.createTimedError(`Could not connect.`, time);
+					this.errorService.errorHandlerWithTimedNotification(ERRORS.townAreaService, time);
 					return Observable.timer(time * 1000);
 				});
 			})
@@ -84,7 +82,7 @@ export class AutoCompleteService {
 						}
 
 					}, (err) => {
-						this._notificationsService.createError('Could not connect.');
+						this.errorService.errorHandlerWithNotification(ERRORS.townAreaService);
 					});
 
 				break;
@@ -100,7 +98,7 @@ export class AutoCompleteService {
 							this.counties.next(res.counties);
 						}
 					}, (err) => {
-						this._notificationsService.createError('Could not connect.');
+						this.errorService.errorHandlerWithNotification(ERRORS.townAreaService);
 					});
 				break;
 			default:

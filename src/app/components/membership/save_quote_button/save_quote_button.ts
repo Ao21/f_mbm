@@ -1,6 +1,7 @@
 import { Component, Input, HostBinding, HostListener } from '@angular/core';
 import { UIStore } from './../../../stores/stores.modules';
-import { MyAAService } from './../../../services/index';
+import { MyAAService, ErrorService } from './../../../services/index';
+import { ERRORS } from './../../../constants';
 
 
 @Component({
@@ -27,17 +28,19 @@ export class SaveQuoteButtonComponent {
 	}
 
 	constructor(
-		private _uiStore: UIStore,
+		private errorService: ErrorService,
+		private uiStore: UIStore,
 		private _myAA: MyAAService
 	) { }
 
 	@HostListener('click', ['$event'])
 	onClick(evt: Event) {
 		this._myAA.saveQuote().subscribe((next) => {
-			this._uiStore.update(['UIOptions', 'isQuoteSaved'], true);
+			this.uiStore.update(['UIOptions', 'isQuoteSaved'], true);
 			this._disabled = true;
 		}, (err) => {
 			this.isError = true;
+			this.errorService.errorHandler(ERRORS.saveQuoteError);
 		});
 	}
 }

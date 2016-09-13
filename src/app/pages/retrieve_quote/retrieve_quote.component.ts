@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NotificationService, QuoteService } from './../../services/index';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { QuoteService, ErrorService } from './../../services/index';
+import { ERRORS } from './../../constants';
 import { AuthHttp } from './../../shared/common/authHttp';
 import { CustomValidators } from './../../shared/validators/validators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isPresent } from '@angular/platform-browser/src/facade/lang';
 import * as moment from 'moment';
+
 @Component({
 	selector: 'p-retrieve-quote',
 	templateUrl: './retrieve_quote.html'
@@ -24,9 +26,9 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 		private auth: AuthHttp,
 		private route: ActivatedRoute,
 		private quoteService: QuoteService,
-		private _router: Router,
-		private notificationService: NotificationService,
-		private _fb: FormBuilder
+		private router: Router,
+		private errorService: ErrorService,
+		private fb: FormBuilder
 	) {
 		this.fields = [
 			{
@@ -52,7 +54,7 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 			];
 		});
 
-		this.form = this._fb.group(this.ctrls);
+		this.form = this.fb.group(this.ctrls);
 	}
 
 	ngOnInit() {
@@ -113,51 +115,57 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 		if (config.quotation.breakdown) {
 			this.quoteService.setQuote(config, false);
 		} else {
-			this.quoteService.setQuote(config, true);
+			this.quoteService.setQuoteExpired(config);
 		}
 	}
 
 	retrieveQuoteError = (err) => {
 		if (err.status === 401) {
 			if (this.myAAAccess) {
-				this.notificationService.createConfirmationNotification(
+				this.errorService.errorHandlerWithConfirmationNotification(
+					ERRORS.retrieveQuoteProblem,
 					'Sorry, we were unabled to find your quote',
 					'Go Back To MyAA',
-					'https://www.theaa.ie/myaa.aspx');
+					'https://www.theaa.ie/myaa.aspx'
+				);
 
 			} else {
-				this.notificationService.createError(`Sorry, there was a problem retrieving your quote.`);
-				this._router.navigateByUrl('/');
+				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteProblem);
+				this.router.navigateByUrl('/');
 			}
 		}
 		if (err.status === 404) {
 			if (this.myAAAccess) {
-				this._router.navigateByUrl('/');
-				this.notificationService.createConfirmationNotification(
+				this.router.navigateByUrl('/');
+				this.errorService.errorHandlerWithConfirmationNotification(
+					ERRORS.retrieveQuoteMissing,
 					'Sorry, we were unabled to find your quote',
 					'Go Back To MyAA',
-					'https://www.theaa.ie/myaa.aspx');
+					'https://www.theaa.ie/myaa.aspx'
+				);
 
 			} else {
-				this.notificationService.createError(`Sorry, we were unable to find your quote.`);
+				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteMissing);
 			}
 		}
 		if (err.status === 403) {
 			if (this.myAAAccess) {
-				this.notificationService.createConfirmationNotification(
+				this.errorService.errorHandlerWithConfirmationNotification(
+					ERRORS.retrieveQuoteMyAAProblem,
 					'Sorry, there was a problem retrieving your quote.',
 					'Go Back To MyAA',
-					'https://www.theaa.ie/myaa.aspx');
-				this._router.navigateByUrl('/');
+					'https://www.theaa.ie/myaa.aspx'
+				);
+
+				this.router.navigateByUrl('/');
 			} else {
-				this.notificationService.createError(`Sorry, there was a problem retrieving your AA Membership quote. 
-						Please try again.`);
+				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteMyAAProblem);
+
 			}
 		}
 		if (err.status === 400) {
-			this.notificationService.createError(`Sorry, this quote has already been purchased. 
-						You can begin a new quote but your details will not be pre-populated.`);
-			this._router.navigate(['/']);
+			this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuotePurchased);
+			this.router.navigate(['/']);
 		}
 	}
 }

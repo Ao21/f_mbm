@@ -3,6 +3,6 @@ interface UIPage {
     address: string;
     next?: string;
     prev?: string;
-    options?: any;
+    options: any;
 
 }

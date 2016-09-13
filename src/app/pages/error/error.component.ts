@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ErrorService } from './../../services/index';
-import { UIStore } from './../../stores/stores.modules';
+import { UIStore, DataStore } from './../../stores/stores.modules';
 import { ActivatedRoute } from '@angular/router';
 
 /**
@@ -18,23 +18,27 @@ export class MembershipErrorPageComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private route: ActivatedRoute,
-		private _errorService: ErrorService,
-		private _uiStore: UIStore
+		private errorService: ErrorService,
+		private uiStore: UIStore,
+		private dataStore: DataStore
 	) {
-		this.page = this._uiStore.getPage('error');
+		this.page = this.uiStore.getPage('error');
 	}
 
 	ngOnInit() {
-		this._uiStore.update('topNavVisible', false);
+		this.uiStore.update('topNavVisible', false);
 		// Gets the errCode from the URL Paramaters
 		this.sub = this.route.params.subscribe(params => {
 			let code = params['errCode'];
-			this.errMsg = this._errorService.retrieveServiceError(code);
+			this.errMsg = this.errorService.retrieveServiceError(code);
+			if (this.errMsg.resetJourney) {
+				this.dataStore.resetConfig();
+			}
 		});
 	}
 
 	ngOnDestroy() {
-		this._uiStore.update('topNavVisible', true);
+		this.uiStore.update('topNavVisible', true);
 	}
 
 }

@@ -6,8 +6,10 @@ import { AuthHttp } from './../shared/common/authHttp';
 import { Observable, Subject } from 'rxjs/Rx';
 import { Analytics } from './analytics.service';
 import { NotificationService } from './notifications.service';
+
+import { ErrorService } from './error.service';
 import { QuoteService } from './quote.service';
-import { CONSTS } from './../constants';
+import { CONSTS, ERRORS } from './../constants';
 
 export class MyAAUserResponses {
 	_Registered: Number = 1;
@@ -35,6 +37,7 @@ export class MyAAService {
 	constructor(
 		private auth: AuthHttp,
 		private analytics: Analytics,
+		private errorService:ErrorService,
 		private http: Http,
 		@Inject(forwardRef(() => DataStore)) private dataStore: DataStore,
 		private quoteService: QuoteService,
@@ -42,7 +45,6 @@ export class MyAAService {
 	) {
 
 		this.loginSubscription.subscribe((next) => {
-			console.log('login subscription');
 			this.auth.setToken(next);
 			this.getUser().subscribe(
 				(user) => {
@@ -61,7 +63,14 @@ export class MyAAService {
 	checkIfUserExists(email) {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		return this.auth.put(this._USER_EXISTS_URL, JSON.stringify({ email: email }), { headers: jsonHeader });
+		return this.auth.put(this._USER_EXISTS_URL, JSON.stringify({ email: email }), { headers: jsonHeader })
+			.retryWhen((attempts) => {
+			return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
+				let time = i * 6;
+				this.errorService.errorHandlerWithTimedNotification(ERRORS.checkUserExistsError, time);
+				return Observable.timer(time * 1000);
+				});
+			});
 	}
 
 	mapUserResponse(res) {
@@ -69,6 +78,12 @@ export class MyAAService {
 		obj.res = this.checkIfUserExistsResponseMapping(obj.login).res;
 		this.analytics.triggerEvent('previous-user-detected', obj.res);
 		return obj;
+	}
+
+	triggerRenewalProccess() {
+		this.notifications.createNotification
+					(`<a href="http://www.theaa.ie/">Are you a current AA Member looking to renew? 
+					Click here to go to the renewals page.</a>`);
 	}
 
 	checkIfUserExistsResponseMapping(resID: string) {

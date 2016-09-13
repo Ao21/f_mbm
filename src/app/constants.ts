@@ -23,6 +23,125 @@ export class CONSTS {
 	}
 }
 
+export class ERRORS {
+	static defaultServiceError: ErrorObject = {
+		notification: 'Could not connect',
+		err: 'ServiceError'
+	};
+	static creditCard: ErrorObject = {
+		err: 'RealexFailure',
+		service: 'Realex'
+	};
+	static defaultServiceErrorFinal: ErrorObject = {
+		notification: `We could not connect at this time, please try again later.`,
+		err: 'ServiceFailure'
+	};
+	static checkUserExistsError: ErrorObject = {
+		service: 'MYAAService',
+		notification: `We're having a problem saving your details, please wait while we try again.`,
+		err: `EmailDetectionSaveFailure`
+	};
+	static saveMember: ErrorObject = {
+		service: 'QuoteService',
+		notification: `We're having a problem saving your details, please try again.`,
+		err: 'SaveMemberDetailsFailure'
+	};
+	static saveAdditionalMember: ErrorObject = {
+		service: 'QuoteService',
+		notification: `We're having a problem saving your details.`,
+		err: `SaveAdditionalMemberFailure`
+	};
+	static deleteAdditionalMember: ErrorObject = {
+		service: 'QuoteService',
+		notification: `We're having a problem saving your details.`,
+		err: `DeleteAdditionalMemberFailure`
+	};
+	static bankValidation: ErrorObject = {
+		service: 'BankValidationService',
+		notification: `Sorry, there was a problem validating your bank details, please try again.`,
+		err: 'BankValidationServiceError'
+	};
+	static bankValidationRetry: ErrorObject = {
+		service: 'BankValidationService',
+		notification: `Sorry, there was a problem validating your bank details.`,
+		err: 'BankValidationServiceError'
+	};
+	static saveQuoteError: ErrorObject = {
+		service: 'MYAAService',
+		err: 'SaveQuoteFailure'
+	};
+	static retrieveQuote: ErrorObject = {
+		service: 'QuoteService',
+		notification: `Sorry, there was a problem retrieving your AA Membership quote. Please try again.`,
+		err: 'RetrieveQuoteFailure'
+	};
+	static getQuote: ErrorObject = {
+		service: 'QuoteService',
+		notification: `Sorry there was a problem retrieving a new quote, please try again.`,
+		err: 'GetQuoteFailure'
+	};
+	static quoteBreakdownItem: ErrorObject = {
+		service: 'QuoteService',
+		notification: `Sorry, there was a problem deleting this item, please try again.`,
+		err: 'RemoveBreakdownItemFailure'
+	};
+	static coverLevelChange: ErrorObject = {
+		service: 'QuoteService',
+		notification: `Sorry, There was a problem selecting this cover level, please try again.`,
+		err: 'ToggleCoverFailure'
+	};
+	static termsConditions: ErrorObject = {
+		service: 'Internal',
+		notification: `You must agree to the terms and conditions before continuing.`,
+		err: 'Tried to proceed without terms and conditions selected'
+	};
+	static retrieveQuoteProblem = {
+		service: 'MYAAService',
+		notification: `Sorry, there was a problem retrieving your quote.`,
+		err: 'RetrieveQuoteFailure'
+	};
+	static retrieveQuoteMyAAProblem = {
+		service: 'MYAAService',
+		notification: `Sorry, there was a problem retrieving your quote.`,
+		err: 'RetrieveQuoteFailure'
+	};
+	static retrieveQuoteMissing = {
+		service: 'MYAAService',
+		notification: `Sorry, there was a problem retrieving your quote.`,
+		err: 'RetrieveQuoteMissing'
+	};
+	static retrieveQuotePurchased = {
+		service: 'MYAAService',
+		notification: `Sorry, this quote has already been purchased. You can begin a new quote but your details will not be pre-populated.`,
+		err: 'RetrieveQuotePurchased'
+	};
+	static setPaymentType = {
+		service: 'MYAAService',
+		notification: `Sorry, there was a problem, please try again`,
+		err: 'SetPaymentTypeFrequencyFailure'
+	};
+	static setAddress: ErrorObject = {
+		service: 'ReferenceService',
+		notification: 'We were unable to select an address, please try again.',
+		err: 'SetAddressFailure'
+	};
+	static referenceService: ErrorObject = {
+		service: 'ReferenceService',
+		notification: 'Could not connect',
+		err: 'ReferenceServiceError'
+	};
+	static addressService: ErrorObject = {
+		service: 'ReferenceService',
+		notification: 'We were unable to validate your address, please try again.',
+		err: 'AdddressCheckingServiceFailure'
+	};
+	static townAreaService: ErrorObject = {
+		service: 'ReferenceService',
+		notification: 'Could not connect',
+		err: 'TownAreaServiceFailure'
+	};
+}
+
 
 export class COLORS {
 	static brand: string = '#ffcc00';
@@ -88,7 +207,7 @@ export const TestimonialRules: Rule[] = [{
 		gender: 'female'
 	},
 	isTrue: false
-}]
+}];
 
 export const TestimonialOutcomes: Outcome[] = [{
 		id: 0,

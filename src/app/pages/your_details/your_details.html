@@ -1,9 +1,9 @@
 <section class="container">
    
-    <div *ngIf="isFieldsWarningVisible" 
+    <!--<div *ngIf="isFieldsWarningVisible" 
         class="o-slot--warning">
             <h4>Yo, Check Yo Damn Fields Stupid User Person</h4>
-        </div>
+        </div>-->
    
     <h3 class="title">Simply fill in some details below</h3>
     
@@ -18,11 +18,12 @@
     
     <div class="btn__container">
         <button 
-            [class.btn--isLoading]="isReadyLoading && !isReadyToValidate" 
             id="validateAddBtn" 
             *ngIf="isReadyToValidate||isReadyLoading" 
             (click)="openValidateAddress()" 
-            class="btn btn--transparent">{{validateAddressText}}
+            class="btn btn--transparent">
+            <span *ngIf="isReadyToValidate">{{validateAddressText}}</span>
+            <span><c-spinner *ngIf="isReadyLoading && !isReadyToValidate"></c-spinner></span>
         </button>
     </div>
 

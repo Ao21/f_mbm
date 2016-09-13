@@ -4,8 +4,9 @@ import { AuthHttp } from './../shared/common/authHttp';
 import { isJsObject, isBlank } from '@angular/platform-browser/src/facade/lang';
 import { Observable } from 'rxjs/Observable';
 import { NotificationService } from './notifications.service';
+import { ErrorService } from './error.service';
 import { Analytics } from './analytics.service';
-import { CONSTS } from './../constants';
+import { CONSTS, ERRORS } from './../constants';
 
 @Injectable()
 export class ReferenceService {
@@ -17,6 +18,7 @@ export class ReferenceService {
 
 	constructor(
 		private analytics: Analytics,
+		private errrorService: ErrorService,
 		private notifications: NotificationService,
 		private auth: AuthHttp,
 		public http: Http
@@ -58,11 +60,7 @@ export class ReferenceService {
 		return this.auth.put(this._ADDRESS_URL, JSON.stringify(cleanInput), options).retryWhen((attempts) => {
 			return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
 				let time = i * 6;
-				this.notifications.createTimedError(`Could not connect.`, time);
-				this.analytics.errorEvents.next({
-					service: 'REF_CHECK_ADDRESS',
-					error: 'Couldnt reach the Address Checker service.'
-				});
+				this.errrorService.errorHandlerWithTimedNotification(ERRORS.addressService, time);
 				return Observable.timer(time * 1000);
 			});
 		});

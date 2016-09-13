@@ -29,7 +29,10 @@
 		</form-component>
 	</form>
 	<div class="m-save-quote-signin__button-group">
-		<button *ngIf="loginVisible" [disabled]="!loginForm.valid" (click)="login()" class="btn btn--yellow">Login</button>
+		<button *ngIf="loginVisible" [disabled]="!loginForm.valid" (click)="login()" class="btn btn--yellow">
+			<span *ngIf="loginLoading"><c-spinner class="loading"></c-spinner></span>
+			<span *ngIf="!loginLoading">Login</span>
+			</button>
 		<button (click)="register()" class="btn btn--yellow">Register</button>
 	</div>
 	<div *ngIf="resetPassword">

@@ -1,13 +1,12 @@
-import { Component, OnDestroy, ElementRef, EventEmitter, OnInit, AfterViewInit, Renderer } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Analytics } from './../../services/analytics.service';
-import { isPresent, isBlank } from '@angular/platform-browser/src/facade/lang';
+import { Component, OnDestroy, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { isPresent } from '@angular/platform-browser/src/facade/lang';
 import { DataStore, UIStore } from './../../stores/stores.modules';
 import { Observable } from 'rxjs/Observable';
 import { Utils } from './../../shared/utilities/utilities.component';
 import { CanDeactivate } from '@angular/router';
-import { CONSTS } from './../../constants';
-import { NotificationService, QuoteService } from './../../services/index';
+import { CONSTS, ERRORS } from './../../constants';
+import { NotificationService, QuoteService, MyAAService, Analytics, ErrorService } from './../../services/index';
 
 /**
  *  Your Details Page Component
@@ -42,18 +41,22 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 
 	sub: ISubscriptionDefinition<any>;
 
+	isUserFormAccepted: Observable<any> = new Observable();
+
 	constructor(
-		private _analytics: Analytics,
-		private _uiStore: UIStore,
-		private _el: ElementRef,
-		private _dataStore: DataStore,
-		private _formBuilder: FormBuilder,
-		private _notifications: NotificationService,
-		private _quote: QuoteService
+		private myAA: MyAAService,
+		private analyics: Analytics,
+		private uiStore: UIStore,
+		private errorService: ErrorService,
+		private el: ElementRef,
+		private dataStore: DataStore,
+		private formBuilder: FormBuilder,
+		private notifications: NotificationService,
+		private quoteService: QuoteService
 	) {
-		this.page = this._uiStore.getPage('yourDetails');
-		this.primaryAdultUser = this._dataStore.getGeneratedMember('adults', 0);
-		this.sub = this._dataStore.subscribe(CONSTS.LOGIN_UPDATE, this.onUserUpdate);
+		this.page = this.uiStore.getPage('yourDetails');
+		this.primaryAdultUser = this.dataStore.getGeneratedMember('adults', 0);
+		this.sub = this.dataStore.subscribe(CONSTS.LOGIN_UPDATE, this.onUserUpdate);
 	}
 
 
@@ -66,7 +69,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 				isPresent(valids) && valids.length > 0 ? Validators.compose(valids) : null
 			];
 		});
-		this.userDetailsForm = this._formBuilder.group(this.ctrls);
+		this.userDetailsForm = this.formBuilder.group(this.ctrls);
 		this.userDetailsForm['name'] = 'Your Details Form';
 
 
@@ -75,7 +78,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 		this.userDetailsForm['defaults'] = this.primaryAdultUser;
 
 
-		this.validatedAddress = this._uiStore.get(['pages', 'yourDetails', 'options', 'validAddress']);
+		this.validatedAddress = this.uiStore.get(['pages', 'yourDetails', 'options', 'validAddress']);
 		this.isAddressReady();
 
 	}
@@ -159,8 +162,8 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 	 */
 	onReadyAddress() {
 		this.isReadyToValidate = true;
-		if (this._el.nativeElement.querySelector('#validateAddBtn')) {
-			Utils.scrollToElement(this._el.nativeElement.querySelector('#validateAddBtn'));
+		if (this.el.nativeElement.querySelector('#validateAddBtn')) {
+			Utils.scrollToElement(this.el.nativeElement.querySelector('#validateAddBtn'));
 		}
 		this.validateAddressText = 'Validate your Address';
 	}
@@ -187,7 +190,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 
 			this.validatedAddress = obj;
 			// Stores the Validated Address in the UIStore in case of page change
-			this._uiStore.update(['pages', 'yourDetails', 'options', 'validAddress'], this.validatedAddress);
+			this.uiStore.update(['pages', 'yourDetails', 'options', 'validAddress'], this.validatedAddress);
 
 
 			let addressLine1: any = this.userDetailsForm.controls['addressLine1'];
@@ -217,9 +220,9 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 	}
 
 	onUserUpdate = (user) => {
-		let sessionUser = this._dataStore.constructUserObjFromSession('adults', 0);
+		let sessionUser = this.dataStore.constructUserObjFromSession('adults', 0);
 		if (sessionUser) {
-			this._analytics.triggerEvent('aa-populate-fields', 'success');
+			this.analyics.triggerEvent('aa-populate-fields', 'success');
 			_.forIn(sessionUser, (e, k) => {
 				if (this.userDetailsForm.controls[k]) {
 					let control: any = this.userDetailsForm.controls[k];
@@ -232,43 +235,46 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 
 	submitForm() {
 		let member = _.clone(this.userDetailsForm.value);
+		_.assign(member, {
+			price: this.primaryAdultUser.price,
+			typeDisplay: this.primaryAdultUser.typeDisplay,
+			type: this.primaryAdultUser.type,
+			index: 0
+		});
+		this.dataStore.update(['config', 'members', 'adults', 0], member, CONSTS.MEMBER_UPDATE);
 
-		// TODO: REFACTOR Update Quote PROCESS
-		this._quote.updateProposal({
-			email: this.userDetailsForm.value.email,
-			firstName: this.userDetailsForm.value.firstName,
-			surname: this.userDetailsForm.value.surname,
-			title: this.userDetailsForm.value.title,
-			dateOfBirth: this.userDetailsForm.value.dateOfBirth,
-			phoneNumber: this.userDetailsForm.value.phoneNumber
-		}).subscribe((next) => {
-			// TODO: REFACTOR RENEWAL PROCESS
-			if (next.text() !== '' && next.json().renewal) {
-				this._notifications.createNotification
-					(`<a href="http://www.theaa.ie/">Are you a current AA Member looking to renew? 
-					Click here to go to the renewals page.</a>`);
-			};
-			});
-		// TODO: Included Errors
 
-		_.assign(member,
-			{
-				price: this.primaryAdultUser.price,
-				typeDisplay: this.primaryAdultUser.typeDisplay,
-				type: this.primaryAdultUser.type,
-				index: 0
+	}
+
+	updateQuoteProposal() {
+		return new Promise((res, rej) => {
+			this.quoteService.updateProposal({
+				email: this.userDetailsForm.value.email,
+				firstName: this.userDetailsForm.value.firstName,
+				surname: this.userDetailsForm.value.surname,
+				title: this.userDetailsForm.value.title,
+				dateOfBirth: this.userDetailsForm.value.dateOfBirth,
+				phoneNumber: this.userDetailsForm.value.phoneNumber
+			}).subscribe((next) => {
+				this.submitForm();
+				res(true);
+				if (next.text() !== '' && next.json().renewal) {
+					this.myAA.triggerRenewalProccess();
+				}
+				}, (err) => {
+					this.errorService.errorHandlerWithNotification(ERRORS.saveMember);
+				rej(false);
 			});
-		this._dataStore.update(['config', 'members', 'adults', 0], member, CONSTS.MEMBER_UPDATE);
+		});
 
 	}
 
 	navigateNext(e: Event) {
 		this.isNavigatingNext = true;
-
 		if (this.isReadyToValidate && !this.isValidated) {
-			let button = this._el.nativeElement.querySelector('#validateAddBtn');
+			let button = this.el.nativeElement.querySelector('#validateAddBtn');
 			Utils.scrollToElement(button);
-			// Velocity(button, 'callout.shake');
+			Velocity(button, 'callout.shake');
 			if (this.validateAddressText === 'Please click here to validate your address') {
 				this.validateAddressText = 'You must validate your address to contiunue';
 			} else {
@@ -282,20 +288,17 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 					this.userDetailsForm.controls[control].markAsDirty();
 				}
 			}
-		} else {
-			//this.submitForm();
 		}
 	}
 
 
-	canDeactivate(): boolean | Observable<any> {
-		this._notifications.clearNotifications();
+	canDeactivate(): boolean | Observable<any> | Promise<any> {
+		this.notifications.clearNotifications();
 		if (!this.isNavigatingNext) {
 			return true;
 		}
 		if (this.isNavigatingNext && this.userDetailsForm.valid && this.isValidated) {
-			this.submitForm();
-			return true;
+			return Promise.resolve(this.updateQuoteProposal());
 		} else if (this.isNavigatingNext && !this.userDetailsForm.valid) {
 			this.isNavigatingNext = false;
 			return false;
@@ -306,7 +309,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 	}
 
 	ngOnDestroy() {
-		this._dataStore.unsubscribe(this.sub);
+		this.dataStore.unsubscribe(this.sub);
 	}
 
 

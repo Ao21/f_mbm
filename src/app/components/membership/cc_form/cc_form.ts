@@ -31,12 +31,12 @@ export class CreditCardFormComponent implements OnInit {
 
 
 	constructor(
-		private _changeRef: ChangeDetectorRef,
-		private _analytics: Analytics,
-		private _uiStore: UIStore,
-		private _dataStore: DataStore
+		private changeRef: ChangeDetectorRef,
+		private analytics: Analytics,
+		private uiStore: UIStore,
+		private dataStore: DataStore
 	) {
-		this.data = this._dataStore.get(['paymentMethods', 'credit']);
+		this.data = this.dataStore.get(['paymentMethods', 'credit']);
 		this.throttleHeight.subscribe(this.updateCCDimensions);
 	}
 
@@ -44,37 +44,28 @@ export class CreditCardFormComponent implements OnInit {
 	 * 	Method called when window recieves messages from the Realex form
 	 */
 	watchEvents = (evt) => {
-		console.log(evt);
 		// TODO: Change This Origin to Real Address for Deployment
 		if (evt.data !== null && isString(evt.data) && evt.origin === 'https://hpp.sandbox.realexpayments.com') {
 			let data = JSON.parse(evt.data);
-			if (data.QUOTE_REFERENCE && data.RESULT === '01') {
-				this._analytics.triggerPaymentEvent('Card', 'success');
-				this._uiStore.getPage('confirmationHidden');
+			if (data.QUOTE_REFERENCE && data.RESULT === '00') {
+				this.analytics.triggerPaymentEvent('Card', 'success');
+				this.uiStore.getPage('confirmationHidden');
 				this.onSuccess.next(data.QUOTE_REFERENCE);
 			}
 			if (data.RESULT === '101') {
-				this._analytics.triggerPaymentEvent('Card', 'declined');
+				this.analytics.triggerPaymentEvent('Card', 'declined');
 				this.iframeVisible = false;
 				this.errorMessageVisible = true;
-				this._changeRef.detectChanges();
+				this.changeRef.detectChanges();
 				setTimeout(() => {
 					this.iframeVisible = true;
-					this._changeRef.detectChanges();
+					this.changeRef.detectChanges();
 				}, 10);
 
 			}
 			if (data.iframe) {
 				this.throttleHeight.next(data.iframe);
-
 			}
-		}
-
-		if (evt.data === 'SUCESS') {
-			this._analytics.triggerPaymentEvent('Card', 'success');
-			this.onSuccess.next(true);
-			this._changeRef.detectChanges();
-
 		}
 	}
 

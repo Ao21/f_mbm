@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { Headers } from '@angular/http';
 import { DataStore } from './../stores/datastore.store';
 import { UIStore } from './../stores/uistore.store';
+import { NotificationService } from './notifications.service';
+import { ErrorService } from './error.service';
 import { AuthHttp } from './../shared/common/authHttp';
-import { CONSTS } from './../constants';
+import { CONSTS, ERRORS } from './../constants';
 import { Subject } from 'rxjs/Rx';
 
 @Injectable()
@@ -18,10 +20,12 @@ export class QuoteService {
 	retrieveQuoteList: Subject<any> = new Subject();
 
 	constructor(
-		@Inject(forwardRef(() => DataStore)) private _dataStore: DataStore,
-		private _uiStore: UIStore,
-		private _auth: AuthHttp,
-		private _router: Router,
+		@Inject(forwardRef(() => DataStore)) private dataStore: DataStore,
+		private uiStore: UIStore,
+		private errorService: ErrorService,
+		private notificationService: NotificationService,
+		private auth: AuthHttp,
+		private router: Router,
 	) { }
 
 	/**
@@ -31,7 +35,7 @@ export class QuoteService {
 	updateProposal(obj: ProposalObject) {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		return this._auth.put(this.UPDATE_PROPOSAL_URL, JSON.stringify(obj),{headers: jsonHeader});
+		return this.auth.put(this.UPDATE_PROPOSAL_URL, JSON.stringify(obj), { headers: jsonHeader });
 	}
 
 	/**
@@ -42,7 +46,7 @@ export class QuoteService {
 	updateCover(coverLevel: CoverLevel | QuoteBreakdownItem, active: boolean) {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		return this._auth.put(this.UPDATE_COVER_URL + coverLevel.name, JSON.stringify({ active: active }),{headers: jsonHeader});
+		return this.auth.put(this.UPDATE_COVER_URL + coverLevel.name, JSON.stringify({ active: active }), { headers: jsonHeader });
 	}
 
 	/**
@@ -53,7 +57,7 @@ export class QuoteService {
 	addMember(memberIndex: number, memberObject: Member) {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		return this._auth.put(this.UPDATE_MEMBER_URL + memberIndex, JSON.stringify(memberObject), {headers: jsonHeader});
+		return this.auth.put(this.UPDATE_MEMBER_URL + memberIndex, JSON.stringify(memberObject), { headers: jsonHeader });
 	}
 
 	/**
@@ -61,26 +65,38 @@ export class QuoteService {
 	 * 	@param number memberIndex - Index of the member to be removed on the server
 	 */
 	removeMember(memberIndex: number) {
-		return this._auth.delete(this.UPDATE_MEMBER_URL + memberIndex);
+		return this.auth.delete(this.UPDATE_MEMBER_URL + memberIndex);
 	}
 
 	/**
 	 * 	Update the local journey with the breakdown item removed from the quote and calls getQuote again
 	 * 	@param QuoteBreakdownItem item
 	 */
-	removeBreakdownItem(item: QuoteBreakdownItem) {
+	removeBreakdownItem(item: QuoteBreakdownItem, err: (eb) => void) {
 		if (item.type === 'member') {
 			this.removeMember(item.index).subscribe((next) => {
 				this.getQuote().subscribe((config) => {
-					this._dataStore.setConfig(config.json());
+					this.dataStore.setConfig(config.json());
+				}, (error) => {
+					this.errorService.errorHandlerWithNotification(ERRORS.getQuote);
+					err(error);
 				});
+			}, (error) => {
+				this.errorService.errorHandlerWithNotification(ERRORS.quoteBreakdownItem);
+				err(error);
 			});
 
 		} else if (item.type === 'cover') {
 			this.updateCover(item, false).subscribe((next) => {
 				this.getQuote().subscribe((config) => {
-					this._dataStore.setConfig(config.json());
+					this.dataStore.setConfig(config.json());
+				}, (error) => {
+					this.errorService.errorHandlerWithNotification(ERRORS.getQuote);
+					err(error);
 				});
+			}, (error) => {
+				this.errorService.errorHandlerWithNotification(ERRORS.quoteBreakdownItem);
+				err(error);
 			});
 		}
 	}
@@ -89,27 +105,30 @@ export class QuoteService {
 	 * 	Get a Quote
 	 */
 	getQuote() {
-		this._uiStore.update(['UIOptions', 'isSaveQuoteVisible'], 'visible');
-		return this._auth.get(this.GET_QUOTE_URL);
+		this.uiStore.update(['UIOptions', 'isSaveQuoteVisible'], 'visible');
+		return this.auth.get(this.GET_QUOTE_URL);
 	}
 
 	/**
-	 * 	On retrieving a quote either from the basic journey or retrieving a quote, updates the local
-	 * 	quotation/entire configuration and directs the user either to the whats included page or the
+	 * 	On retrieving a quote either from the journey or retrieving a quote, updates the local
+	 * 	quotation/entire configuration and directs the user either to the breakdown page.
 	 * 	breakdown page.
-	 * 	
 	 */
 	setQuote(config: any, isExpired: boolean, isRetrieved?: boolean) {
-		if (isExpired) {
-			this._dataStore.update(['config'], config);
-			this._router.navigate(['/']);
-		} else {
-			this._dataStore.setQuote(config.quotation);
-			// Make Save Quote on the Breakdown Screen invisible
-			this._uiStore.update(['UIOptions', 'isSaveQuoteVisible'], 'hidden');
-			this._dataStore.update(['config'], config);
-			this._router.navigate(['breakdown']);
-		}
+			this.dataStore.setQuote(config.quotation);
+			this.uiStore.update(['UIOptions', 'isSaveQuoteVisible'], 'hidden');
+			this.dataStore.update(['config'], config);
+			this.router.navigate(['breakdown']);
+	}
+
+	/**
+	 * 	On retrieving a quote either from the journey or retrieving a quote, updates the local
+	 * 	quotation/entire configuration and directs the user to the whats included page
+	 */
+
+	setQuoteExpired(config: any) {
+		this.dataStore.update(['config'], config);
+		this.router.navigate(['/']);
 	}
 
 	/**
@@ -117,7 +136,7 @@ export class QuoteService {
 	 * 	@param string quoteReference - reference number of the Quote to be retrieved
 	 */
 	retrieveQuote(quoteReference: string) {
-		return this._auth.get(this.RETRIEVE_QUOTE_URL + quoteReference);
+		return this.auth.get(this.RETRIEVE_QUOTE_URL + quoteReference);
 	}
 
 	/**
@@ -126,6 +145,6 @@ export class QuoteService {
 	 * 	@param string dateOfBirth - date of the birth of the user (01012001)
 	 */
 	retrieveQuoteWeb(quoteReference: string, dateOfBirth: string) {
-		return this._auth.get(this.RETRIEVE_QUOTE_URL + quoteReference + '&dateOfBirth=' + dateOfBirth);
+		return this.auth.get(this.RETRIEVE_QUOTE_URL + quoteReference + '&dateOfBirth=' + dateOfBirth);
 	}
 }

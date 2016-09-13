@@ -1,7 +1,8 @@
 import {Component, Input, Output, EventEmitter, OnChanges,HostBinding, ElementRef} from '@angular/core';
-import {ReferenceService, NotificationService, Analytics} from './../../../services/index';
+import {ReferenceService, NotificationService, Analytics, ErrorService} from './../../../services/index';
 import {isPresent} from '@angular/platform-browser/src/facade/lang';
 import {Observable, Subject} from 'rxjs/Rx';
+import { ERRORS } from './../../../constants';
 
 /**
  * 	Address List Component
@@ -33,26 +34,25 @@ export class AddressListComponent implements OnChanges {
 	addressToValidate: Subject<any> = new Subject;
 
 	constructor(
-		private _analytics: Analytics,
-		private _el: ElementRef,
-		private _geoService: ReferenceService,
-		private _notificationService: NotificationService
+		private errorService: ErrorService,
+		private analytics: Analytics,
+		private el: ElementRef,
+		private geoService: ReferenceService,
+		private notificationService: NotificationService
 	) {
 
 		this.addressToValidate
 			.debounce((x) => { return Observable.timer(500); })
 			.distinctUntilChanged()
 			.do(next => { this.onLoading.next(true); })
-			.switchMap(address => this._geoService.checkAddress(address))
+			.switchMap(address => this.geoService.checkAddress(address))
 			.subscribe((next: any) => {
 				this.onReadyValid.next(true);
 				this.addList = next.json().lookups;
 				this.addList[this.addList.length - 1].isEcho = true;
 				console.log(this.addList);
 				this.onValid.next(null);
-			}, (err) => {
-				this._notificationService.createError('Could not connect.');
-			});
+			}, (err) => this.errorService.errorHandlerWithNotification(ERRORS.addressService));
 	}
 
 	/* istanbul ignore next */
@@ -70,7 +70,7 @@ export class AddressListComponent implements OnChanges {
 	scrollToAddress() {
 		let sequence = [
 			{
-				e: this._el.nativeElement.querySelector('.o-slot-container'),
+				e: this.el.nativeElement.querySelector('.o-slot-container'),
 				p: 'scroll',
 				o: { duration: 300, easing: 'easeInOut', offset: 150 }
 			}
@@ -84,10 +84,10 @@ export class AddressListComponent implements OnChanges {
 	 * 	Open Address List & Trigger Animations
 	 */
 	openAddresses = () => {
-		let items = this._el.nativeElement.querySelectorAll('.o-slot, article');
+		let items = this.el.nativeElement.querySelectorAll('.o-slot, article');
 		let sequence = [
 			{
-				e: this._el.nativeElement.querySelector('.o-slot-container'),
+				e: this.el.nativeElement.querySelector('.o-slot-container'),
 				p: 'scroll',
 				o: { duration: 600, easing: 'easeInOut', offset: -250 }
 			},
@@ -112,16 +112,15 @@ export class AddressListComponent implements OnChanges {
 	 */
 	setAddress(address: any) {
 		// If No Address Listed Fire a No Address Found Event for Analytics		
-		this._geoService.selectAddress(address.id).subscribe((next) => {
+		this.geoService.selectAddress(address.id).subscribe((next) => {
+			this.notificationService.clearNotifications();
 			if (address.isEcho) {
-				this._analytics.triggerEvent('validateAddress', 'noAddress');
+				this.analytics.triggerEvent('validateAddress', 'noAddress');
 			} else {
-				this._analytics.triggerEvent('validateAddress', 'selectAddress');
+				this.analytics.triggerEvent('validateAddress', 'selectAddress');
 			}
 			this.onValid.next(next.json());
-		}, (err) => {
-			this._notificationService.createError('Could not connect.');
-			this._analytics.triggerErrorEvent({ service: 'ReferenceService', error: 'Problem Selecting Address' });
-		});
+		}, (err) =>
+			this.errorService.errorHandlerWithNotification(ERRORS.setAddress));
 	}
 }

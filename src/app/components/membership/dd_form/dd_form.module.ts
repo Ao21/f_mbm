@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './../../../shared/shared.module';;
 import { DirectDebitFormComponent} from './dd_form.component';
-import { IbanForm } from './../iban_form/iban_form';
+import { IbanFormComponent } from './../iban_form/iban_form';
 import { DebitFormComponent } from './../debit_form/debit_form';
 import { AtomicComponentsModule} from './../../generic/atomic_components.module';
 @NgModule({
@@ -14,7 +14,7 @@ import { AtomicComponentsModule} from './../../generic/atomic_components.module'
 	providers: [],
 	declarations: [
 		DirectDebitFormComponent,
-		IbanForm,
+		IbanFormComponent,
 		DebitFormComponent
 	],
 	exports: [

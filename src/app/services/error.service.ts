@@ -1,8 +1,46 @@
 import { Injectable } from '@angular/core';
-
+import { NotificationService } from './notifications.service';
+import { Analytics } from './analytics.service';
 @Injectable()
 export class ErrorService {
-	constructor() {}
+	constructor(
+		private notificationService: NotificationService,
+		private analytics: Analytics
+	) { }
+
+	clearErrorNotifications() {
+		this.notificationService.clearNotifications();
+	}
+
+	errorHandler(error: ErrorObject) {
+		this.analytics.triggerErrorEvent(
+			{
+				service: error.service,
+				error: error.err
+			});
+	}
+
+	errorHandlerWithNotification(error: ErrorObject) {
+		this.notificationService.createError(error.notification);
+		this.analytics.triggerErrorEvent(
+			{
+				service: error.service,
+				error: error.err
+			});
+	}
+
+	errorHandlerWithTimedNotification(error: ErrorObject, time) {
+		this.notificationService.createTimedError(error.notification, time);
+		this.analytics.triggerErrorEvent(
+			{
+				service: error.service,
+				error: error.err
+			});
+	}
+
+	errorHandlerWithConfirmationNotification(error: ErrorObject, text,btnText, link) {
+		this.notificationService.createConfirmationNotification(text, btnText, link);
+	}
 
 	/**
 	 * 	The Error messages available for the Error Page
@@ -12,11 +50,21 @@ export class ErrorService {
 	 */
 	retrieveServiceError(code?: string): ErrorMessage {
 		let message = {
-			'default': { message: 'Sorry, an error has occured' },
+			'default': {
+				message: 'Sorry, an error has occured',
+				link: '/',
+				linkText: 'Please click here to try again.'
+			},
 			'quoteRejection': {
 				message: `Unfortunately based on the information that you've provided, 
 				we are unable to provide you with a quote for AA Membership at this time<br><br>
 				If you would like to ring us to discuss this further please call <strong>0818 227 228</strong>`
+			},
+			'sessionExpired': {
+				message: `Sorry your session has expired`,
+				link: '/',
+				linkText: 'Please click here to restart the journey.',
+				resetJourney: true
 			}
 		};
 

@@ -4,12 +4,11 @@ import {
 	ElementRef
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CONSTS } from './../../constants';
+import { CONSTS, ERRORS } from './../../constants';
 import { DataStore, UIStore } from './../../stores/stores.modules';
 import { QuoteService } from './../../services/quote.service';
-import { Observable } from 'rxjs/Rx';
 import { Utils } from './../../shared/utilities/utilities.component';
-import { NotificationService } from './../../services/notifications.service';
+import { NotificationService, ErrorService } from './../../services/index';
 import { Analytics } from './../../services/analytics.service';
 
 
@@ -38,6 +37,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 		private uiStore: UIStore,
 		private quoteService: QuoteService,
 		private el: ElementRef,
+		private errorService: ErrorService,
 		private notificationService: NotificationService
 	) { }
 
@@ -63,7 +63,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 		});
 		if (!this.hasAgreedTermsConditions) {
 			let el = this.el.nativeElement.querySelector('body > app > main > p-included > div > article > button');
-			this.notificationService.createError('You must agree to the terms and conditions before continuing');
+			this.errorService.errorHandlerWithNotification(ERRORS.termsConditions);
 			Utils.scrollToElement(el);
 		}
 
@@ -76,19 +76,14 @@ export class MembershipIncludedPageComponent implements OnInit {
 
 	public selectAddon(addonUpdate) {
 		let level = this.dataStore.getCoverLevel(addonUpdate.index);
-		this.coverLevels[addonUpdate.index].active = addonUpdate.isSelected;
 		this.quoteService.updateCover(level, addonUpdate.isSelected)
-			.retryWhen((attempts) => {
-				return Observable.range(1, 3).zip(attempts, (i) => {
-					return i;
-				}).flatMap((i) => {
-					let time = i * 6;
-					return Observable.timer(time * 1000);
-				});
-			})
 			.subscribe((next) => {
+				this.notificationService.clearNotifications();
+				this.coverLevels[addonUpdate.index].active = addonUpdate.isSelected;
+				this.dataStore.toggleCoverLevel(addonUpdate.index, addonUpdate.isSelected);
+			}, (err) => {
+				this.errorService.errorHandlerWithNotification(ERRORS.coverLevelChange);
 			});
-		this.dataStore.toggleCoverLevel(addonUpdate.index, addonUpdate.isSelected);
 	}
 
 	public updateTermsBool(active: boolean) {

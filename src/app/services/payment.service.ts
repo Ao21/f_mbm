@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { AuthHttp } from './../shared/common/authHttp';
-import { CONSTS } from './../constants';
+import { CONSTS, ERRORS } from './../constants';
 import { Analytics } from './analytics.service';
+import { ErrorService } from './error.service';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
@@ -15,8 +16,9 @@ export class PaymentService {
 	TOKEN_AGREEMENT: string = this.BASE_URL + 'users/me/payment/cardAgreement';
 
 	constructor(
-		private _analytics: Analytics,
-		private _auth: AuthHttp,
+		private errorService: ErrorService,
+		private analytics: Analytics,
+		private auth: AuthHttp,
 		public http: Http
 	) { }
 
@@ -30,8 +32,8 @@ export class PaymentService {
 	updatePaymentType(type?: string, frequency?: string) {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		this._analytics.triggerEvent('paymentOptions', 'type', type);
-		return this._auth.put(this.UPDATE_PAYMENT_URL, JSON.stringify({ type: type, frequency: frequency }), { headers: jsonHeader });
+		this.analytics.triggerEvent('paymentOptions', 'type', type);
+		return this.auth.put(this.UPDATE_PAYMENT_URL, JSON.stringify({ type: type, frequency: frequency }), { headers: jsonHeader });
 	}
 
 	/**
@@ -43,11 +45,11 @@ export class PaymentService {
 	confirmTermsConditions(all: boolean): Observable<Response> {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		return this._auth.put(this.TOKEN_AGREEMENT, JSON.stringify({ all: all }), { headers: jsonHeader });
+		return this.auth.put(this.TOKEN_AGREEMENT, JSON.stringify({ all: all }), { headers: jsonHeader });
 	}
 
 	/**
-	 * 	Validates Bank Account Details
+	 * 	Validates Bank Account Details - Retries on Failure
 	 * 	@param AccountDetails accountDetails
 	 * 	@url /users/me/bank
 	 * 	@return Observable<AccountDetails>
@@ -55,7 +57,13 @@ export class PaymentService {
 	validateBankDetails(accountDetails: AccountDetails): Observable<Response> {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		return this._auth.put(this.BANK_URL, JSON.stringify(accountDetails), { headers: jsonHeader });
+		return this.auth.put(this.BANK_URL, JSON.stringify(accountDetails), { headers: jsonHeader }).retryWhen((attempts) => {
+			return Observable.range(1, 3).zip(attempts, (i) => { return i; }).flatMap((i) => {
+				let time = i * 6;
+				this.errorService.errorHandlerWithTimedNotification(ERRORS.bankValidationRetry, time);
+				return Observable.timer(time * 1000);
+				});
+			});
 	}
 
 	/**
@@ -66,7 +74,7 @@ export class PaymentService {
 	 * 	
 	 */
 	convertQuote(quoteReference: string): Observable<Response> {
-		return this._auth.get(this.CONVERT_QUOTE_URL + quoteReference);
+		return this.auth.get(this.CONVERT_QUOTE_URL + quoteReference);
 	}
 
 

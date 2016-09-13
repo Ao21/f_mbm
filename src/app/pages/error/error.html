@@ -7,8 +7,8 @@
 			</header>
 			<h6 [innerHTML]="errMsg.message">Please contact an AA Membership agent.</h6>
 		</div>
-		<div class="o-card__actions">
-			<button class="btn btn--narrow btn--yellow btn--expand">Call AA Membership</button>
+		<div *ngIf="errMsg.link" class="o-card__actions">
+			<button [routerLink]="errMsg.link" class="btn btn--narrow btn--yellow btn--expand">{{errMsg.linkText}}</button>
 		</div>
 	</div>
 

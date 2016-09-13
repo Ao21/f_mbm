@@ -1,10 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import {SHARED_MODULES} from './../../shared/shared_modules';
-import { MyAAService } from './../../../services/myaa.service';
-import { Analytics } from './../../../services/analytics.service';
+import { MyAAService, Analytics } from './../../../services/index';
 import { Utils } from './../../../shared/utilities/utilities.component';
-import { Subject } from 'rxjs/Rx';
 
 @Component({
 	selector: 'm-save-quote-signin',
@@ -83,7 +81,7 @@ export class MyAASaveQuoteSignInComponent {
 				this.loginForm.controls['password'].updateValueAndValidity();
 				this.resetPassword = true;
 				this.loginLoading = false;
-			})
+			});
 	}
 
 	register() {

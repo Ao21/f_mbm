@@ -32,10 +32,7 @@ export class DirectDebitFormComponent {
 	isReadyValidate: boolean = false;
 
 	constructor(
-		private _paymentService: PaymentService,
-		private _analytics: Analytics,
-		private _uiStore: UIStore,
-		private _dataStore: DataStore
+		private analytics: Analytics,
 	) {
 
 	}
@@ -58,7 +55,7 @@ export class DirectDebitFormComponent {
 	}
 
 	updatePaymentType(type) {
-		this._analytics.triggerEvent('payments-bank-type', null, type);
+		this.analytics.triggerEvent('payments-bank-type', null, type);
 	}
 
 	swapPaymentType() {
@@ -72,7 +69,7 @@ export class DirectDebitFormComponent {
 	}
 
 	makePayment() {
-		this._analytics.triggerPaymentEvent('Bank', 'success');
+		this.analytics.triggerPaymentEvent('Bank', 'success');
 		this.onSuccess.next(this.validationDetails.accepted);
 	}
 }

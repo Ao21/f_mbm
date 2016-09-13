@@ -1,7 +1,6 @@
 import {
 	Component,
 	Input,
-	ElementRef,
 	trigger,
 	state,
 	HostBinding,
@@ -9,10 +8,8 @@ import {
 	transition,
 	animate
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { DataStore } from './../../../stores/stores.modules';
-import { QuoteService, MyAAService, NotificationService } from './../../../services/index';
-
+import { QuoteService, MyAAService, NotificationService, ErrorService } from './../../../services/index';
+import { ERRORS } from './../../../constants';
 @Component({
 	selector: 'm-quotes-list',
 	templateUrl: './quotes_list.html',
@@ -39,12 +36,10 @@ export class QuotesListComponent {
 	open: string;
 
 	constructor(
-		private _el: ElementRef,
-		private _router: Router,
-		private _dataStore: DataStore,
 		private notificationService: NotificationService,
 		private myAAService: MyAAService,
 		private quoteService: QuoteService,
+		private errorService: ErrorService
 	) {
 
 		this.quoteService.retrieveQuoteList.subscribe((next) => {
@@ -53,6 +48,8 @@ export class QuotesListComponent {
 				this.open = 'active';
 				this.isVisible = true;
 			}
+		}, (err) => {
+			this.errorService.errorHandler(ERRORS.retrieveQuote);
 		});
 	}
 
@@ -69,13 +66,12 @@ export class QuotesListComponent {
 		this.quoteService.retrieveQuote(quote.reference).subscribe((res) => {
 			this.isLoading = false;
 			this.open = 'inactive';
-			this.quoteService.setQuote(res.json(), true);
+			this.quoteService.setQuoteExpired(res.json());
 		},
 			(err) => {
 				if (err.status === 403) {
 					this.isLoading = false;
-					this.notificationService.createError(`Sorry, there was a problem retrieving your AA Membership quote. 
-					Please try again.`);
+					this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuote);
 				}
 			});
 	}
@@ -97,8 +93,7 @@ export class QuotesListComponent {
 			(err) => {
 				if (err.status === 403) {
 					this.isLoading = false;
-					this.notificationService.createError(`Sorry, there was a problem retrieving your AA Membership quote. 
-					Please try again.`);
+					this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuote);
 				}
 			});
 	}

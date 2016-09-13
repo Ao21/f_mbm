@@ -13,12 +13,12 @@ export class TestimonialPopupComponent {
 	countdownStarted: boolean = false;
 
 	constructor(
-		private _router: Router,
-		private _quoteService: QuoteService,
-		private _dataStore: DataStore,
-		private _uiStore: UIStore
+		private router: Router,
+		private quoteService: QuoteService,
+		private dataStore: DataStore,
+		private uiStore: UIStore
 	) {
-		this._uiStore.select('modals', 'testimonials').on('update', this.activate);
+		this.uiStore.select('modals', 'testimonials').on('update', this.activate);
 	}
 
 	activate = (e) => {
@@ -29,14 +29,16 @@ export class TestimonialPopupComponent {
 	}
 
 	goToBreakdownPage() {
-		this._uiStore.update(['UIOptions', 'isTestimonialsTriggered'], true);
-		this._quoteService.getQuote().subscribe(
+		this.uiStore.update(['UIOptions', 'isTestimonialsTriggered'], true);
+		this.quoteService.getQuote().subscribe(
 			(next) => {
-				this._dataStore.setConfig(next.json());
-				this._router.navigate(['/breakdown']);
+				console.log(next);
+				this.dataStore.setConfig(next.json());
+				this.router.navigate(['/breakdown']);
 			},
 			(err) => {
-				this._router.navigate(['/error']);
+				this.router.navigate(['/error/sessionExpired']);
+				this.uiStore.closeAllModals();
 			});
 	}
 
