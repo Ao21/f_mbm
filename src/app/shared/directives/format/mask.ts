@@ -33,8 +33,11 @@ export class InputMaskDirective {
 	@HostListener('keydown', ['$event'])
 	onKeyDown(event: any) {
 		let keyIsBackspace = event.which === 8 || event.keyCode === 8;
+		let keyIsAO = /[a-zA-Z0-9-_ ]/.test(String.fromCharCode(event.keyCode));
 		let value = this.elRef.nativeElement.value;
-		let lastChar: string = value.slice(-1);
+		if (this.isCompleted(value) && keyIsAO) {
+			event.preventDefault();
+		}
 		if (keyIsBackspace) {
 			event.preventDefault();
 			this.updateValue(value.slice(0, -1));
