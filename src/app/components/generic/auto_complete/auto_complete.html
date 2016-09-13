@@ -7,7 +7,7 @@
         (blur)="onBlur()"
         [placeholder]="placeholder">
 
-<div  class="c-auto-complete__search"  *ngIf="(options|filter:filter).length > 0 && isSearchResultsVisible">
+<div  class="c-auto-complete__search" [class.hasItems]="(options|filter:filter).length > 0 && isSearchResultsVisible"  *ngIf="(options|filter:filter).length > 0 && isSearchResultsVisible">
 <div class="c-auto-complete__results" *ngIf="(options|filter:filter).length > 0 && isSearchResultsVisible">
         <button class="btn" (click)="select($event, option)" (keydown)="onResultKeyPress($event, option)" *ngFor="let option of options | filter:filter" [value]="option.id">{{option.description}}</button>
 </div>
