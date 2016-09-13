@@ -1,18 +1,15 @@
 <section class="container--flex container--center">
     <div class="c-breakdown">
         
-        <div class="c-breakdown__header">
+        <div (click)="toggleSaveQuoteVisibleUI(false)" class="c-breakdown__header">
             <h1 class="c-breakdown__title">{{config.code.description}}</h1>
-            <img (click)="toggleSaveQuoteVisibleUI()" *ngIf="breakdownVisiblity==='hidden'" src="assets/images/icons/dropdown_arrow.svg" alt="">
+            <img *ngIf="aaVisiblity" src="assets/images/icons/dropdown_arrow.svg" alt="">
         </div>
 
         <section (onHeightChange)="breakdownHeight=$event" class="c-breakdown__carousel-item" output-height>
             
             <div class="c-breakdown__subheader">
                 <h6 class="c-breakdown__subtitle">Roadside Rescue</h6>
-                <ul class="c-breakdown__list u-flex-container">
-                    <li *ngFor="let option of options, let i = index" class="c-breakdown__item c-breakdown__item--horizontal">+ {{option.description}}</li>
-                </ul>
             </div>
 
             <c-selector-group 
@@ -24,7 +21,7 @@
             </c-selector-group>
             <div class="c-breakdown__body">
                 <div *ngIf="isLoadingQuote" class="c-breakdown__background">
-                    <div class="spinner loading"></div>
+                    <c-spinner class="loading"></c-spinner>
                 </div>
                 <c-selector-group 
                     class="c-selector-group--flex"
@@ -65,7 +62,7 @@
             </div>
         </section>
         <section [@aaSectionStatus]="aaSectionVisiblity" [isVisible]="aaVisiblity" [breakdownHeightDrawer]="breakdownHeight" class="c-breakdown__myAA c-breakdown__carousel-item">
-            <header (click)="toggleSaveQuoteVisibleUI()">
+            <header (click)="toggleSaveQuoteVisibleUI(true)">
                 <img src="assets/images/icons/myAA.svg" alt="">
                 <h6>Login to save your quote</h6>
             </header>

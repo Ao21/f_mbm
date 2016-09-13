@@ -38,9 +38,9 @@ export class FixedNavComponent implements OnInit {
 	@Output() onPrev: EventEmitter<any> = new EventEmitter();
 
 	constructor(
-		private _router: Router,
-		private _uiStore: UIStore,
-		private _analytics: Analytics
+		private router: Router,
+		private uiStore: UIStore,
+		private analytics: Analytics
 	) {}
 
 	/**
@@ -50,8 +50,8 @@ export class FixedNavComponent implements OnInit {
 	 */
 
 	ngOnInit() {
-		this.next = this.next ? this._uiStore.get(['pages', this.next]) : null;
-		this.prev = this.prev ? this._uiStore.get(['pages', this.prev]) : null;
+		this.next = this.next ? this.uiStore.get(['pages', this.next]) : null;
+		this.prev = this.prev ? this.uiStore.get(['pages', this.prev]) : null;
 	}
 
 	/**
@@ -70,9 +70,9 @@ export class FixedNavComponent implements OnInit {
 		if (this.next && !this.disabled) {
 			this.onNext.next(true);
 			setTimeout(() => {
-				this._analytics.triggerEvent('navigation-event', null, 'forward');
-				this._uiStore.update('activePage', this.next);
-				this._router.navigate([this.next.address]);
+				this.analytics.triggerEvent('navigation-event', null, 'forward');
+				this.uiStore.update('activePage', this.next);
+				this.router.navigate([this.next.address]);
 			}, 100);
 		}
 	}
@@ -89,9 +89,9 @@ export class FixedNavComponent implements OnInit {
 		if (this.prev) {
 			// Dehydrated Error
 			// this.onPrev.next(true);
-			this._analytics.triggerEvent('navigation-event', null, 'back');
-			this._uiStore.update('activePage', this.prev);
-			this._router.navigate([this.prev.address]);
+			this.analytics.triggerEvent('navigation-event', null, 'back');
+			this.uiStore.update('activePage', this.prev);
+			this.router.navigate([this.prev.address]);
 		}
 	}
 }

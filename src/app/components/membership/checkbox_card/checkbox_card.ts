@@ -6,13 +6,16 @@ import {
 	state,
 	transition,
 	style,
+	OnInit,
 	HostBinding,
 	HostListener,
 	animate,
 	trigger
 } from '@angular/core';
+import { DataStore } from './../../../stores/datastore.store';
 import { Observable } from 'rxjs/Rx';
 import { Utils } from './../../../shared/utilities/index';
+import { CONSTS } from './../../../constants';
 
 /**
  *  Checkbox Card
@@ -53,7 +56,7 @@ import { Utils } from './../../../shared/utilities/index';
 	]
 })
 
-export class CheckboxCardComponent {
+export class CheckboxCardComponent implements OnInit {
 	public isContentCollapsed: string = 'visible';
 	public isContentCollapsable: boolean = false;
 
@@ -89,7 +92,9 @@ export class CheckboxCardComponent {
 		}
 	}
 
-	constructor() {
+	constructor(
+		private dataStore: DataStore
+	) {
 		let resizeEvent = Observable.fromEvent(window, 'resize')
 			.debounceTime(50);
 		resizeEvent.subscribe(() => {
@@ -104,6 +109,12 @@ export class CheckboxCardComponent {
 
 		this.isContentCollapsed = Utils.isViewportMobile() ? 'hidden' : 'visible';
 		this.isContentCollapsable = Utils.isViewportMobile();
+	}
+
+	ngOnInit() {
+		this.dataStore.subscribe(CONSTS.ADDONS_UPDATE, (e) => {
+			this.isSelected = e.get('config', 'coverLevel', this.index, 'active');
+		});
 	}
 
 
@@ -133,13 +144,11 @@ export class CheckboxCardComponent {
 	}
 
 	/** Toggles the checked state of the checkbox. If the checkbox is disabled, this does nothing. */
-
 	toggleCheckboxActive() {
 		if (!this.isDisabled) {
-			this.isSelected = !this.isSelected;
 			let update = {
 				index: this.index,
-				isSelected: this.isSelected
+				isSelected: !this.isSelected
 			};
 			this.onSelect.next(update);
 		}

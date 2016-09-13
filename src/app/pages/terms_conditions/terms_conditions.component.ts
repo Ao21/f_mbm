@@ -2,9 +2,10 @@ import {
 	Component,
 	OnInit
 } from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {PaymentService, QuoteService} from './../../services/';
-import {UIStore, DataStore} from './../../stores/stores.modules';
+import { Router, ActivatedRoute } from '@angular/router';
+import { PaymentService, ErrorService } from './../../services/';
+import { ERRORS } from './../../constants';
+import { UIStore, DataStore } from './../../stores/stores.modules';
 
 /**
  * 	Terms and Conditions PAge
@@ -23,21 +24,22 @@ export class MembershipTermsConditionsComponent implements OnInit {
 	paymentSetStatusCard: string = 'inactive';
 	paymentSetStatusBank: string = 'inactive';
 	constructor(
-		private _quoteService: QuoteService,
-		private _paymentService: PaymentService,
+		private paymentService: PaymentService,
 		private route: ActivatedRoute,
-		private _dataStore: DataStore,
-		private _router: Router,
-		private _uiStore: UIStore
+		private errorService: ErrorService,
+		private dataStore: DataStore,
+		private router: Router,
+		private uiStore: UIStore
 	) {
-		this.page = this._uiStore.getPage('termsConditions');
-		this.paymentFrequency = this._dataStore.get(['pricing', 'frequency']);
+		this.page = this.uiStore.getPage('termsConditions');
+		this.paymentFrequency = this.dataStore.get(['pricing', 'frequency']);
 		if (this.paymentFrequency === 'monthly') {
 			this.paymentType = 'Card';
 			this.isPaymentTypeSet = true;
-			this._paymentService.updatePaymentType('Card', this.paymentFrequency).subscribe((next) => {
+			this.paymentService.updatePaymentType('Card', this.paymentFrequency).subscribe((next) => {
 			}, (err) => {
-				this._router.navigateByUrl('/breakdown');
+				this.errorService.errorHandlerWithNotification(ERRORS.setPaymentType);
+				this.router.navigateByUrl('/breakdown');
 			});
 		}
 	}
@@ -52,16 +54,19 @@ export class MembershipTermsConditionsComponent implements OnInit {
 	}
 
 	setPaymentType(type: string) {
-		this._dataStore.update(['pricing', 'type'], type);
+		this.dataStore.update(['pricing', 'type'], type);
 		this.paymentType = type;
-		this._paymentService.updatePaymentType(type, this.paymentFrequency).subscribe((next) => {
-		}, (err) => {
-			this._router.navigateByUrl('/breakdown');
+		this.paymentService.updatePaymentType(type, this.paymentFrequency)
+			.subscribe((next) => {
+				this.isPaymentTypeSet = true;
+			}, (err) => {
+				this.errorService.errorHandlerWithNotification(ERRORS.setPaymentType);
+				this.router.navigateByUrl('/breakdown');
 			});
-		this.isPaymentTypeSet = true;
+
 	}
 	continue() {
-		setTimeout(() => { this._router.navigate([this._uiStore.getPageUrl(this.page.next)]); }, 300);
+		setTimeout(() => { this.router.navigate([this.uiStore.getPageUrl(this.page.next)]); }, 300);
 
 	}
 }

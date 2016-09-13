@@ -10,7 +10,6 @@ import { UIStore } from './uistore.store';
 
 import * as Baobab from 'Baobab';
 import * as _ from 'lodash';
-import * as Postal from 'postal';
 
 let monkey: any = Baobab.monkey;
 
@@ -20,13 +19,13 @@ export class DataStore extends DispatcherStore {
 	public ACTIVE_TITLES = ['Miss', 'Mr', 'Ms', 'Mrs'];
 
 	constructor(
-		private _analytics: Analytics,
-		private _productService: InitService,
-		private _referenceService: ReferenceService,
-		private _uiStore: UIStore,
+		private analytics: Analytics,
+		private initService: InitService,
+		private referenceService: ReferenceService,
+		private uiStore: UIStore,
 		dispatcher: Dispatcher
 	) {
-		super(dispatcher, 'UIStore', createDataStore(_productService));
+		super(dispatcher, 'UIStore', createDataStore(initService));
 		this.getTitles();
 	}
 
@@ -36,7 +35,7 @@ export class DataStore extends DispatcherStore {
 	}
 
 	convertQuote(convertedQuote: any) {
-		this._analytics.triggerEvent('convert-quote', null, convertedQuote);
+		this.analytics.triggerEvent('convert-quote', null, convertedQuote);
 		sessionStorage.setItem('convertedQuote', JSON.stringify(convertedQuote));
 		this.update(['config', 'convertedQuote'], convertedQuote);
 	}
@@ -49,7 +48,7 @@ export class DataStore extends DispatcherStore {
 		let level: CoverLevel = this.get(['config', 'coverLevel', index]);
 		if (!level.disabled) {
 			this.deleteQuote();
-			this._analytics.triggerEvent('coverLevel', active, this.get(['config', 'coverLevel', index, 'name']));
+			this.analytics.triggerEvent('coverLevel', active, this.get(['config', 'coverLevel', index, 'name']));
 			this.update(
 				['config', 'coverLevel', index, 'active'], active, CONSTS.ADDONS_UPDATE);
 		}
@@ -63,7 +62,7 @@ export class DataStore extends DispatcherStore {
 		{ 'id': 'Ms', 'value': 'Ms.' }];
 
 		if (!_.values(titles).length) {
-			this._referenceService.getTitles().subscribe((next) => {
+			this.referenceService.getTitles().subscribe((next) => {
 				titles = next.json();
 				titles.shift();
 				titles = _.filter(titles, (e: any) => {
@@ -143,18 +142,18 @@ export class DataStore extends DispatcherStore {
 
 
 	setConfig = (config) => {
-		this._uiStore.update(['UIOptions', 'isQuoteSaved'], false);
+		this.uiStore.update(['UIOptions', 'isQuoteSaved'], false);
 		this.update(['config'], config, CONSTS.QUOTE_UPDATE);
 	}
 
 	setQuote = (quote: Quote) => {
-		this._uiStore.update(['UIOptions', 'isQuoteSaved'], false);
+		this.uiStore.update(['UIOptions', 'isQuoteSaved'], false);
 		this.update(['config', 'quotation'], quote, CONSTS.QUOTE_UPDATE);
 	}
 
 	resetConfig() {
-		this._uiStore.reset();
-		this._productService.getConfig().subscribe((next) => {
+		this.uiStore.reset();
+		this.initService.getConfig().subscribe((next) => {
 			this.setConfig(next.json());
 		});
 	}
@@ -164,8 +163,8 @@ export class DataStore extends DispatcherStore {
 	}
 
 	deleteQuote() {
-		this._uiStore.update(['UIOptions', 'isQuoteSaved'], false);
-		this._uiStore.update(['UIOptions', 'isTestimonialsTriggered'], false);
+		this.uiStore.update(['UIOptions', 'isQuoteSaved'], false);
+		this.uiStore.update(['UIOptions', 'isTestimonialsTriggered'], false);
 		this.remove(['config', 'quotation'], CONSTS.QUOTE_UPDATE);
 	}
 
@@ -194,7 +193,7 @@ export class DataStore extends DispatcherStore {
 	}
 
 	isUserLoggedIn() {
-		return this.get(['session', 'user']) ? true : false;
+		return this.exists(['session', 'user']);
 	}
 
 	setAuthenticatedUser(user) {

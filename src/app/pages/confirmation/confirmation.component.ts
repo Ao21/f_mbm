@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UIStore, DataStore } from './../../stores/stores.modules';
 
@@ -18,29 +18,28 @@ export class MembershipConfirmationPageComponent implements OnInit {
 	members: any = [];
 
 	constructor(
-		private _changeRef: ChangeDetectorRef,
-		private _el: ElementRef,
-		private _uiStore: UIStore,
-		private _dataStore: DataStore,
-		private _router: Router
+		private changeRef: ChangeDetectorRef,
+		private uiStore: UIStore,
+		private dataStore: DataStore,
+		private router: Router
 	) {}
 
 	ngOnInit() {
-		this.page = this._uiStore.getPage('confirmation');
-		this.convertedQuote = this._dataStore.get(['config', 'convertedQuote']);
+		this.page = this.uiStore.getPage('confirmation');
+		this.convertedQuote = this.dataStore.get(['config', 'convertedQuote']);
 		if (!this.convertedQuote) {
 			this.convertedQuote = JSON.parse(sessionStorage.getItem('convertedQuote'));
 			if (!this.convertedQuote) {
-				this._router.navigate(['/']);
+				this.router.navigate(['/']);
 			} else {
 				this.init();
 			}
-			this._dataStore.deleteConvertedQuote();
+			this.dataStore.deleteConvertedQuote();
 		} else {
 			this.init();
 		}
 		// Workaround for Safari not updating
-		this._changeRef.detectChanges();
+		this.changeRef.detectChanges();
 	}
 
 	init() {
@@ -53,7 +52,7 @@ export class MembershipConfirmationPageComponent implements OnInit {
 		});
 		this.primaryUser = memberList.shift();
 		this.members = memberList;
-		this._dataStore.resetConfig();
+		this.dataStore.resetConfig();
 	}
 
 }

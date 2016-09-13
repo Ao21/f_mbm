@@ -51,13 +51,13 @@ export class UIStore extends DefaultStore {
 
 export class UI {
 	activePage: any;
-	overView: OverView = new OverView();
+	overview: Overview = new Overview();
 	pages: Pages = new Pages();
 	UIOptions: UIOptions = new UIOptions();
 	modals: Modals = new Modals();
 }
 
-export class OverView {
+export class Overview {
 	isVisible = false;
 }
 
@@ -74,13 +74,15 @@ export class UIOptions implements UIOptions {
 export class Pages {
 	home: UIPage = {
 		title: `Home`,
-		address: `/home`
+		address: `/home`,
+		options: {}
 	};
 	included: UIPage = {
 		title: `What's Included`,
 		address: `/`,
 		next: 'yourDetails',
-		prev: null
+		prev: null,
+		options: {}
 	};
 	yourDetails: UIPage = {
 		title: `Your Details`,
@@ -96,25 +98,31 @@ export class Pages {
 		title: `Friends and Family`,
 		address: '/friends_and_family',
 		next: 'priceBreakdown',
-		prev: 'yourDetails'
+		prev: 'yourDetails',
+		options: {}
 	};
 	priceBreakdown: UIPage = {
 		title: `Price Breakdown`,
 		address: '/breakdown',
 		next: 'termsConditions',
-		prev: 'friendsFamily'
+		prev: 'friendsFamily',
+		options: {}
 	};
 	paymentOptions: UIPage = {
 		title: `Payment Options`,
 		address: '/payment_options',
 		next: 'termsConditions',
-		prev: 'priceBreakdown'
+		prev: 'priceBreakdown',
+		options: {}
 	};
 	termsConditions: UIPage = {
-		title: ``,
+		title: `Terms and Conditions`,
 		address: '/terms_and_conditions',
 		next: 'payment',
-		prev: 'priceBreakdown'
+		prev: 'priceBreakdown',
+		options: {
+			paymentFrequencyHidden: true
+		}
 	};
 	error: UIPage = {
 		title: '',
@@ -128,7 +136,10 @@ export class Pages {
 		title: `Payment`,
 		address: '/payment',
 		next: 'confirmation',
-		prev: 'termsConditions'
+		prev: 'termsConditions',
+		options: {
+			paymentFrequencyHidden: true
+		}
 	};
 
 	confirmation: UIPage = {
@@ -138,7 +149,8 @@ export class Pages {
 		prev: null,
 		options: {
 			footerHidden: true,
-			navHidden: true
+			navHidden: true,
+			paymentFrequencyHidden: true
 		}
 	};
 
@@ -149,7 +161,8 @@ export class Pages {
 		prev: null,
 		options: {
 			footerHidden: true,
-			navHidden: true
+			navHidden: true,
+			paymentFrequencyHidden: true
 		}
 	};
 }

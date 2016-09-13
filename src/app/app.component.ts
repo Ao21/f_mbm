@@ -20,7 +20,7 @@ export class AppComponent {
 	) {
 		this.outcome = this._rulesEngine.random();
 		this.router.events.subscribe((next) => {
-			this.uiStore.update(['overView', 'isVisible'], false);
+			this.uiStore.update(['overview', 'isVisible'], false);
 			window.scrollTo(0, 0);
 		});
 	}

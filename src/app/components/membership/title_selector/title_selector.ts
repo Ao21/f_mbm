@@ -19,16 +19,17 @@ export class TitleSelectorComponent implements OnDestroy {
 	sub: ISubscriptionDefinition<any>;
 
 	constructor(
-		private _dataStore: DataStore
+		private dataStore: DataStore
 	) {
-		this.titles = this._dataStore.getTitles();
-		this.sub = this._dataStore.subscribe(CONSTS.TITLE_OPTION, (data) => {
+		console.log(this.control);
+		this.titles = this.dataStore.getTitles();
+		this.sub = this.dataStore.subscribe(CONSTS.TITLE_OPTION, (data) => {
 			this.titles = data.get('titles');
 		});
 	}
 
 	ngOnDestroy() {
-		this._dataStore.unsubscribe(this.sub);
+		this.dataStore.unsubscribe(this.sub);
 	}
 
 }

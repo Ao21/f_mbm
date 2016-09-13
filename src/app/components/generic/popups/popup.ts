@@ -12,16 +12,16 @@ export class Popup implements OnInit {
 	topNav: any;
 
 	constructor(
-		private _uiStore: UIStore,
-		private _el: ElementRef,
-		private _renderer: Renderer
+		private uiStore: UIStore,
+		private el: ElementRef,
+		private renderer: Renderer
 	) {
 	}
 	ngOnInit() {
 		this.body = document.querySelector('body');
 		this.topNav = document.querySelector('c-top-nav');
-		this._uiStore.update(['modals', this.channel], false);
-		this._uiStore.select('modals', this.channel).on('update', this.toggleVisiblity)
+		this.uiStore.update(['modals', this.channel], false);
+		this.uiStore.select('modals', this.channel).on('update', this.toggleVisiblity)
 	}
 	toggleVisiblity = (event) => {
 		let toggle = event.data.currentData;
@@ -31,14 +31,14 @@ export class Popup implements OnInit {
 		if (this.isVisible) {
 			this.setBody(true);
 			this.setNav(true);
-			Velocity(this._el.nativeElement, 'transition.' + transitionString + 'In', {
+			Velocity(this.el.nativeElement, 'transition.' + transitionString + 'In', {
 				visibility: 'visible'
 			});
 
 		} else {
 			this.setBody(false);
 			this.setNav(false);
-			Velocity(this._el.nativeElement, 'transition.' + transitionString + 'Out',
+			Velocity(this.el.nativeElement, 'transition.' + transitionString + 'Out',
 				{
 					duration: 150,
 					visibility: 'hidden',
@@ -50,7 +50,7 @@ export class Popup implements OnInit {
 	}
 
 	close() {
-		this._uiStore.closeAllModals();
+		this.uiStore.closeAllModals();
 		this.setBody(false);
 		this.setNav(false);
 	}
@@ -60,9 +60,9 @@ export class Popup implements OnInit {
 		// Decouple this into TopNav
 		if (this.topNav) {
 			if (toggle) {
-				this._renderer.setElementClass(this.topNav, 'zIndexZero', true);
+				this.renderer.setElementClass(this.topNav, 'zIndexZero', true);
 			} else {
-				this._renderer.setElementClass(this.topNav, 'zIndexZero', false);
+				this.renderer.setElementClass(this.topNav, 'zIndexZero', false);
 			}
 		}
 
@@ -70,12 +70,12 @@ export class Popup implements OnInit {
 
 	setBody(toggle) {
 		if (toggle) {
-			this._renderer.setElementStyle(document.querySelector('body'), 'overflow', 'hidden');
-			this._renderer.setElementStyle(document.querySelector('body'), 'position', 'fixed');
+			this.renderer.setElementStyle(document.querySelector('body'), 'overflow', 'hidden');
+			this.renderer.setElementStyle(document.querySelector('body'), 'position', 'fixed');
 
 		} else {
-			this._renderer.setElementStyle(document.querySelector('body'), 'overflow', 'visible');
-			this._renderer.setElementStyle(document.querySelector('body'), 'position', 'relative');
+			this.renderer.setElementStyle(document.querySelector('body'), 'overflow', 'visible');
+			this.renderer.setElementStyle(document.querySelector('body'), 'position', 'relative');
 		}
 	}
 

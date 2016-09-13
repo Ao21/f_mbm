@@ -1,5 +1,6 @@
 import { CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { QuoteService } from './../../../services/quote.service';
 
 export interface CanComponentDeactivate {
 	canDeactivate: () => boolean | Observable<boolean>;

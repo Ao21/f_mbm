@@ -53,17 +53,16 @@ export class AdditionalMemberCardComponent implements OnInit {
 	@HostBinding('class.isPlaceholder') get placeholderState() { return this.state.placeholder; };
 
 	constructor(
-		private _analytics: Analytics,
-		private _fb: FormBuilder,
-		private _uiStore: UIStore,
-		private _dataStore: DataStore
+		private analytics: Analytics,
+		private fb: FormBuilder,
+		private dataStore: DataStore
 	) {
 		this.state = {
 			placeholder: false,
 			valid: false
 		};
-		this._dataStore.subscribeAndGet(CONSTS.PRICING_UPDATE, () => {
-			this.pricingFrequency = this._dataStore.get(['pricing', 'frequency']);
+		this.dataStore.subscribeAndGet(CONSTS.PRICING_UPDATE, () => {
+			this.pricingFrequency = this.dataStore.get(['pricing', 'frequency']);
 		});
 	}
 
@@ -82,7 +81,7 @@ export class AdditionalMemberCardComponent implements OnInit {
 
 		// Set to edit mode if the member is a placeholder member		
 		if (this.data.placeholder) {
-			this._analytics.triggerEvent('additionalMember', 'placeholder-editing', this.data.index);
+			this.analytics.triggerEvent('additionalMember', 'placeholder-editing', this.data.index);
 			this.state.placeholder = false;
 			this.state.valid = false;
 		}
@@ -95,7 +94,7 @@ export class AdditionalMemberCardComponent implements OnInit {
 			];
 		});
 
-		this.form = this._fb.group(this.ctrls);
+		this.form = this.fb.group(this.ctrls);
 		this.form['name'] = `Add Member ${this.data.index} Form`;
 
 		/**
@@ -116,7 +115,7 @@ export class AdditionalMemberCardComponent implements OnInit {
 			this.state.placeholder = false;
 			this.state.valid = false;
 		}
-		this._analytics.triggerEvent('additionalMember', 'editing', this.data.index);
+		this.analytics.triggerEvent('additionalMember', 'editing', this.data.index);
 		this.state.valid = false;
 	}
 
@@ -129,7 +128,7 @@ export class AdditionalMemberCardComponent implements OnInit {
 	 */
 	deleteMember = (evt: Event) => {
 		evt.stopPropagation();
-		this._analytics.triggerEvent('additionalMember', 'deleted', this.data.index);
+		this.analytics.triggerEvent('additionalMember', 'deleted', this.data.index);
 		this.onDelete.next(this.values);
 	}
 
@@ -141,9 +140,9 @@ export class AdditionalMemberCardComponent implements OnInit {
 		evt.stopPropagation();
 		if (this.data.placeholder) {
 			this.deleteMember(evt);
-			this._analytics.triggerEvent('additionalMember', 'cancelledPlaceholder', this.data.index);
+			this.analytics.triggerEvent('additionalMember', 'cancelledPlaceholder', this.data.index);
 		} else {
-			this._analytics.triggerEvent('additionalMember', 'cancelled', this.data.index);
+			this.analytics.triggerEvent('additionalMember', 'cancelled', this.data.index);
 			this.state.placeholder = true;
 		}
 
@@ -156,7 +155,7 @@ export class AdditionalMemberCardComponent implements OnInit {
 	 */
 	saveMember() {
 		if (this.form.valid) {
-			this._analytics.triggerEvent('additionalMember', 'saved', this.data.index);
+			this.analytics.triggerEvent('additionalMember', 'saved', this.data.index);
 			this.member =
 				_.assign(this.form.value,
 					{
@@ -170,7 +169,7 @@ export class AdditionalMemberCardComponent implements OnInit {
 			this.state.valid = true;
 
 		} else {
-			this._analytics.triggerEvent('additionalMember', 'error-saving', this.data.index);
+			this.analytics.triggerEvent('additionalMember', 'error-saving', this.data.index);
 			for (let control in this.form.controls) {
 				if (this.form.controls[control]) {
 					this.form.controls[control].markAsTouched();

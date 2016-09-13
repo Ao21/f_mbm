@@ -27,19 +27,18 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, O
 
 	constructor(
 
-		private _router: Router,
-		private _dataStore: DataStore,
-		private _uiStore: UIStore,
-		private _el: ElementRef,
-		private _notifications: NotificationService,
-		private _paymentService: PaymentService
+		private router: Router,
+		private dataStore: DataStore,
+		private uiStore: UIStore,
+		private notifications: NotificationService,
+		private paymentService: PaymentService
 	) {
-		this.page = this._uiStore.getPage('payment');
+		this.page = this.uiStore.getPage('payment');
 		// Set Frequency to monthly if no option set in store
-		this.frequency = this._dataStore.get(['pricing', 'frequency']) ?
-			this._dataStore.get(['pricing', 'frequency']) : 'monthly';
-		this.paymentType = this._dataStore.get(['pricing', 'type']);
-		this.quote = this._dataStore.get(['config', 'quotation']);
+		this.frequency = this.dataStore.get(['pricing', 'frequency']) ?
+			this.dataStore.get(['pricing', 'frequency']) : 'monthly';
+		this.paymentType = this.dataStore.get(['pricing', 'type']);
+		this.quote = this.dataStore.get(['config', 'quotation']);
 
 	}
 
@@ -52,10 +51,12 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, O
 	 * 	@param string convertedQuoteReference - 
 	 */
 	continueToConfirmation = (convertedQuoteReference: string) => {
-		this._paymentService.convertQuote(convertedQuoteReference).subscribe((next) => {
+		this.paymentService.convertQuote(convertedQuoteReference).subscribe((next) => {
 			this.isQuoteConverted = true;
-			this._dataStore.convertQuote(next.json());
-			this._router.navigateByUrl('confirmation');
+			this.dataStore.convertQuote(next.json());
+			this.router.navigateByUrl('confirmation');
+		}, (err) => {
+			this.router.navigateByUrl('error');
 		});
 	}
 
@@ -64,8 +65,8 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, O
 	 */
 	togglePaymentType() {
 		this.paymentType = this.paymentType === 'Bank' ? 'Card' : 'Bank';
-		this._dataStore.update(['pricing', 'type'], this.paymentType);
-		this._router.navigateByUrl(`/terms_and_conditions/${this.paymentType}`);
+		this.dataStore.update(['pricing', 'type'], this.paymentType);
+		this.router.navigateByUrl(`/terms_and_conditions/${this.paymentType}`);
 	}
 
 	/**
@@ -96,7 +97,7 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, O
 		if (this.paymentType === 'Card' && this.isPaymentAgreementActive === false) {
 			// Create a Promise and Passes it to the Notification Service
 			let guardPromise = new Promise((res, rej) => {
-				let p = this._notifications.createConfirmationNotification(
+				let p = this.notifications.createConfirmationNotification(
 					`If you leave your credit card information will be lost.`);
 
 				// Listen for Notifcation Confirmation

@@ -6,7 +6,7 @@ export interface CanComponentDeactivate {
 }
 
 export class CanDeactivateGuardGeneric implements CanDeactivate<CanComponentDeactivate> {
-	canDeactivate(component: CanComponentDeactivate): Observable<boolean> | boolean {
+	canDeactivate(component: CanComponentDeactivate): Observable<boolean> | Promise<boolean> | boolean {
 		return component.canDeactivate ? component.canDeactivate() : true;
 	}
 }

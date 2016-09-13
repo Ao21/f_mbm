@@ -12,20 +12,24 @@ export class HeaderComponent {
 	prev: any = null;
 	header: any;
 	isPriceVisible: boolean = false;
+	isOverviewOpen: boolean = false;
 
 	constructor(
-		private _changeRef: ChangeDetectorRef,
+		private changeRef: ChangeDetectorRef,
 		public uiStore: UIStore,
-		private _analytics: Analytics,
-		private _dataStore: DataStore,
-		private _router: Router
+		private analytics: Analytics,
+		private dataStore: DataStore,
+		private router: Router
 	) {
 		this.uiStore.select('activePage').on('update', (e) => {
 			this.updateByPageObject(e.data.currentData);
 		});
-		this.price = this._dataStore.get(['pricing', 'estimate', 'calculatedPrice']);
-		this._dataStore.select('pricing', 'estimate', 'calculatedPrice').on('update', (e) => {
+		this.price = this.dataStore.get(['pricing', 'estimate', 'calculatedPrice']);
+		this.dataStore.select('pricing', 'estimate', 'calculatedPrice').on('update', (e) => {
 			this.price = e.data.currentData;
+		});
+		this.uiStore.select('overview', 'isVisible').on('update', (e) => {
+			this.isOverviewOpen = e.data.currentData;
 		});
 	}
 
@@ -43,18 +47,18 @@ export class HeaderComponent {
 			this.isPriceVisible = true;
 		}
 		// Safari Workaround
-		this._changeRef.detectChanges();
+		this.changeRef.detectChanges();
 	}
 
 	toggleDropdown() {
-		let path = ['overView', 'isVisible'];
+		let path = ['overview', 'isVisible'];
 		this.uiStore.update(path, !this.uiStore.get(path));
 	}
 
 	triggerBack() {
 		if (this.prev) {
-			this._analytics.triggerEvent('navigation-event', null, 'back');
-			this._router.navigate([this.prev.address]);
+			this.analytics.triggerEvent('navigation-event', null, 'back');
+			this.router.navigate([this.prev.address]);
 		}
 	}
 }

@@ -8,8 +8,14 @@
             <!--<a class="m-quote__edit" href="#"> </a>-->
         </div>
         <div class="m-quote__cta">
-            <button [class.btn--isLoading]="isLoading" *ngIf="quote.expired" (click)="requoteQuote(quote)" class="btn btn--yellow">Requote</button>
-            <button [class.btn--isLoading]="isLoading" *ngIf="!quote.expired" (click)="retrieveQuote(quote)" class="btn btn--yellow">Buy Now</button>
+            <button *ngIf="quote.expired" (click)="requoteQuote(quote)" class="btn btn--yellow">
+                <span *ngIf="!isLoading">Requote</span>
+                <span *ngIf="isLoading"><c-spinner></c-spinner></span>
+            </button>
+            <button *ngIf="!quote.expired" (click)="retrieveQuote(quote)" class="btn btn--yellow">
+                <span *ngIf="!isLoading">Buy Now</span>
+                <span *ngIf="isLoading"><c-spinner></c-spinner></span>
+            </button>
         </div>
     </div>
     <button id="quoteListCloseBtn" (click)="cancel()" class="btn--close btn--arrow">

@@ -25,7 +25,7 @@ import { Observable } from 'rxjs/Rx';
 @Component({
 	selector: 'c-overview',
 	templateUrl: './overview.html'
-})
+})	
 export class OverViewComponent implements OnInit, OnDestroy {
 	@HostBinding('class.isVisible') get isVisible() { return this._isVisible; };
 	options: any;
@@ -51,19 +51,23 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	isPriceFrequencyVisible: boolean = true;
 
 	constructor(
-		private _analytics: Analytics,
-		private _dataStore: DataStore,
-		private _uiStore: UIStore,
-		private _el: ElementRef,
-		private _renderer: Renderer
+		private analytics: Analytics,
+		private dataStore: DataStore,
+		private uiStore: UIStore,
+		private el: ElementRef,
+		private renderer: Renderer
 	) {
-		this.updateQuoteSubscription = this._dataStore.subscribe(CONSTS.QUOTE_UPDATE, this.replaceQuote);
-		this.updateMembersSubscription = this._dataStore.subscribe(CONSTS.MEMBER_UPDATE, this.updateMembers);
-		this.updateOptionsSubscription = this._dataStore.subscribe(CONSTS.ADDONS_UPDATE, this.updateOptions);
-		this.updatePricingSubscription = this._dataStore.subscribe(CONSTS.PRICING_UPDATE, this.updatePrice);
+		this.updateQuoteSubscription = this.dataStore.subscribe(CONSTS.QUOTE_UPDATE, this.replaceQuote);
+		this.updateMembersSubscription = this.dataStore.subscribe(CONSTS.MEMBER_UPDATE, this.updateMembers);
+		this.updateOptionsSubscription = this.dataStore.subscribe(CONSTS.ADDONS_UPDATE, this.updateOptions);
+		this.updatePricingSubscription = this.dataStore.subscribe(CONSTS.PRICING_UPDATE, this.updatePrice);
 
-		this._uiStore.select('UIOptions', 'isFrequencySelectorVisible').on('update', (e) => {
-			this.isPriceFrequencyVisible = e.data.currentData;
+		this.uiStore.select('activePage').on('update', (e) => {
+			if(e.data.currentData.options.paymentFrequencyHidden === true) {
+				this.isPriceFrequencyVisible = false;
+			} else {
+				this.isPriceFrequencyVisible = true;
+			}
 		});
 
 		let resizeEvent = Observable.fromEvent(window, 'resize')
@@ -82,7 +86,7 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	}
 
 	setPricingFrequency(frequency) {
-		this._dataStore.update(['pricing', 'frequency'], frequency, CONSTS.PRICING_UPDATE);
+		this.dataStore.update(['pricing', 'frequency'], frequency, CONSTS.PRICING_UPDATE);
 	}
 
 
@@ -106,7 +110,7 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	 *
 	 */
 	updateOptions = () => {
-		this.journeySchema = this._dataStore.get(['config']);
+		this.journeySchema = this.dataStore.get(['config']);
 		this.options = _.filter(this.journeySchema.coverLevel, (e: any) => {
 			if (e.active) {
 				return e;
@@ -123,7 +127,7 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	 */
 	updateMembers = () => {
 		this.members = [];
-		_.forEach(_.values(this._dataStore.get(['config', 'members'])), (v: any, i) => {
+		_.forEach(_.values(this.dataStore.get(['config', 'members'])), (v: any, i) => {
 			this.primaryMember = _.find(v, (n: any) => {
 				return n.type === 'primaryUser';
 			});
@@ -135,8 +139,8 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	}
 
 	updatePrice = () => {
-		this.priceFrequency = this._dataStore.get(['pricing', 'frequency']);
-		this.price = this._dataStore.get(['pricing', 'estimate', 'calculatedPrice']);
+		this.priceFrequency = this.dataStore.get(['pricing', 'frequency']);
+		this.price = this.dataStore.get(['pricing', 'estimate', 'calculatedPrice']);
 	}
 
 	/**
@@ -147,9 +151,9 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	 *
 	 */
 	ngOnInit() {
-		let sub = this._uiStore.select('overView', 'isVisible');
+		let sub = this.uiStore.select('overview', 'isVisible');
 		this._isVisible = sub.get();
-		this.element = this._el.nativeElement;
+		this.element = this.el.nativeElement;
 		sub.on('update', this.updateVisiblity);
 	}
 
@@ -163,10 +167,10 @@ export class OverViewComponent implements OnInit, OnDestroy {
 		this._isVisible = toggle;
 		if (toggle) {
 			this.open();
-			this._analytics.triggerEvent('overview', 'visiblity', true);
+			this.analytics.triggerEvent('overview', 'visiblity', true);
 		} else {
 			this.close();
-			this._analytics.triggerEvent('overview', 'visiblity', false);
+			this.analytics.triggerEvent('overview', 'visiblity', false);
 		}
 	}
 
@@ -174,11 +178,11 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	 * 	Triggers Overview to Open & Animations
 	 */
 	open = () => {
-		let items = this._el.nativeElement.querySelectorAll('.o-links');
-		let button = this._el.nativeElement.querySelectorAll('button');
+		let items = this.el.nativeElement.querySelectorAll('.o-links');
+		let button = this.el.nativeElement.querySelectorAll('button');
 
-		this._renderer.setElementStyle(document.querySelector('body'), 'overflow', 'hidden');
-		this._renderer.setElementStyle(document.querySelector('body'), 'position', 'fixed');
+		this.renderer.setElementStyle(document.querySelector('body'), 'overflow', 'hidden');
+		this.renderer.setElementStyle(document.querySelector('body'), 'position', 'fixed');
 		let distance = Utils.isViewportTablet() ? '100vh' : '400px';
 		Velocity(this.element, { height: distance }, { visibility: 'visible', duration: 300 });
 		Velocity(items, 'transition.slideUpIn', { delay: 300, stagger: 200, duration: 800, visibility: 'visible' });
@@ -189,22 +193,22 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	 * 	Triggers Overview to Open & Animations
 	 */
 	close() {
-		let items = this._el.nativeElement.querySelectorAll('.o-links');
-		let button = this._el.nativeElement.querySelectorAll('button');
+		let items = this.el.nativeElement.querySelectorAll('.o-links');
+		let button = this.el.nativeElement.querySelectorAll('button');
 		let distance = 0;
-		this._renderer.setElementStyle(document.querySelector('body'), 'overflow', 'auto');
-		this._renderer.setElementStyle(document.querySelector('body'), 'position', 'relative');
+		this.renderer.setElementStyle(document.querySelector('body'), 'overflow', 'auto');
+		this.renderer.setElementStyle(document.querySelector('body'), 'position', 'relative');
 
 		Velocity(button, 'transition.expandOut', { duration: 350, visibility: 'visible' });
 		Velocity(items, 'transition.slideUpOut', { stagger: 100, duration: 300, visibility: 'hidden' });
 		Velocity(this.element, { height: distance }, { delay: 800, visibility: 'hidden', duration: 300 });
-		this._uiStore.update(['overView', 'isVisible'], false);
+		this.uiStore.update(['overview', 'isVisible'], false);
 	}
 
 	ngOnDestroy() {
-		this._dataStore.unsubscribe(this.updateMembersSubscription);
-		this._dataStore.unsubscribe(this.updateOptionsSubscription);
-		this._dataStore.unsubscribe(this.updatePricingSubscription);
+		this.dataStore.unsubscribe(this.updateMembersSubscription);
+		this.dataStore.unsubscribe(this.updateOptionsSubscription);
+		this.dataStore.unsubscribe(this.updatePricingSubscription);
 	}
 
 

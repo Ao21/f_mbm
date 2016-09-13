@@ -1,23 +1,19 @@
 import {
 	Component,
-	ElementRef,
 	trigger,
 	animate,
 	style,
 	transition,
 	OnInit,
 	state,
-	keyframes,
-	group,
 	OnDestroy
 } from '@angular/core';
 import {DataStore, UIStore} from './../../stores/stores.modules';
 import {QuoteService, Analytics} from './../../services/index';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-import {CONSTS} from './../../constants.ts';
+import {CONSTS} from './../../constants';
 
-import {CanActivate, CanDeactivate} from '@angular/router';
 
 /**
  *  Breakdown Page Component Class
@@ -69,7 +65,6 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 
 	// Animation & UI Props
 	breakdownHeight: number;
-	breakdownVisiblity = 'visible';
 	aaVisiblity = false;
 	aaSectionVisiblity = 'visible';
 	saveQuoteVisiblity = 'hidden';
@@ -85,20 +80,19 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 	frequencyControl: FormControl = new FormControl('monthly');
 
 	constructor(
-		private _analytics: Analytics,
-		private _router: Router,
-		private _quoteService: QuoteService,
-		private _uiStore: UIStore,
-		private _dataStore: DataStore,
-		private _el: ElementRef,
+		private analytics: Analytics,
+		private router: Router,
+		private quoteService: QuoteService,
+		private uiStore: UIStore,
+		private dataStore: DataStore,
 	) { }
 
 	ngOnInit() {
 		// Set Breakdown UI
-		this.page = this._uiStore.getPage('priceBreakdown');
+		this.page = this.uiStore.getPage('priceBreakdown');
 		// Watch for Quote Update Events and update on changes
-		this.quoteUpdateSubscription = this._dataStore.subscribeAndGet(CONSTS.QUOTE_UPDATE, (e) => {
-			this.config = this._dataStore.get(['config']);
+		this.quoteUpdateSubscription = this.dataStore.subscribeAndGet(CONSTS.QUOTE_UPDATE, (e) => {
+			this.config = this.dataStore.get(['config']);
 			this.quote = this.config.quotation;
 			this.isLoadingQuote = false;
 			if (this.quote) {
@@ -109,13 +103,13 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 				// Check to see if there are any for Removable Items
 				this.hasRemovableItems =
 					_.find(this.breakdownOptions, (item: any) => { return !item.mandatory; }) === undefined ? false : true;
-				this._uiStore.closeAllModals();
+				this.uiStore.closeAllModals();
 			}
 		});
 
 		// Watch for Pricing Update Events from Overview and update on changes		
-		this.pricingUpdateSubscription = this._dataStore.subscribeAndGet(CONSTS.PRICING_UPDATE, (e) => {
-			let pricingFrequency = this._dataStore.get(['pricing', 'frequency']);
+		this.pricingUpdateSubscription = this.dataStore.subscribeAndGet(CONSTS.PRICING_UPDATE, (e) => {
+			let pricingFrequency = this.dataStore.get(['pricing', 'frequency']);
 			if (pricingFrequency) {
 				this.frequencyControl.setValue(pricingFrequency);
 			}
@@ -128,45 +122,49 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 			this.options = _.filter(this.quote.breakdown, (item, i) => { return i !== 0; });
 			this.breakdownOptions = this.quote.breakdown;
 		}
-		this.paymentOptions = this._dataStore.get(['config', 'paymentOptions']);
+		this.paymentOptions = this.dataStore.get(['config', 'paymentOptions']);
 		this.setAndWatchMyAASaveQuoteIsSaved();
 
-		if (this.quoteIsSaved || this._dataStore.isUserLoggedIn()) {
+		if (this.quoteIsSaved || this.dataStore.isUserLoggedIn()) {
 			this.setMyAASuccessLoginUI();
 		}
 
-		if (this._uiStore.get(['UIOptions', 'isSaveQuoteVisible']) === 'hidden') {
+		if (this.uiStore.get(['UIOptions', 'isSaveQuoteVisible']) === 'hidden') {
 			this.setMyAAHiddenUI();
 		}
 
-		this.price = this._dataStore.get(['pricing', 'estimate', 'calculatedPrice']);
+		this.price = this.dataStore.get(['pricing', 'estimate', 'calculatedPrice']);
 
 		this.frequencyControl.valueChanges.distinctUntilChanged().subscribe((next) => {
-			this._analytics.triggerEvent('paymentOptions', 'frequency', next);
-			this._dataStore.setActivePaymentType(_.findIndex(this.paymentOptions, { type: next }));
+			this.analytics.triggerEvent('paymentOptions', 'frequency', next);
+			this.dataStore.setActivePaymentType(_.findIndex(this.paymentOptions, { type: next }));
 		});
 
 	}
 
 
 	emitNextNavigation() {
-		this._router.navigate([this._uiStore.get(['pages', this.page.next]).address]);
+		this.router.navigate([this.uiStore.get(['pages', this.page.next]).address]);
 	}
 
 	removeItem(item: QuoteBreakdownItem) {
 		this.isLoadingQuote = true;
-		this._analytics.triggerEvent('breakdown-remove-item', item.name, item.type);
-		this._quoteService.removeBreakdownItem(item);
+		this.analytics.triggerEvent('breakdown-remove-item', item.name, item.type);
+		this.quoteService.removeBreakdownItem(item, (err) => {
+			this.isLoadingQuote = false;
+		});
 	}
 
-	toggleSaveQuoteVisibleUI() {
-		this.breakdownVisiblity = this.breakdownVisiblity === 'hidden' ? 'visible' : 'hidden';
-		this.aaVisiblity = !this.aaVisiblity;
-		this._analytics.triggerEvent('login-save-quote', 'visibility', this.aaVisiblity);
+	toggleSaveQuoteVisibleUI(toggle) {
+		if (arguments.length === 0) {
+			this.aaVisiblity = !this.aaVisiblity;
+		} else {
+			this.aaVisiblity = toggle;
+		}
+		this.analytics.triggerEvent('login-save-quote', 'visibility', this.aaVisiblity);
 	}
 
 	setMyAASuccessLoginUI() {
-		this.breakdownVisiblity = 'visible';
 		this.aaVisiblity = false;
 		this.aaSectionVisiblity = 'hidden';
 		this.saveQuoteVisiblity = 'visible';
@@ -178,15 +176,15 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 	}
 
 	setAndWatchMyAASaveQuoteIsSaved() {
-		this.quoteIsSaved = this._uiStore.get(['UIOptions', 'isQuoteSaved']);
-		this._uiStore.select('UIOptions', 'isQuoteSaved').on('update', (update) => {
-			this.quoteIsSaved = this._uiStore.get(['UIOptions', 'isQuoteSaved']);
+		this.quoteIsSaved = this.uiStore.get(['UIOptions', 'isQuoteSaved']);
+		this.uiStore.select('UIOptions', 'isQuoteSaved').on('update', (update) => {
+			this.quoteIsSaved = this.uiStore.get(['UIOptions', 'isQuoteSaved']);
 		});
 	}
 
 	ngOnDestroy() {
-		this._dataStore.unsubscribe(this.quoteUpdateSubscription);
-		this._dataStore.unsubscribe(this.pricingUpdateSubscription);
+		this.dataStore.unsubscribe(this.quoteUpdateSubscription);
+		this.dataStore.unsubscribe(this.pricingUpdateSubscription);
 	}
 
 }
