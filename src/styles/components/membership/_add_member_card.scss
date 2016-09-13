@@ -45,7 +45,7 @@ m-add-member-card {
 
             &:hover {
                 background-color: $light;
-                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'> <line stroke='#272822' stroke-width='5' x1='16' y1='16' x2='33' y2='33' /> <line stroke='#272822' stroke-width='5' x1='33' y1='16' x2='16' y2='33' /> </svg>");
+                background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc1MCcgaGVpZ2h0PSc1MCc+IDxsaW5lIHN0cm9rZT0nIzI3MjgyMicgc3Ryb2tlLXdpZHRoPSc1JyB4MT0nMTYnIHkxPScxNicgeDI9JzMzJyB5Mj0nMzMnIC8+IDxsaW5lIHN0cm9rZT0nIzI3MjgyMicgc3Ryb2tlLXdpZHRoPSc1JyB4MT0nMzMnIHkxPScxNicgeDI9JzE2JyB5Mj0nMzMnIC8+IDwvc3ZnPg==");
                 color: $dark;
             }
         }
@@ -103,7 +103,7 @@ m-add-member-card {
         height: 28px;
         border: 2px solid $primary;
         border-radius: 50%;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'> <line stroke='#ffffff' stroke-width='5' x1='16' y1='16' x2='33' y2='33' /> <line stroke='#ffffff' stroke-width='5' x1='33' y1='16' x2='16' y2='33' /> </svg>");
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc1MCcgaGVpZ2h0PSc1MCc+IDxsaW5lIHN0cm9rZT0nI2ZmZmZmZicgc3Ryb2tlLXdpZHRoPSc1JyB4MT0nMTYnIHkxPScxNicgeDI9JzMzJyB5Mj0nMzMnIC8+IDxsaW5lIHN0cm9rZT0nI2ZmZmZmZicgc3Ryb2tlLXdpZHRoPSc1JyB4MT0nMzMnIHkxPScxNicgeDI9JzE2JyB5Mj0nMzMnIC8+IDwvc3ZnPg==");
         background-position: center;
         background-size: cover;
         color: $light;
@@ -116,7 +116,7 @@ m-add-member-card {
 
         &:hover {
             background-color: $primary;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'> <line stroke='#272822' stroke-width='5' x1='16' y1='16' x2='33' y2='33' /> <line stroke='#272822' stroke-width='5' x1='33' y1='16' x2='16' y2='33' /> </svg>");
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc1MCcgaGVpZ2h0PSc1MCc+IDxsaW5lIHN0cm9rZT0nIzI3MjgyMicgc3Ryb2tlLXdpZHRoPSc1JyB4MT0nMTYnIHkxPScxNicgeDI9JzMzJyB5Mj0nMzMnIC8+IDxsaW5lIHN0cm9rZT0nIzI3MjgyMicgc3Ryb2tlLXdpZHRoPSc1JyB4MT0nMzMnIHkxPScxNicgeDI9JzE2JyB5Mj0nMzMnIC8+IDwvc3ZnPg==");
         }
     }
     .c-add_member_button, c-error-button .btn {

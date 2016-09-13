@@ -17,11 +17,11 @@ c-auto-complete,
         border-color: $warning-red!important;   
     }
     &__search {
-        position: absolute;
+        position: relative;
         z-index: 999;
         float: left;
         overflow: scroll!important;
-        margin-bottom:80px;
+        margin-bottom:0;
         max-height: 230px;
         width: calc(100%);
         background-color:$dark;

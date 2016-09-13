@@ -2,10 +2,9 @@
 // #QUOTES
 //-------------------------------------
 m-quotes-list {
-    @include media($mobile){
+    @include media($mobile) {
         margin-top: $navHeightMobile !important;
     }
-
     position: relative;
     z-index: 9;
     float: left;
@@ -13,47 +12,44 @@ m-quotes-list {
     width: 100%;
     background-color: $light-gray;
     color: $dark;
-
     .container {
         @include media($mobile) {
             margin: 0 $defaultContainerPaddingMobile;
         }
-
         position: relative;
         overflow: hidden;
         padding: 0;
         max-height: 0px
     }
     .btn--close {
-            @include media($mobile){
-                bottom: 15px;
-            }
-
-            position: absolute;
-            top: initial;
-            right: 0;
+        @include media($mobile) {
             bottom: 15px;
-            flex: 1 1 auto;
-            align-content: center;
-            align-items: center;
-            align-self: center;
-            margin: 0 auto;
-            padding: 0;
-            width: 100%;
-            text-align: center
         }
+        position: absolute;
+        top: initial;
+        right: 0;
+        bottom: 15px;
+        flex: 1 1 auto;
+        align-content: center;
+        align-items: center;
+        align-self: center;
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+        text-align: center
+    }
     .m-quote {
         display: flex;
         margin-bottom: size(small);
-
         &__content {
             @include type-setting(1);
             @include media($mobile) {
                 @include type-setting(0);
-
-                line-height: 32px;
+                line-height: 18px;
+                flex-direction: column;
+                align-items: initial;
+                padding: 0;
             }
-
             display: flex;
             flex: 1;
             align-items: center;
@@ -63,42 +59,43 @@ m-quotes-list {
         &__cta {
             margin-left: size(medium);
         }
+        &__cta c-spinner {
+            position: absolute;
+            left: 60%;
+            top: 25%;
+        }
         &__cta .btn {
             @include type-setting(0);
-            // min-height: 100%;
+            position: relative;
             @include media($mobile) {
                 @include type-setting(0);
                 margin: 0;
                 padding: 0 size(medium);
             }
-
             padding: 0 size(big)
         }
         &__date {
-            @include media($mobile){
+            @include media($mobile) {
                 margin-right: size(tiny);
+                font-weight: 600;
             }
-
-            margin-right: size(large)
-
-            // max-width: 140px;
+            margin-right: size(large) // max-width: 140px;
             // width: 140px;
         }
         &__details {
             flex: 1 0 auto
         }
         &__price {
-            @include media($mobile){
+            @include media($mobile) {
                 flex: 1 1 auto;
+                text-align: right;
             }
-
             flex: 0 1 auto
         }
         &__edit {
-            @include media($mobile){
+            @include media($mobile) {
                 margin: 0 0 0 size(tiny);
             }
-
             display: block;
             margin: 0 0 0 size(medium);
             width: 32px;
@@ -114,13 +111,10 @@ m-quotes-list {
         $close-color: white;
         $close-stroke: 7px;
         $close-size: 24px;
-
         padding-bottom: $defaultContainerPadding;
-
         &__content {
             @include type-setting(0);
-
-            & >:last-child {
+            &>:last-child {
                 margin-bottom: 0;
             }
             ul,
@@ -138,7 +132,6 @@ m-quotes-list {
             background-size: 55%;
             background-repeat: no-repeat;
             content: '';
-
             &:hover {
                 background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNTYgMjAyLjI0Jz48cGF0aCBmaWxsPScjeyRwcmltYXJ5fScgZD0nTTE3OSwzMzJjMS4xOS0zLjc0LDItNy42OCwzLjY0LTExLjE5LDcuNDYtMTUuNjcsMjAtMjQuNDgsMzcuMzYtMjQuNjYsMzkuODEtLjQsNzkuNjMtMC4yNSwxMTkuNDQsMCw1LjE5LDAsMTAuNSwxLjU0LDE1LjUxLDMuMTMsNC43MywxLjUxLDUuMTgsNC42NiwxLjkxLDguMzYtNC4yNSw0LjgyLTguNDUsOS42NC0xNiw2LjU0LTEtLjQxLTIuMzEtMC4xMS0zLjQ4LTAuMTFxLTU3LjQ3LDAtMTE0Ljk0LDBjLTE1LjU2LDAtMjUuMzUsOS43Mi0yNS4zNiwyNS4xNXEwLDU3LjcyLDAsMTE1LjQ0YzAsMTUuNSw5Ljc1LDI1LjI0LDI1LjI2LDI1LjI1cTU3LjcyLDAsMTE1LjQ0LDBjMTUuMjQsMCwyNS4wNi05Ljc3LDI1LjE0LTI0Ljg4LDAtMi4zMy40LTQuNzUtLjA3LTctMi05LjU3LDMuMDctMTUuNzgsOS45MS0yMSwxLjM0LTEsMy44NC0xLjgxLDUuMTctMS4yNGE2LDYsMCwwLDEsMi45LDQuNTdjMCwxMC44MS41NCwyMS43My0uOCwzMi40LTIuNTQsMjAuMjctMTksMzQuOS0zOS42MSwzNS4xMXEtNjAuNDYuNi0xMjAuOTQsMGMtMjAuMzctLjIxLTM1LjcyLTE0LjIxLTM5LjczLTM0LjYzQTQsNCwwLDAsMCwxNzksNDYyUTE3OSwzOTcsMTc5LDMzMlonIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC0xNzkgLTI5NS45KScvPjxwYXRoIGZpbGw9JyN7JHByaW1hcnl9JyBkPSdNNDM1LDMzNWwtMTUuODMsMjAuMTktNDAuNzgtNDAuOTFjNC00LjMzLDguMjktOS44NCwxMy40My0xNC40NCw0LjUyLTQsMTEuODgtMy40LDE2LjQ1LDEsNy44Myw3LjQ4LDE1LjQ1LDE1LjE4LDIzLDIzLDEuNjUsMS43LDIuNTIsNC4xNCwzLjc2LDYuMjR2NVonIHRyYW5zZm9ybT0ndHJhbnNsYXRlKC0xNzkgLTI5NS45KScvPjxwYXRoIGZpbGw9JyN7JHByaW1hcnl9JyBkPSdNMzY3LjE0LDMyNC4xNmw0Mi4wNSw0Mi4xNGMtMS4zNS42Ni0zLjM5LDEuMDktNC42MiwyLjMycS00NC42NCw0NC40Mi04OS4wNyw4OWExMC40MSwxMC40MSwwLDAsMS04LjI4LDMuNDFDMjk1LjQsNDYwLjg4LDI4My41OCw0NjEsMjcxLDQ2MWMwLTUuMSwwLTEwLDAtMTQuOTUsMC03LjY2LS4xMy0xNS4zMy4xLTIzYTguMzMsOC4zMywwLDAsMSwyLjEtNS4xOXE0Ni00Ni4yNCw5Mi4yLTkyLjI4QTIxLDIxLDAsMCwxLDM2Ny4xNCwzMjQuMTZabS02Ni4zOCw4NC4yOWMtNC42NCw4Ljk0LTE4LDExLjU5LTE1Ljc3LDI1LjQxaDEzLjM0VjQ0Ny42YzMuNDMtLjQyLDcuMTMuMjQsOS0xLjNDMzEzLDQ0MS41OCwzMTgsNDM2LDMyMy4wNyw0MzAuOTJabTE1LTYuNjNjMi40OC0yLDMuODQtMi45Myw1LTQuMDdxMjMuNTMtMjMuNDcsNDctNDdjMC44Mi0uODIsMi0xLjYyLDIuMjMtMi42MSwwLjI4LTEuMjIuMTgtMy4xLS41OC0zLjg0cy0yLjY0LS44NC0zLjg4LTAuNTVjLTEsLjIzLTEuOCwxLjQtMi42MywyLjIycS0yMy4zMywyMy4zMS00Ni42NCw0Ni42NWMtMC45NC45NC0yLjQ5LDItMi40NywzQzMxMy44NCwzOTcuNDIsMzE0Ljg1LDM5OS4xOSwzMTUuNzUsNDAxLjgyWicgdHJhbnNmb3JtPSd0cmFuc2xhdGUoLTE3OSAtMjk1LjkpJy8+PC9zdmc+");
             }
@@ -149,7 +142,6 @@ m-quotes-list {
             color: $light;
             text-transform: uppercase;
             font-weight: bold;
-
             &:hover {
                 background-color: $primary;
             }
@@ -159,9 +151,7 @@ m-quotes-list {
                 flex-flow: row wrap;
                 height: auto;
             }
-
             color: $light;
-
             &:hover {
                 background-color: darken($dark, 2%);
             }
