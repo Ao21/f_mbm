@@ -41,23 +41,9 @@ export class IbanFormComponent {
 			.filter((x) => { return this.form.valid; })
 			.do((x) => { this.onValidationInit.next(true); })
 			.switchMap((x) => this.paymentService.validateBankDetails(x))
-			.subscribe((next) => {
-				this.errorService.clearErrorNotifications();
-				let acc: any = next.json();
-				this.isAccountValidated = true;
-				if (isPresent(acc.valid) && acc.valid === 'true') {
-					this.accountValidationStatus = true;
-					this.onValidationSuccess.next(acc);
-					this.dataStore.update(['paymentMethods', 'iban', 'values'], this.form.value);
-				} else {
-					this.dataStore.remove(['paymentMethods', 'iban', 'values']);
-					this.onValidationSuccess.next(false);
-					this.accountValidationStatus = false;
-				}
-			},
-			(err) => {
-				this.errorService.errorHandlerWithNotification(ERRORS.bankValidation);
-			});
+			.subscribe(
+			(next) => this.validateAccount(next),
+			(err) => this.errorService.errorHandlerWithNotification(ERRORS.bankValidation));
 		this.init();
 	}
 
@@ -76,6 +62,21 @@ export class IbanFormComponent {
 		this.form = this.fb.group(this.ctrls);
 		this.form['name'] = 'Iban Form';
 		this.form.valueChanges.subscribe(this.accountToValidate);
+	}
+
+	validateAccount(next) {
+		this.errorService.clearErrorNotifications();
+		let acc: any = next.json();
+		this.isAccountValidated = true;
+		if (isPresent(acc.valid) && acc.valid === 'true') {
+			this.accountValidationStatus = true;
+			this.onValidationSuccess.next(acc);
+			this.dataStore.update(['paymentMethods', 'iban', 'values'], this.form.value);
+		} else {
+			this.dataStore.remove(['paymentMethods', 'iban', 'values']);
+			this.onValidationSuccess.next(false);
+			this.accountValidationStatus = false;
+		}
 	}
 
 

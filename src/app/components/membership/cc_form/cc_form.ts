@@ -48,25 +48,32 @@ export class CreditCardFormComponent implements OnInit {
 		if (evt.data !== null && isString(evt.data) && evt.origin === 'https://hpp.sandbox.realexpayments.com') {
 			let data = JSON.parse(evt.data);
 			if (data.QUOTE_REFERENCE && data.RESULT === '00') {
-				this.analytics.triggerPaymentEvent('Card', 'success');
-				this.uiStore.getPage('confirmationHidden');
-				this.onSuccess.next(data.QUOTE_REFERENCE);
+				this.successfulCCPayment(data);
 			}
 			if (data.RESULT === '101') {
-				this.analytics.triggerPaymentEvent('Card', 'declined');
-				this.iframeVisible = false;
-				this.errorMessageVisible = true;
-				this.changeRef.detectChanges();
-				setTimeout(() => {
-					this.iframeVisible = true;
-					this.changeRef.detectChanges();
-				}, 10);
-
+				this.declinedCCPayment(data);
 			}
 			if (data.iframe) {
 				this.throttleHeight.next(data.iframe);
 			}
 		}
+	}
+
+	successfulCCPayment(data) {
+		this.analytics.triggerPaymentEvent('Card', 'success');
+		this.uiStore.getPage('confirmationHidden');
+		this.onSuccess.next(data.QUOTE_REFERENCE);
+	}
+
+	declinedCCPayment(data) {
+		this.analytics.triggerPaymentEvent('Card', 'declined');
+		this.iframeVisible = false;
+		this.errorMessageVisible = true;
+		this.changeRef.detectChanges();
+		setTimeout(() => {
+			this.iframeVisible = true;
+			this.changeRef.detectChanges();
+		}, 10);
 	}
 
 	swapPaymentType() {

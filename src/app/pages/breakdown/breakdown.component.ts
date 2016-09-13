@@ -8,11 +8,11 @@ import {
 	state,
 	OnDestroy
 } from '@angular/core';
-import {DataStore, UIStore} from './../../stores/stores.modules';
-import {QuoteService, Analytics} from './../../services/index';
-import {FormControl} from '@angular/forms';
-import {Router} from '@angular/router';
-import {CONSTS} from './../../constants';
+import { DataStore, UIStore } from './../../stores/stores.modules';
+import { QuoteService, Analytics } from './../../services/index';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CONSTS } from './../../constants';
 
 
 /**
@@ -91,6 +91,11 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 		// Set Breakdown UI
 		this.page = this.uiStore.getPage('priceBreakdown');
 		// Watch for Quote Update Events and update on changes
+		this.registerSubscriptions();
+		this.init();
+	}
+
+	registerSubscriptions() {
 		this.quoteUpdateSubscription = this.dataStore.subscribeAndGet(CONSTS.QUOTE_UPDATE, (e) => {
 			this.config = this.dataStore.get(['config']);
 			this.quote = this.config.quotation;
@@ -114,7 +119,6 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 				this.frequencyControl.setValue(pricingFrequency);
 			}
 		});
-		this.init();
 	}
 
 	init() {

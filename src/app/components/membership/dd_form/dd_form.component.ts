@@ -8,8 +8,7 @@ import {
 	animate,
 	state
 } from '@angular/core';
-import { UIStore, DataStore } from './../../../stores/stores.modules';
-import { Analytics, PaymentService } from './../../../services/';
+import { Analytics } from './../../../services/';
 
 @Component({
 	selector: 'm-dd-form',
@@ -33,9 +32,7 @@ export class DirectDebitFormComponent {
 
 	constructor(
 		private analytics: Analytics,
-	) {
-
-	}
+	) {}
 
 	triggerValidationLoading($event) {
 		if ($event) {

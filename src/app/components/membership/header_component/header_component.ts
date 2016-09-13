@@ -21,6 +21,10 @@ export class HeaderComponent {
 		private dataStore: DataStore,
 		private router: Router
 	) {
+		this.init();
+	}
+
+	init() {
 		this.uiStore.select('activePage').on('update', (e) => {
 			this.updateByPageObject(e.data.currentData);
 		});

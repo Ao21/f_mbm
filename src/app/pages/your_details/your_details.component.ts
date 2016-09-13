@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Utils } from './../../shared/utilities/utilities.component';
 import { CanDeactivate } from '@angular/router';
 import { CONSTS, ERRORS } from './../../constants';
-import { NotificationService, QuoteService, MyAAService, Analytics, ErrorService } from './../../services/index';
+import { QuoteService, MyAAService, Analytics, ErrorService } from './../../services/index';
 
 /**
  *  Your Details Page Component
@@ -51,7 +51,6 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 		private el: ElementRef,
 		private dataStore: DataStore,
 		private formBuilder: FormBuilder,
-		private notifications: NotificationService,
 		private quoteService: QuoteService
 	) {
 		this.page = this.uiStore.getPage('yourDetails');
@@ -293,7 +292,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 
 
 	canDeactivate(): boolean | Observable<any> | Promise<any> {
-		this.notifications.clearNotifications();
+		this.errorService.clearErrorNotifications();
 		if (!this.isNavigatingNext) {
 			return true;
 		}

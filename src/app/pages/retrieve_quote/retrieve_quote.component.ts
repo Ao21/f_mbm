@@ -30,21 +30,23 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 		private errorService: ErrorService,
 		private fb: FormBuilder
 	) {
-		this.fields = [
-			{
-				name: 'webRef',
-				placeholder: 'WW123456789',
-				label: 'Web Reference Number',
-				type: 'text',
-				validation: [Validators.required]
-			}, {
-				name: 'dateOfBirth',
-				placeholder: 'DD/MM/YYYY',
-				type: 'date',
-				label: 'Date of Birth',
-				validation: [Validators.required, CustomValidators.validDate]
-			}
-		];
+		this.registerFormControls();
+	}
+
+	registerFormControls() {
+		this.fields = [{
+			name: 'webRef',
+			placeholder: 'WW123456789',
+			label: 'Web Reference Number',
+			type: 'text',
+			validation: [Validators.required]
+		}, {
+			name: 'dateOfBirth',
+			placeholder: 'DD/MM/YYYY',
+			type: 'date',
+			label: 'Date of Birth',
+			validation: [Validators.required, CustomValidators.validDate]
+		}];
 
 		_.forEach(this.fields, (e: JourneyField) => {
 			this.ctrls[e.name] = [
@@ -63,43 +65,47 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 			this.myAAAccess = false;
 			// On Retrieve Quote from /retrieve_quote/myaa/[CODE]
 			let myaa = params['myaa'];
-			// On Retrieve Quote from /retrieve_quote/[WEBREFERENCE]
-			let ref = params['ref'];
-			let dob = params['dob'];
-			let refCtrl: any = this.form.controls['webRef'];
-			let dobCtrl: any = this.form.controls['dateOfBirth'];
-			if (ref) {
-				refCtrl.setValue(ref);
-				refCtrl.markAsTouched();
-				refCtrl.updateValueAndValidity();
-
-			}
-			if (dob) {
-				dobCtrl.setValue(moment(dob, 'DDMMYYYY').format('DD/MM/YYYY'));
-				dobCtrl.markAsTouched();
-				dobCtrl.updateValueAndValidity();
-			}
-
 			if (myaa) {
 				// Set Auth Cookie and Retrieve Quote Directly
 				this.myAAAccess = true;
 				this.auth.setCookieToken();
 				this.retrieveQuote(myaa);
 			}
+
+			// On Retrieve Quote from /retrieve_quote/[WEBREFERENCE]
+			let ref = params['ref'];
+			let dob = params['dob'];
+			this.mapWebReferenceControl(ref);
+			this.mapDateOfBirthControl(dob);
 		});
+	}
+
+	mapWebReferenceControl(reference) {
+		let refCtrl: any = this.form.controls['webRef'];
+		if (reference) {
+			refCtrl.setValue(reference);
+			refCtrl.markAsTouched();
+			refCtrl.updateValueAndValidity();
+		}
+	}
+
+	mapDateOfBirthControl(dob) {
+		let dobCtrl: any = this.form.controls['dateOfBirth'];
+		if (dob) {
+			dobCtrl.setValue(moment(dob, 'DDMMYYYY').format('DD/MM/YYYY'));
+			dobCtrl.markAsTouched();
+			dobCtrl.updateValueAndValidity();
+		}
 	}
 
 	submit() {
 		if (this.form.valid) {
 			this.retrieveQuoteWeb();
-
 		} else {
 			this.form.controls['webRef'].markAsTouched();
 			this.form.controls['dateOfBirth'].markAsTouched();
 		}
-
 	}
-
 
 	retrieveQuote(ref) {
 		this.quoteService.retrieveQuote(ref).subscribe(this.retieveQuoteSetQuote, this.retrieveQuoteError);
@@ -128,7 +134,6 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 					'Go Back To MyAA',
 					'https://www.theaa.ie/myaa.aspx'
 				);
-
 			} else {
 				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteProblem);
 				this.router.navigateByUrl('/');
@@ -143,7 +148,6 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 					'Go Back To MyAA',
 					'https://www.theaa.ie/myaa.aspx'
 				);
-
 			} else {
 				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteMissing);
 			}
@@ -156,11 +160,9 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 					'Go Back To MyAA',
 					'https://www.theaa.ie/myaa.aspx'
 				);
-
 				this.router.navigateByUrl('/');
 			} else {
 				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteMyAAProblem);
-
 			}
 		}
 		if (err.status === 400) {

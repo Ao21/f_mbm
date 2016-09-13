@@ -67,13 +67,7 @@ export class QuotesListComponent {
 			this.isLoading = false;
 			this.open = 'inactive';
 			this.quoteService.setQuoteExpired(res.json());
-		},
-			(err) => {
-				if (err.status === 403) {
-					this.isLoading = false;
-					this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuote);
-				}
-			});
+		}, (err) => this.handleRetrieveQuoteError(err));
 	}
 	/**
 	 * 	Retrieves a specific from the quote service, updates the dataStore with the quote
@@ -89,12 +83,14 @@ export class QuotesListComponent {
 			this.isLoading = false;
 			this.open = 'inactive';
 			this.quoteService.setQuote(res.json(), false);
-		},
-			(err) => {
-				if (err.status === 403) {
-					this.isLoading = false;
-					this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuote);
-				}
-			});
+		}, (err) => this.handleRetrieveQuoteError(err))
+
+	}
+
+	handleRetrieveQuoteError(err) {
+		if (err.status === 403) {
+			this.isLoading = false;
+			this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuote);
+		}
 	}
 }

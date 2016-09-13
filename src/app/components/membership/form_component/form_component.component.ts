@@ -115,7 +115,6 @@ export class FormComponent implements OnInit, AfterViewInit {
 	 *  Adds a fc--{{control}} to the Div and links this control to the form's control,
 	 *  also adds the field to the control for validation
 	 */
-
 	ngOnInit() {
 		this._renderer.setElementClass(this._el.nativeElement, `fc--${this.field.name}`, true);
 		this.dynamicControl = this.form.controls[this.field.name];
@@ -139,7 +138,6 @@ export class FormComponent implements OnInit, AfterViewInit {
 	triggerLoading(active: boolean) {
 		this.loadingVisible = active;
 	}
-
 
 	triggerAnalyticEvent(name, control: any, e) {
 		if (control['_ignoreAnalyticEvent']) {

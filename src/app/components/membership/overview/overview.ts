@@ -25,7 +25,7 @@ import { Observable } from 'rxjs/Rx';
 @Component({
 	selector: 'c-overview',
 	templateUrl: './overview.html'
-})	
+})
 export class OverViewComponent implements OnInit, OnDestroy {
 	@HostBinding('class.isVisible') get isVisible() { return this._isVisible; };
 	options: any;
@@ -57,32 +57,33 @@ export class OverViewComponent implements OnInit, OnDestroy {
 		private el: ElementRef,
 		private renderer: Renderer
 	) {
+		this.registerSubscriptions();
+	}
+
+	registerSubscriptions() {
 		this.updateQuoteSubscription = this.dataStore.subscribe(CONSTS.QUOTE_UPDATE, this.replaceQuote);
 		this.updateMembersSubscription = this.dataStore.subscribe(CONSTS.MEMBER_UPDATE, this.updateMembers);
 		this.updateOptionsSubscription = this.dataStore.subscribe(CONSTS.ADDONS_UPDATE, this.updateOptions);
 		this.updatePricingSubscription = this.dataStore.subscribe(CONSTS.PRICING_UPDATE, this.updatePrice);
 
 		this.uiStore.select('activePage').on('update', (e) => {
-			if(e.data.currentData.options.paymentFrequencyHidden === true) {
+			if (e.data.currentData.options.paymentFrequencyHidden === true) {
 				this.isPriceFrequencyVisible = false;
 			} else {
 				this.isPriceFrequencyVisible = true;
 			}
 		});
 
-		let resizeEvent = Observable.fromEvent(window, 'resize')
-			.debounceTime(50);
-
-		resizeEvent.subscribe(() => {
-			let distance = Utils.isViewportTablet() ? '100vh' : '400px';
-			if (this._isVisible) {
-				Velocity(
-					this.element,
-					{ height: distance },
-					{ visibility: 'visible', duration: 300 });
-			}
-		});
-
+		Observable.fromEvent(window, 'resize')
+			.debounceTime(50).subscribe(() => {
+				let distance = Utils.isViewportTablet() ? '100vh' : '400px';
+				if (this._isVisible) {
+					Velocity(
+						this.element,
+						{ height: distance },
+						{ visibility: 'visible', duration: 300 });
+				}
+			});
 	}
 
 	setPricingFrequency(frequency) {
@@ -107,7 +108,6 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	 *  Called by ADDONS_UPDATE Datastore Subscription
 	 *  Gets the active/named benefits in the active schema
 	 *  Update the Price based on those benefits
-	 *
 	 */
 	updateOptions = () => {
 		this.journeySchema = this.dataStore.get(['config']);
@@ -123,7 +123,6 @@ export class OverViewComponent implements OnInit, OnDestroy {
 	 *  Called by MEMBER_UPDATE Datastore Subscription
 	 *  Get's all Members except primary (price=0)
 	 *  Update the Price based on members
-	 *
 	 */
 	updateMembers = () => {
 		this.members = [];

@@ -46,9 +46,7 @@ export class FixedNavComponent implements OnInit {
 	/**
 	 *  @angular ngOnInit
 	 *  Attempts to get the page details for Next & Prev from the UIStore
-	 *
 	 */
-
 	ngOnInit() {
 		this.next = this.next ? this.uiStore.get(['pages', this.next]) : null;
 		this.prev = this.prev ? this.uiStore.get(['pages', this.prev]) : null;
@@ -63,7 +61,6 @@ export class FixedNavComponent implements OnInit {
 	 *
 	 *  @fires onNavigate
 	 *  @fires onNext
-	 *
 	 */
 	emitNext() {
 		this.onNavigate.next(true);
@@ -82,9 +79,7 @@ export class FixedNavComponent implements OnInit {
 	 *  When user clicks on the previous button and the prev input has been defined,
 	 *  this will close all the currently open modals and navigate to the previous page
 	 *  as defined in prev
-	 *
 	 */
-
 	emitPrev() {
 		if (this.prev) {
 			// Dehydrated Error

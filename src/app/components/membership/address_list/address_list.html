@@ -5,9 +5,6 @@
             <p>Or if you are happy the address you've entered is correct</p>
             <hr>
         </article>
-        <button [class.isEcho]="add.isEcho" (click)="setAddress(add)" class="o-slot">{{add.address}}</button>
-        
+        <button [class.isEcho]="add.isEcho" (click)="selectAddress(add)" class="o-slot">{{add.address}}</button>
     </template>
-    
-    
 </section>

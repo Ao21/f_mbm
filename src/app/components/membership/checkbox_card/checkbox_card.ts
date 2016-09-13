@@ -95,16 +95,16 @@ export class CheckboxCardComponent implements OnInit {
 	constructor(
 		private dataStore: DataStore
 	) {
-		let resizeEvent = Observable.fromEvent(window, 'resize')
-			.debounceTime(50);
-		resizeEvent.subscribe(() => {
-			if (Utils.isViewportMobile()) {
-				this.isContentCollapsed = 'hidden';
-				this.isContentCollapsable = true;
-			} else {
-				this.isContentCollapsed = 'visible';
-				this.isContentCollapsable = false;
-			}
+		Observable.fromEvent(window, 'resize')
+			.debounceTime(50)
+			.subscribe(() => {
+				if (Utils.isViewportMobile()) {
+					this.isContentCollapsed = 'hidden';
+					this.isContentCollapsable = true;
+				} else {
+					this.isContentCollapsed = 'visible';
+					this.isContentCollapsable = false;
+				}
 		});
 
 		this.isContentCollapsed = Utils.isViewportMobile() ? 'hidden' : 'visible';
@@ -117,7 +117,6 @@ export class CheckboxCardComponent implements OnInit {
 		});
 	}
 
-
 	// Event Handler for Click & Space down
 	@HostListener('keyup.space', ['$event'])
 	@HostListener('click', ['$event'])
@@ -129,7 +128,7 @@ export class CheckboxCardComponent implements OnInit {
 		this.toggleCheckboxActive();
 	}
 
-	// Prevent Spacebar bubbling (Scrolling Down)
+	// Prevent Spacebar Event Bubblings
 	@HostListener('keydown.space', ['$event'])
 	onSpaceDown(evt: Event) {
 		evt.preventDefault();
@@ -143,7 +142,6 @@ export class CheckboxCardComponent implements OnInit {
 		}
 	}
 
-	/** Toggles the checked state of the checkbox. If the checkbox is disabled, this does nothing. */
 	toggleCheckboxActive() {
 		if (!this.isDisabled) {
 			let update = {

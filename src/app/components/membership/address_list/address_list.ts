@@ -1,7 +1,7 @@
-import {Component, Input, Output, EventEmitter, OnChanges,HostBinding, ElementRef} from '@angular/core';
-import {ReferenceService, NotificationService, Analytics, ErrorService} from './../../../services/index';
-import {isPresent} from '@angular/platform-browser/src/facade/lang';
-import {Observable, Subject} from 'rxjs/Rx';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding, ElementRef } from '@angular/core';
+import { ReferenceService, NotificationService, Analytics, ErrorService } from './../../../services/index';
+import { isPresent } from '@angular/platform-browser/src/facade/lang';
+import { Observable, Subject } from 'rxjs/Rx';
 import { ERRORS } from './../../../constants';
 
 /**
@@ -37,7 +37,7 @@ export class AddressListComponent implements OnChanges {
 		private errorService: ErrorService,
 		private analytics: Analytics,
 		private el: ElementRef,
-		private geoService: ReferenceService,
+		private referenceService: ReferenceService,
 		private notificationService: NotificationService
 	) {
 
@@ -45,14 +45,19 @@ export class AddressListComponent implements OnChanges {
 			.debounce((x) => { return Observable.timer(500); })
 			.distinctUntilChanged()
 			.do(next => { this.onLoading.next(true); })
-			.switchMap(address => this.geoService.checkAddress(address))
-			.subscribe((next: any) => {
-				this.onReadyValid.next(true);
-				this.addList = next.json().lookups;
-				this.addList[this.addList.length - 1].isEcho = true;
-				console.log(this.addList);
-				this.onValid.next(null);
-			}, (err) => this.errorService.errorHandlerWithNotification(ERRORS.addressService));
+			.switchMap(address => this.referenceService.checkAddress(address))
+			.subscribe((next: any) =>
+				this.createAddressList(next),
+			(err) =>
+				this.errorService.errorHandlerWithNotification(ERRORS.addressService));
+	}
+
+	createAddressList(next) {
+		let addressList: addressObject = next.json();
+		this.onReadyValid.next(true);
+		this.addList = addressList.lookups;
+		this.addList[this.addList.length - 1].isEcho = true;
+		this.onValid.next(null);
 	}
 
 	/* istanbul ignore next */
@@ -80,9 +85,6 @@ export class AddressListComponent implements OnChanges {
 		}, 0);
 	}
 
-	/**
-	 * 	Open Address List & Trigger Animations
-	 */
 	openAddresses = () => {
 		let items = this.el.nativeElement.querySelectorAll('.o-slot, article');
 		let sequence = [
@@ -105,22 +107,19 @@ export class AddressListComponent implements OnChanges {
 	}
 
 
-	/**
-	 *  TODO: Animate Adddresses Appearing
-	 *  TODO: Select Adddress & Emit Valid Addresses
-	 *  TODO: Show Selected Address & Reset on Address Change
-	 */
-	setAddress(address: any) {
+	selectAddress(address: addressObject) {
 		// If No Address Listed Fire a No Address Found Event for Analytics		
-		this.geoService.selectAddress(address.id).subscribe((next) => {
-			this.notificationService.clearNotifications();
-			if (address.isEcho) {
-				this.analytics.triggerEvent('validateAddress', 'noAddress');
-			} else {
-				this.analytics.triggerEvent('validateAddress', 'selectAddress');
-			}
-			this.onValid.next(next.json());
-		}, (err) =>
-			this.errorService.errorHandlerWithNotification(ERRORS.setAddress));
+		this.referenceService
+			.selectAddress(address.id)
+			.subscribe((next) => {
+				this.notificationService.clearNotifications();
+				if (address.isEcho) {
+					this.analytics.triggerEvent('validateAddress', 'noAddress');
+				} else {
+					this.analytics.triggerEvent('validateAddress', 'selectAddress');
+				}
+				this.onValid.next(next.json());
+			}, (err) =>
+				this.errorService.errorHandlerWithNotification(ERRORS.setAddress));
 	}
 }

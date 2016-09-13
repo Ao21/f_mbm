@@ -15,10 +15,11 @@ export class MyAASaveQuoteSignInComponent {
 	loginLoading: boolean;
 	retryActive: boolean = false;
 	isLoginToMyAA: boolean = false;
-	// Login Form Controls
+
 	loginForm: FormGroup;
 	registrationForm: FormGroup;
 	resetPassword: boolean = false;
+
 	emailField: JourneyField = {
 		name: 'email',
 		label: 'Email',
@@ -47,6 +48,20 @@ export class MyAASaveQuoteSignInComponent {
 		private analytics: Analytics,
 		private formBuilder: FormBuilder,
 		private myAA: MyAAService) {
+
+		this.generateFormControls();
+
+		this.loginForm.controls['password'].valueChanges.subscribe((next) => {
+			Utils.resetCustomValidators(this.loginForm.controls['password']);
+		});
+
+		this.registrationForm.controls['confirmPassword'].valueChanges.subscribe((next) => {
+			Utils.resetCustomValidators(this.registrationForm.controls['confirmPassword']);
+		});
+
+	}
+
+	generateFormControls() {
 		let loginCtrls = [];
 		loginCtrls['email'] = ['', Validators.compose(this.emailField.validation)];
 		loginCtrls['password'] = ['', Validators.compose(this.passwordField.validation)];
@@ -59,15 +74,6 @@ export class MyAASaveQuoteSignInComponent {
 		registerCtrls['confirmPassword'] = ['', Validators.compose(this.passwordFieldConf.validation)];
 		this.registrationForm = this.formBuilder.group(registerCtrls);
 		this.loginForm['name'] = 'Register for MyAA Form';
-
-		this.loginForm.controls['password'].valueChanges.subscribe((next) => {
-			Utils.resetCustomValidators(this.loginForm.controls['password']);
-		});
-
-		this.registrationForm.controls['confirmPassword'].valueChanges.subscribe((next) => {
-			Utils.resetCustomValidators(this.registrationForm.controls['confirmPassword']);
-		});
-
 	}
 
 	login() {
@@ -105,8 +111,5 @@ export class MyAASaveQuoteSignInComponent {
 				return;
 			});
 	}
-
-
-
 
 }

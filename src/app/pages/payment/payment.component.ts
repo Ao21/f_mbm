@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UIStore, DataStore } from './../../stores/stores.modules';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +13,7 @@ import { NotificationService, PaymentService } from './../../services/index';
 	selector: 'p-payment',
 	templateUrl: './payment.html'
 })
-export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, OnInit {
+export class MembershipPaymentPageComponent implements CanDeactivate<boolean> {
 	// Default Settings for Payment Page
 	page: UIPage;
 	// Payment type - Card|Bank
@@ -26,7 +26,6 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, O
 	isPaymentAgreementActive: boolean = true;
 
 	constructor(
-
 		private router: Router,
 		private dataStore: DataStore,
 		private uiStore: UIStore,
@@ -40,10 +39,6 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean>, O
 		this.paymentType = this.dataStore.get(['pricing', 'type']);
 		this.quote = this.dataStore.get(['config', 'quotation']);
 
-	}
-
-	ngOnInit() {
-		// TODO: Change this to a session object
 	}
 
 	/**

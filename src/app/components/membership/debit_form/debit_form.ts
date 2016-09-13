@@ -18,7 +18,6 @@ export class DebitFormComponent {
 	@Output('onValidationSuccess') onValidationSuccess: EventEmitter<any> = new EventEmitter();
 	@Output('onPaymentTypeChange') onPaymentTypeChange: EventEmitter<any> = new EventEmitter();
 	data: any;
-	update: any;
 	fields: JourneyField;
 	ctrls: any = {};
 	form: FormGroup;
@@ -26,7 +25,6 @@ export class DebitFormComponent {
 	isAccountValidated: boolean = false;
 	accountValidationStatus: boolean = false;
 	accountToValidate: Subject<any> = new Subject();
-	sub: ISubscriptionDefinition<any>;
 
 	constructor(
 		private errorService: ErrorService,
@@ -43,23 +41,28 @@ export class DebitFormComponent {
 			.filter((x) => { return this.form.valid && !this.isUpdating; })
 			.do((x) => { this.onValidationInit.next(true); })
 			.switchMap((x) => this.paymentService.validateBankDetails(x))
-			.subscribe((next) => {
-				this.errorService.clearErrorNotifications();
-				let acc: any = next.json();
-				this.isAccountValidated = true;
-				if (isPresent(acc.valid) && acc.valid === 'true') {
-					this.onValidationSuccess.next(acc);
-					this.dataStore.update(['paymentMethods', 'debit', 'values'], this.form.value);
-					this.accountValidationStatus = true;
-				} else {
-					this.dataStore.remove(['paymentMethods', 'debit', 'values']);
-					this.onValidationSuccess.next(false);
-					this.accountValidationStatus = false;
-				}
-			}, (err) => {
-				this.errorService.errorHandlerWithNotification(ERRORS.bankValidation);
-			});
+			.subscribe(
+			(next) => this.validateAccount(next),
+			(err) => this.errorService.errorHandlerWithNotification(ERRORS.bankValidation));
+		this.init();
+	}
 
+	validateAccount(next) {
+		this.errorService.clearErrorNotifications();
+		let acc: any = next.json();
+		this.isAccountValidated = true;
+		if (isPresent(acc.valid) && acc.valid === 'true') {
+			this.onValidationSuccess.next(acc);
+			this.dataStore.update(['paymentMethods', 'debit', 'values'], this.form.value);
+			this.accountValidationStatus = true;
+		} else {
+			this.dataStore.remove(['paymentMethods', 'debit', 'values']);
+			this.onValidationSuccess.next(false);
+			this.accountValidationStatus = false;
+		}
+	}
+
+	init() {
 		this.data = this.dataStore.get(['paymentMethods', 'debit']);
 		this.fields = this.data.fields;
 		_.forEach(this.data.fields, (e: any) => {

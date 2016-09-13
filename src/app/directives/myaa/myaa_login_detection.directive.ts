@@ -32,18 +32,17 @@ export class MyAALoginDetectionDirective implements OnInit {
 			.catch((err, caught) => {
 				return caught;
 			})
-			.subscribe((res: any) => {
-				if (res.login === '1' || res.login === '2') {
-					this.notifications.createLogin(res.email, true);
-				}
-				},
-				(err) => {
-					this.results.next(['ERROR, see console']);
-				},
-				() => {
-					console.log('complete');
-				});
+			.subscribe((res: any) => this.openMyAALogin(res),
+			(err) => {
+				this.results.next(['ERROR, see console']);
+			});
 
+	}
+
+	openMyAALogin(res) {
+		if (res.login === '1' || res.login === '2') {
+			this.notifications.createLogin(res.email, true);
+		}
 	}
 
 	ngOnInit() {

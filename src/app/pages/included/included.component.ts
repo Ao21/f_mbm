@@ -50,46 +50,45 @@ export class MembershipIncludedPageComponent implements OnInit {
 
 	private init() {
 		this.dataStore.subscribeAndGet(CONSTS.PRICING_UPDATE, () => {
-			// Updates whether the monthly or annual price is shown for the cover levels
 			this.pricingFrequency = this.dataStore.get(['pricing', 'frequency']);
 		});
 		this.coverLevels =
 			_.cloneDeep(this.dataStore.select('config', 'coverLevel').get());
 	}
 
-	public navigateNext = (e: Event) => {
+	navigateNext = (e: Event) => {
 		_.forEach(this.coverLevels, (level: CoverLevel) => {
 			this.analytics.triggerEvent('page-completion-included', level.active, level.name);
 		});
 		if (!this.hasAgreedTermsConditions) {
-			let el = this.el.nativeElement.querySelector('body > app > main > p-included > div > article > button');
-			this.errorService.errorHandlerWithNotification(ERRORS.termsConditions);
-			Utils.scrollToElement(el);
+			this.scrollToTermsAndConditions();
 		}
+	}
 
+	scrollToTermsAndConditions() {
+		let el = this.el.nativeElement.querySelector('body > app > main > p-included > div > article > button');
+		this.errorService.errorHandlerWithNotification(ERRORS.termsConditions);
+		Utils.scrollToElement(el);
 	}
 
 	/**
 	 *  On Click event if an addon isnt disabled it should call this and set the local active status
 	 *  in order for the animation to update and also set the dataStores option
 	 */
-
-	public selectAddon(addonUpdate) {
+	selectAddon(addonUpdate) {
 		let level = this.dataStore.getCoverLevel(addonUpdate.index);
 		this.quoteService.updateCover(level, addonUpdate.isSelected)
 			.subscribe((next) => {
 				this.notificationService.clearNotifications();
-				this.coverLevels[addonUpdate.index].active = addonUpdate.isSelected;
 				this.dataStore.toggleCoverLevel(addonUpdate.index, addonUpdate.isSelected);
 			}, (err) => {
 				this.errorService.errorHandlerWithNotification(ERRORS.coverLevelChange);
 			});
 	}
 
-	public updateTermsBool(active: boolean) {
+	updateTermsBool(active: boolean) {
 		this.hasAgreedTermsConditions = active;
 		this.analytics.triggerEvent('terms-conditions-acceptance', null, active);
-		// Clear the Notifications Service once user accepts
 		this.notificationService.clearLastErrorMsg();
 		this.notificationService.clearNotifications();
 	}
