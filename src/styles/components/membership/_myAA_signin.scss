@@ -44,6 +44,15 @@ m-save-quote-signin,
 		button {
 			@include flex(1 1 auto);
 			@include span-columns(6);
+			position: relative;
+			c-spinner {
+				position: absolute;
+				width: 40px;
+				height: 40px;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+			}
 			@include media($mobile){
 				@include span-columns(4);
 			}

@@ -5,36 +5,21 @@ pu-testimonials {
     background-color: $dark;
     color: $light;
     
-    padding-top: size(big);
+    padding-top: 8rem;
     text-align: center;
     @include media($mobile) {
-        padding-top: size(large);
+        padding-top: 5rem;
     }
     
     .pu-container > h4{
-        margin-bottom: size(medium);
+        margin-bottom: 3rem;
         
     }
     
     .loading {
-        height: 1.5rem;
-        width: 1.5rem;
-        padding: 20px;
-        margin: 0rem auto size(medium);
-        color: $dark-gray;
-        &:before {
-            content: '';
-            position: absolute;
-            background: $color-light;
-            height: 6px;
-            width: 6px;
-            border-radius: 50%;
-            background-position: center;
-            transition: all ease 0.25s;
-            transform-origin: 0% 0%;
-            animation: spinner-animate 1.5s cubic-bezier(.3, .5, .7, .5) infinite;
-            transform-style: preserve-3D;
-        }
+        position: absolute;
+        left: calc(50% + 20px);
+        top: 4%;
     }
    
 }

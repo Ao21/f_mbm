@@ -87,6 +87,15 @@ p-your-details {
         }
     }
     button#validateAddBtn {
+        position: relative;
+        c-spinner{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            transform: translate(-50%,-50%);
+        }
         @include media($mobile) {
             @include span-columns(4);
 

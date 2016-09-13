@@ -73,7 +73,7 @@ c-overview {
             }
             a {
                 @include font-size(tiny);
-
+                text-decoration: underline;
                 float: right;
                 color: $dark;
             }
