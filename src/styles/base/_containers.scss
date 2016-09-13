@@ -1,0 +1,70 @@
+.container {
+    @include outer-container;
+    @include media($lg-desktop) {
+        max-width: 1400px;
+    }
+    @include media($desktop) {
+        max-width: 1100px;
+    }
+    @include media($tablet) {
+        max-width: 900px;
+    }
+    @include media($tabletPortrait) {
+        max-width: 720px;
+    }
+    @include media($smallTablet) {
+        max-width: 570px;
+    }
+    @include media($mobile) {
+        padding: 0 $navPaddingMobile;
+        max-width: 100%;
+        &.noPadding {
+            padding: 0;
+        }
+    }
+}
+
+.container--noSides {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container--flex {
+    @include display(flex);
+    // margin-top: -$defaultContainerPadding;
+    &--center {
+        @include display(flex);
+        width: 100%;
+        min-height: calc(100vh - #{$navHeightDefault * 2});
+        height: calc(100vh - #{$navHeightDefault * 2});
+        @include align-items(center);
+        @include justify-content(center);
+        -ms-flex-pack: center;
+        -ms-flex-align:center;
+        
+        @include media($mobile) {
+            @include align-items(center);
+            @include justify-content(center);
+        }
+
+    }
+    &--nofooter {
+        min-height: calc(100vh - #{$navHeightDefault});
+        height: calc(100vh - #{$navHeightDefault});
+    }
+    @include media($mobile) {
+        padding: 0 $defaultContainerPaddingMobile;
+        margin-top: auto;
+    }
+}
+
+.outer-container {
+    max-width: 100%;
+    background-color: $light;
+    color: $dark;
+    padding-top: $defaultContainerPadding;
+    @include media($mobile) {
+        padding-top: $defaultContainerPaddingMobile;
+    }
+}
