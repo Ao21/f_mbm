@@ -23,8 +23,8 @@ import {
 		trigger('confirmationVisible', [
 			state('visible', style({ transform: 'translateX(0)' })),
 			state('hidden', style({ transform: 'translateX(100%)' })),
-			transition('* => visible', [animate('300ms 350ms cubic-bezier(0.215, 0.61, 0.355, 1)')]),
-			transition('* => hidden', [animate('300ms cubic-bezier(0.215, 0.61, 0.355, 1)')])
+			transition('hidden => visible', [animate('300ms 350ms cubic-bezier(0.215, 0.61, 0.355, 1)')]),
+			transition('visible => hidden', [animate('300ms cubic-bezier(0.215, 0.61, 0.355, 1)')])
 
 		])
 	]
