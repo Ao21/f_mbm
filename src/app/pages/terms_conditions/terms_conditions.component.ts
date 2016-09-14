@@ -34,13 +34,8 @@ export class MembershipTermsConditionsComponent implements OnInit {
 		this.page = this.uiStore.getPage('termsConditions');
 		this.paymentFrequency = this.dataStore.get(['pricing', 'frequency']);
 		if (this.paymentFrequency === 'monthly') {
-			this.paymentType = 'Card';
 			this.isPaymentTypeSet = true;
-			this.paymentService.updatePaymentType('Card', this.paymentFrequency).subscribe((next) => {
-			}, (err) => {
-				this.errorService.errorHandlerWithNotification(ERRORS.setPaymentType);
-				this.router.navigateByUrl('/breakdown');
-			});
+			this.setPaymentType('Card');
 		}
 	}
 
@@ -63,8 +58,8 @@ export class MembershipTermsConditionsComponent implements OnInit {
 				this.errorService.errorHandlerWithNotification(ERRORS.setPaymentType);
 				this.router.navigateByUrl('/breakdown');
 			});
-
 	}
+
 	continue() {
 		setTimeout(() => { this.router.navigate([this.uiStore.getPageUrl(this.page.next)]); }, 300);
 
