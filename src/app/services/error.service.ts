@@ -51,19 +51,20 @@ export class ErrorService {
 	retrieveServiceError(code?: string): ErrorMessage {
 		let message = {
 			'default': {
-				message: 'Sorry, an error has occured',
+				message: 'Sorry, an error has occured, please click below to restart your journey',
 				link: '/',
-				linkText: 'Please click here to try again.'
+				linkText: 'Restart Journey.'
 			},
+
 			'quoteRejection': {
 				message: `Unfortunately based on the information that you've provided, 
 				we are unable to provide you with a quote for AA Membership at this time<br><br>
 				If you would like to ring us to discuss this further please call <strong>0818 227 228</strong>`
 			},
 			'sessionExpired': {
-				message: `Sorry your session has expired`,
+				message: `Sorry your session has expired, please click below to restart your journey`,
 				link: '/',
-				linkText: 'Please click here to restart the journey.',
+				linkText: 'Restart Journey',
 				resetJourney: true
 			}
 		};
