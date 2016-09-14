@@ -51,7 +51,7 @@ export class DebitFormComponent {
 		this.errorService.clearErrorNotifications();
 		let acc: any = next.json();
 		this.isAccountValidated = true;
-		if (isPresent(acc.valid) && acc.valid === 'true') {
+		if (isPresent(acc.valid) && acc.valid === true) {
 			this.onValidationSuccess.next(acc);
 			this.dataStore.update(['paymentMethods', 'debit', 'values'], this.form.value);
 			this.accountValidationStatus = true;

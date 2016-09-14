@@ -68,7 +68,7 @@ export class IbanFormComponent {
 		this.errorService.clearErrorNotifications();
 		let acc: any = next.json();
 		this.isAccountValidated = true;
-		if (isPresent(acc.valid) && acc.valid === 'true') {
+		if (isPresent(acc.valid) && acc.valid === true) {
 			this.accountValidationStatus = true;
 			this.onValidationSuccess.next(acc);
 			this.dataStore.update(['paymentMethods', 'iban', 'values'], this.form.value);
