@@ -2,9 +2,13 @@
 // Error Page
 //-------------------------------------
 p-error {
-	padding-top:0!important;
-
-	 &:before {
+    padding-top: 0!important;
+    @include media($mobile) {
+        .container--flex--center {
+            min-height: calc(100vh - #{$navHeightMobile});
+        }
+    }
+    &:before {
         position: fixed;
         top: 0;
         left: 0;
