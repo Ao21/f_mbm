@@ -116,7 +116,7 @@ export class Pages {
 		options: {}
 	};
 	termsConditions: UIPage = {
-		title: `Terms and Conditions`,
+		title: ``,
 		address: '/terms_and_conditions',
 		next: 'payment',
 		prev: 'priceBreakdown',
