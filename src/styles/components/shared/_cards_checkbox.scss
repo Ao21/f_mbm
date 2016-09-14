@@ -122,6 +122,7 @@ c-checkbox-card,
         background-color: $light;
         @include media($upToDesktop){
             @include flex(0 0 200px);
+            padding: 0;
         }
     }
     button.btn {
