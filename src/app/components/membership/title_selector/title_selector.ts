@@ -35,7 +35,7 @@ export class TitleSelectorComponent implements OnDestroy, OnInit {
 	}
 
 	checkForRelayOnlyOptions() {
-		if (!_.find(this.titles, (e) => { return e.id === this.control.value; }) && this.control.value!=='') {
+		if (this.titles.length > 0 && !_.find(this.titles, (e) => { return e.id === this.control.value; }) && this.control.value!=='') {
 			this.titles.push({ id: this.control.value, value: this.control.value });
 			this.changeRef.detectChanges();
 		}
