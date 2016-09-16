@@ -20,7 +20,8 @@ const appRoutes: Routes = [
 	...ConfirmationRoutes,
 	...RetrieveQuoteRoutes,
 	...TermsConditionsRoutes,
-	...ErrorRoutes
+	...ErrorRoutes,
+	{path: '**', redirectTo: '/'}
 ];
 
 export const appRoutingProviders: any[] = [
