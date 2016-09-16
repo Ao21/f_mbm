@@ -2,6 +2,6 @@
     <h4 *ngIf="quote && frequency==='monthly'">Your first monthly payment will be <span>{{quote.total.monthly.deposit.pretty}}</span>. The following {{quote.total.monthly.instalment.number}} monthly payments will be <span>{{quote.total.monthly.instalment.charge.pretty}}</span>.</h4>
     <h3 class="centered title">Please enter your card details.</h3>
     <div *ngIf="errorMessageVisible" class="o-slot--warning"><h6>Sorry, there was a problem processing your payment, please try again.</h6></div>
-     <iframe *ngIf="iframeVisible" [style.height]="iframeHeight" src="http://aaweb.staging.theaa.local/aa-membership/journey/payment/creditcard"></iframe>
+     <iframe *ngIf="iframeVisible" [style.height]="iframeHeight" src="payment/creditcard"></iframe>
      <button *ngIf="frequency==='annual'" (click)="swapPaymentType()" class="btn btn--outline btn--expand">Or Pay By Bank</button>
 </div>
