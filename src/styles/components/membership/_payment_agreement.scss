@@ -3,9 +3,19 @@
 //-------------------------------------
 m-payment-agreement,
 #payment-agreement {
-	margin: auto;
 	max-width: 380px;
-
+	margin: auto;
+	@include media($mobile) {
+		
+		.o-card__content {
+			height: calc(100vh - 60px - 60px);
+			overflow-y: scroll;
+		}
+	}
+	@media screen and (-ms-high-contrast: active),
+	(-ms-high-contrast: none) {
+		margin: inherit
+	}
 	.o-card {
 		&__title {
 			padding: size(large) size(medium);
@@ -13,10 +23,10 @@ m-payment-agreement,
 			min-height: 4.5rem;
 			background-color: $dark-med-gray;
 			color: white;
+			flex: 1 1 auto;
 			// @include media($mobile){
 			// 	min-height: 340px;
 			// }
-
 			h5 {
 				text-align: left;
 				font-weight: 400;

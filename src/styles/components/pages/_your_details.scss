@@ -43,6 +43,7 @@ p-your-details {
     }
     .fc--title m-title-selector{
         width: 100%;
+        float: left;
     }
     .fc--title c-selector-group {
         margin: 0;
@@ -63,7 +64,7 @@ p-your-details {
         @include type-setting(1);
         @include media($mobile) {
             margin: 10px 5px 0;
-            min-width: 60px;
+            min-width: 45px;
         }
 
         z-index: 9;

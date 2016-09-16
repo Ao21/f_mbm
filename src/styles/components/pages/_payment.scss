@@ -3,9 +3,12 @@
 //-------------------------------------
 p-payment {
     @include media($mobile){
-        padding: 1.5rem 0 0!important;
-    }
-    @include media($mobile) {
+        
+        padding: 0!important;
+        .container--flex--center {
+			padding: 0;
+            display: block;
+		}
         & > section {
             min-height: $containerMinHeightMobile
         }

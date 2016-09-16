@@ -4,38 +4,42 @@
 m-cc-form {
     @include media($mobile) {
         float: left;
-        margin: 0 auto;
+        margin: auto;
         min-width: 100%;
+        width: 100%;
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+            margin: inherit
+        }
     }
-
-    margin: auto;
     width: 600px;
-
+    margin: auto;
+    @media screen and (-ms-high-contrast: active),
+    (-ms-high-contrast: none) {
+        margin: inherit
+    }
     &.is-hidden {
         display: none;
     }
 }
 
 .o-cc_form {
-    padding-top:$defaultContainerPadding;
+    padding-top: $defaultContainerPadding;
     @include media($tablet) {
         padding-top: $defaultContainerPaddingTablet;
     }
     @include media($mobile) {
-        padding-top: $defaultContainerPaddingMobile;
+        padding: $defaultContainerPaddingMobile $defaultContainerPaddingMobile;
+
     }
     float: left;
     width: 100%;
-
     h4 {
         @include media($mobile) {
             @include font-size(medium);
         }
-
         margin-bottom: size(medium);
         color: $dark-med-gray;
         font-weight: 400;
-
         span {
             color: $light-med-gray;
         }
@@ -45,12 +49,11 @@ m-cc-form {
             min-height: 654px;
             width: 100%;
         }
-
         float: left;
         margin-bottom: size(medium);
         min-height: 600px;
         width: 600px;
         border: 0;
-		background-color: $dark
+        background-color: $dark
     }
 }

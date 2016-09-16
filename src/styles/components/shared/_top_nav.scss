@@ -8,11 +8,9 @@ c-top-nav,
     @include media($mobile) {
         height: $navHeightMobile;
     }
-    
     position: fixed;
-    position: -webkit-sticky;
-   
     top:0;
+    transform: translate3d(0px,0px,0px);
     z-index: $topNavZ;
     width: 100%;
     height: $navHeightDefault;

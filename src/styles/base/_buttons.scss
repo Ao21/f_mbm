@@ -33,6 +33,7 @@ button {
         @include display(flex);
         @include justify-content(center);
         span {
+            -js-display: flex;
             display: flex;
             flex: 1 1;
             justify-content: center;

@@ -5,18 +5,14 @@
     @include display(flex);
     @include media($mobile) {
         @include span-columns(4);
-
         height: $fixedNavContainerMobile;
     }
-
     position: fixed;
-    position: -webkit-sticky;
     bottom: 0;
     left: 0;
     z-index: $fixedNavZ;
     float: left;
     width: 100%;
-
     button {
         @include flex(2);
         @include media($upToDesktop) {
@@ -28,12 +24,10 @@
             min-height: $fixedNavHeightMobile;
             height: $fixedNavHeightMobile;
         }
-
         float: left;
         margin-bottom: 0;
         min-height: $fixedNavHeight;
         height: $fixedNavHeight;
-
         img {
             float: left;
             clear: both;
@@ -49,7 +43,6 @@
             display: none;
         }
     }
-
 }
 
 .c-fixed-nav__spacer {
@@ -59,7 +52,6 @@
     @include media($mobile) {
         height: $fixedNavContainerMobile;
     }
-
     float: left;
     width: 100%;
     height: $fixedNavSpacerDesktop

@@ -20,7 +20,7 @@ c-auto-complete,
         position: relative;
         z-index: 999;
         float: left;
-        overflow: scroll!important;
+        overflow: auto;
         margin-bottom:0;
         max-height: 230px;
         width: calc(100%);

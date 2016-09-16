@@ -3,10 +3,28 @@
 //-------------------------------------
 p-terms {
   @include media($mobile) {
-    padding: 1.5rem 0 0!important;
+    padding: 0!important;
+
+    .container--flex--center {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .o-card__content {
+      height: calc(100vh - 60px - 60px);
+			overflow-y: scroll;
+    }
     
   }
-  padding-top:0!important
+  padding-top:0!important;
+
+   @media screen and (-ms-high-contrast: active),
+    (-ms-high-contrast: none) {
+        .btn--image {
+          padding-top:12px;
+      }
+    }
+  
 }
 
 .c-terms {
