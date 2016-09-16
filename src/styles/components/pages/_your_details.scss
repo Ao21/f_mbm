@@ -68,7 +68,7 @@ p-your-details {
         }
 
         z-index: 9;
-        flex: 1 1 50px;
+        @include flex(1 1 50%);
         margin: 10px 20px 0;
         min-width: 100px;
         height: 4rem;

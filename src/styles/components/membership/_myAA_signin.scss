@@ -30,13 +30,13 @@ m-save-quote-signin,
 			min-height: 0;
 		}
 
-		flex: 0 1 auto;
+		@include flex(0 1 auto);
 		justify-content: flex-end
 	}
 	&__button-group {
 		display: flex;
-		flex: 0 1 auto;
-		flex-direction: row;
+		@include flex(0 1 auto);
+		@include flex-direction(row);
 		float: left;
 		margin-bottom: size(medium);
 		width: 100%;

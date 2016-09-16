@@ -33,7 +33,7 @@ pu-default{
         @include display(flex);
         width: 100%;
         button {
-            flex: 1;
+            @include flex(1);
             min-width: 0;
             background-color: $yellow;
             margin-bottom:0;

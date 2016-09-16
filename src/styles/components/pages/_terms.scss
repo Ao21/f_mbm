@@ -59,8 +59,8 @@ p-terms {
       align-content: center;
       margin-top: size(huge);
       p {
-        display: flex;
-        align-items: center;
+       @include display(flex);
+        @include align-items(center);
         margin: 0;
       }
     }

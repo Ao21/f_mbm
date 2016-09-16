@@ -29,30 +29,30 @@ m-quotes-list {
         top: initial;
         right: 0;
         bottom: 15px;
-        flex: 1 1 auto;
+        @include flex(1 1 auto);
         align-content: center;
-        align-items: center;
-        align-self: center;
+        @include align-items(center);
+        @include align-self(center);
         margin: 0 auto;
         padding: 0;
         width: 100%;
         text-align: center
     }
     .m-quote {
-        display: flex;
+       @include display(flex);
         margin-bottom: size(small);
         &__content {
             @include type-setting(1);
             @include media($mobile) {
                 @include type-setting(0);
                 line-height: 18px;
-                flex-direction: column;
+                @include flex-direction(column);
                 align-items: initial;
                 padding: 0;
             }
-            display: flex;
-            flex: 1;
-            align-items: center;
+           @include display(flex);
+            @include flex(1);
+            @include align-items(center);
             padding: size(mini);
             border-bottom: 1px solid $dark-med-gray
         }
@@ -83,14 +83,14 @@ m-quotes-list {
             // width: 140px;
         }
         &__details {
-            flex: 1 0 auto
+            @include flex(1 0 auto);
         }
         &__price {
             @include media($mobile) {
-                flex: 1 1 auto;
+                @include flex(1 1 auto);
                 text-align: right;
             }
-            flex: 0 1 auto
+            @include flex(0 1 auto);
         }
         &__edit {
             @include media($mobile) {

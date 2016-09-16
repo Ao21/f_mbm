@@ -13,8 +13,8 @@
     float: left;
     width: 100%;
     header {
-      display: flex;
-      flex-direction: row;
+     @include display(flex);
+      @include flex-direction(row);
       padding: 0 24px;
       height: 60px;
       background-color: $yellow;
@@ -28,8 +28,8 @@
         @include media($mobile) {
           @include font-size(tiny);
         }
-        flex: 1 1 auto;
-        align-self: center;
+        @include flex(1 1 auto);
+        @include align-self(center);
         color: $dark;
         text-align: right;
         text-transform: uppercase
@@ -38,19 +38,19 @@
   }
   &__header,
   &__subheader {
-    display: flex;
-    flex: 1 1 auto;
+   @include display(flex);
+    @include flex(1 1 auto);
     flex-flow: row wrap;
-    align-items: flex-end;
+    @include align-items(flex-end);
     justify-content: space-between;
     padding: 24px;
     background-color: $light;
     color: $dark;
     .c-breakdown__list {
       @include media($mobile) {
-        flex-direction: column;
+        @include flex-direction(column);
       }
-      flex-direction: row;
+      @include flex-direction(row);
       flex-wrap: wrap;
       align-content: space-between;
       float: left;
@@ -68,14 +68,14 @@
     @include flex-direction(row);
     padding-bottom: 6px;
     img {
-      align-self: center;
+      @include align-self(center);
       max-width: 25px;
       max-height: 25px;
       transform: translateY(-5px);
     }
     h1,
     img {
-      flex: 1 1 auto;
+      @include flex(1 1 auto);
     }
   }
   &__subheader {
@@ -113,7 +113,7 @@
       left: 50%;
       width: 40px;
       height: 40px;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
     }
   }
   &__body {
@@ -141,8 +141,8 @@
   }
   &__list {
     position: relative;
-    display: flex;
-    flex-direction: column;
+   @include display(flex);
+    @include flex-direction(column);
     flex-flow: column wrap;
     float: left;
     overflow: hidden;
@@ -155,10 +155,10 @@
   }
   &__item {
     position: relative;
-    display: flex;
-    flex: 1 1 auto;
+   @include display(flex);
+    @include flex(1 1 auto);
     flex-flow: row wrap;
-    align-items: center;
+    @include align-items(center);
     justify-content: space-between;
     padding-right: 40px;
     list-style: none;
@@ -191,10 +191,10 @@
     }
     &--horizontal {
       @include media($mobile) {
-        flex: 1 1 100%;
+        @include flex(1 1 100%);
         justify-content: flex-start!important;
       }
-      flex: 1 1 50%;
+      @include flex(1 1 50%);
       justify-content: flex-start;
       height: inherit
     }

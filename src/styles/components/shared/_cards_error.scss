@@ -3,15 +3,15 @@
 //-------------------------------------
 .o-card.o-card--error {
 	display: flex;
-	flex-direction: column;
-	flex: 0 0 auto;
+	@include flex-direction(column);
+	@include flex(0 0 auto);
 	h6 {
 		margin-bottom: size(small);
 		font-weight: 400;
 	}
 	.o-card__content {
 		@include font-size(tiny);
-		flex: 1 1 auto;
+		@include flex(1 1 auto);
 		float: left;
 		padding: size(large) size(medium);
 		@include media($mobile){
@@ -25,21 +25,20 @@
 			justify-content: space-between;
 			margin-bottom: size(large);
 			@include media($mobile) {
-				flex-direction: column;
-				flex-direction: column-reverse;
-				align-items: center;
+				@include flex-direction(column-reverse);
+				@include align-items(center);
 				margin-bottom: size(small);
 				img {
 					margin-bottom: size(small);
 				}
 			}
 			h2 {
-				flex: 1 1 auto;
-				align-self: center;
+				@include flex(1 1 auto);
+				@include align-self(center);
 				font-weight: 600;
 			}
 			img {
-				flex: 1 1 60px;
+				@include flex(1 1 60px);
 				max-width: 60px;
 				height: 60px;
 				margin-left: 5px;
@@ -47,7 +46,7 @@
 		}
 	}
 	.o-card__actions {
-		flex: 1 1 auto;
+		@include flex(1 1 auto);
 		padding: size(medium) size(medium);
 		background-color: $dark-med-gray;
 	}

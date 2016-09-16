@@ -5,13 +5,11 @@ c-notification-bar {
     @include media($mobile) {
         top: $navHeightMobile;
     }
-
     position: fixed;
     top:$navHeightDefault;
     z-index: $notificationsBarZ;
     display: block;
     width: 100%;
-
     &> section {
         position: relative;
         z-index: 9;
@@ -20,7 +18,6 @@ c-notification-bar {
     }
     c-notification {
         display: none;
-
         &:first-of-type {
             display: block;
         }
@@ -34,16 +31,14 @@ c-notification-bar {
     @include media($upToDesktop) {
         padding: size(small) $navPaddingMobile;
     }
-
     position: relative;
     z-index: $topNavZ;
-    display: flex;
+   @include display(flex);
     float: left;
     padding: size(small) $navPaddingDefault;
     width: 100%;
     background-color: $primary;
     text-align: left;
-
     a,
     p {
         color: $light
@@ -53,16 +48,12 @@ c-notification-bar {
         //margin: size(small) 0 0;
         @include media($upToDesktop) {
             @include flex-direction(row);
-
-            align-items: center;
-
+            @include align-items(center);
             br {
                 display: none;
             }
         }
-
         width: 100%;
-
         header,
         .btn {
             @include flex(1 1 auto);
@@ -72,55 +63,49 @@ c-notification-bar {
             @include media($desktopUp) {
                 margin-right: size(small);
             }
-
             max-height: 48px;
         }
     }
     &__form {
         @include media($upToDesktop) {
-            flex-direction: column;
+            @include flex-direction(column);
         }
-
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: stretch;
+        @include display(flex);
+        @include flex-direction(row);
+        @include flex-wrap(nowrap);
+        @include align-items(stretch);
         width: 100%;
-
         header {
-            @include media($tabletPortrait){
-                flex: 1 1 auto;
+            @include media($tabletPortrait) {
+                @include flex(1 1 auto);
             }
             @include media($lg-desktop) {
-                flex: 1 1 auto;
+                @include flex(1 1 auto);
             }
             @include media($mobile) {
                 display: none;
             }
-            flex: 1 1 35%;
-            align-self: center;
+            @include flex(1 1 35%);
+            @include align-self(center);
             width: 100%;
             color: $dark
         }
         form {
             @include media($upToDesktop) {
-                flex-direction: column;
-                align-items: center;
+                @include flex-direction(column);
+                @include align-items(center);
                 min-height: 165px;
             }
-
-            display: flex;
-            align-items: center;
+            @include display(flex);
+            @include align-items(center);
             margin: 0;
-
             form-component,
             c-error-button {
                 @include media($upToDesktop) {
                     margin: size(tiny) 0;
                     width: 100%;
                 }
-
-                flex: 1 1 auto;
+                @include flex(1 1 auto);
                 margin: 0 0 0 size(medium)
             }
         }
@@ -128,19 +113,17 @@ c-notification-bar {
             @include media($upToDesktop) {
                 margin: 0;
             }
-
             position: relative;
             top: 0;
             right: 0;
-            flex: 1 0 28px;
+            @include flex(1 1 auto);
             margin: 0 0px 0 size(large)
         }
     }
     &__message {
         @include font-size(small);
-
-        flex: 1 1 auto;
-        align-self: center;
+        @include flex(1 1 auto);
+        @include align-self(center);
         margin: 0;
         color: $light;
         font-weight: 600;
@@ -149,7 +132,7 @@ c-notification-bar {
         position: relative;
         top: 0;
         right: 0;
-        flex: 0 0 28px;
+        @include flex(1 1 28px);
         align-self: initial;
         float: left;
         border-color: white;
@@ -160,14 +143,12 @@ c-notification-bar {
             svg {
                 display: none;
             }
-
             &:hover,
             &:active {
                 background: none!important;
             }
             &:after {
                 @include transform(rotate(-45deg));
-
                 position: absolute;
                 display: inline-block;
                 margin-left: -7.5px;
@@ -182,14 +163,12 @@ c-notification-bar {
     &--confirmation {
         @include display(flex);
         @include media($upToDesktop) {
-            flex-direction: column;
-
+            @include flex-direction(column);
             .c-notification__message {
                 margin-bottom: size(small);
                 margin-left: 0;
             }
         }
-
         // .c-notification__message {
         //     margin-left: 180px;
         // }
