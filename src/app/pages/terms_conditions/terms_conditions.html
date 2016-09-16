@@ -2,7 +2,7 @@
     <div class="o-card o-card--center o-card--confirmation">
         <article *ngIf="!isPaymentTypeSet">
             <div class="o-card__title">
-                <h4>Choose Your payment type</h4>
+                <h5>Choose Your payment type</h5>
             </div>
             <div class="o-card__content">
                 <button [outline]="{color:'primary'}" (onClick)="setPaymentType('Card')" class="btn btn--expand btn--outline btn--image">
@@ -24,7 +24,7 @@
         </article>
         <article *ngIf="isPaymentTypeSet">
             <div class="o-card__title">
-                <h4>Terms & Conditions</h4>
+                <h5>Terms & Conditions</h5>
             </div>
             <div class="o-card__content">
                 <ul class="o-list--plain" *ngIf="paymentType==='Card'">
