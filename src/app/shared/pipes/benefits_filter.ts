@@ -1,8 +1,5 @@
 import {
-	isBlank,
-	isString,
-	isNumber,
-	isArray
+	isBlank
 } from '@angular/platform-browser/src/facade/lang';
 
 let BENEFITS_LIST = [];
@@ -25,7 +22,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 	name: 'benefitsFilter'
 })
 export class BenefitsFilter implements PipeTransform{
-	transform(value: JourneyBenefit[], args: any): any {
+	transform(value: any): any {
 		if (isBlank(value) || value.length === 0) {
 			return null;
 		}

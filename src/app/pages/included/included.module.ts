@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MembershipIncludedPageComponent } from './included.component';
 import { CheckboxCardComponent } from './../../components/membership/checkbox_card/checkbox_card';
-import { AddonListComponent } from './../../components/membership/addon_list/addon_list';
+import { AddonListModule } from './../../components/membership/addon_list/addon_list.module';
 import { SharedModule } from './../../shared/shared.module';
 import { QuoteService } from './../../services/quote.service';
 import { ConfirmationToggleButtonDirective } from './../../shared/directives/buttons/confirmation_toggle.button';
@@ -10,6 +10,7 @@ import { ConfirmationToggleButtonDirective } from './../../shared/directives/but
 	imports: [
 		CommonModule,
 		SharedModule,
+		AddonListModule,
 	],
 	providers: [
 		QuoteService
@@ -17,7 +18,6 @@ import { ConfirmationToggleButtonDirective } from './../../shared/directives/but
 	declarations: [
 		MembershipIncludedPageComponent,
 		CheckboxCardComponent,
-		AddonListComponent,
 		ConfirmationToggleButtonDirective,
 	],
 	exports: [

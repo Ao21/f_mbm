@@ -9,7 +9,7 @@ export class BreakdownDrawerItemDirective implements OnChanges {
 	@Input() isVisible: boolean;
 	private transformValue: string;
 
-	ngOnChanges() {
+	ngOnChanges(_) {
 		if (this.isVisible) {
 			this.transformValue = `translate3d(0,-${this.breakdownHeightDrawer}px,0)`;
 		} else {

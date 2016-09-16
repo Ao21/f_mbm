@@ -7,10 +7,10 @@ import { Utils } from './utilities.component';
 		CommonModule
 	],
 	declarations: [
-		Utils
+		
 	],
 	exports: [
-		Utils
+		
 	]
 })
 export class UtilitesModule { };

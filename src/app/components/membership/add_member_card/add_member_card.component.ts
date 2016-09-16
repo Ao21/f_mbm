@@ -32,15 +32,15 @@ import { Analytics } from './../../../services/analytics.service';
 })
 export class AdditionalMemberCardComponent implements OnInit {
 
-	private member: Member | any;
-	private values: any;
+	member: Member | any;
+	values: any;
 
-	private state: any;
-	private ctrls: any = {};
+	state: any;
+	ctrls: any = {};
 
-	private fields: JourneyField[] = [];
-	private form: FormGroup;
-	private pricingFrequency: string;
+	fields: JourneyField[] = [];
+	form: FormGroup;
+	pricingFrequency: string;
 
 	@Input('data') data: MemberType;
 

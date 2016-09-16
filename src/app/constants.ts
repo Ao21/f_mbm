@@ -38,7 +38,7 @@ export class ERRORS {
 	};
 	static checkUserExistsError: ErrorObject = {
 		service: 'MYAAService',
-		notification: `We're having a problem saving your details, please wait while we try again.`,
+		notification: `We're having a problem saving your email, please wait while we try again.`,
 		err: `EmailDetectionSaveFailure`
 	};
 	static saveMember: ErrorObject = {
@@ -219,7 +219,7 @@ export const TestimonialOutcomes: Outcome[] = [{
 		id: 1,
 		include: [1],
 		author: 'Mark Ward',
-		description: `[About AA Patrol] Absolutely amazing job, delighted with servicve. He gave it his best to assure a great service.`
+		description: `[About AA Patrol] Absolutely amazing job, delighted with service. He gave it his best to assure a great service.`
 	},
 	{
 		id: 2,

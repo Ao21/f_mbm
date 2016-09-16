@@ -176,7 +176,7 @@ describe('QuoteService', () => {
 						expect(ds.get(['config', 'members', MOCKCONSTS.defaultMember.type, MOCKCONSTS.defaultMember.index])).toBeUndefined();
 					}
 				});
-				qs.removeBreakdownItem(MOCKCONSTS.breakdownItemMember);
+				qs.removeBreakdownItem(MOCKCONSTS.breakdownItemMember, null);
 			})
 		));
 
@@ -193,7 +193,7 @@ describe('QuoteService', () => {
 						expect(ds.get(['config', 'coverLevel', 2])).toBeFalsy();
 					}
 				});
-				qs.removeBreakdownItem(MOCKCONSTS.breakdownItem);
+				qs.removeBreakdownItem(MOCKCONSTS.breakdownItem, null);
 			})
 		));
 	});

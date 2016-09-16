@@ -1,28 +1,91 @@
-import { Attribute, Component, ElementRef, Renderer, HostBinding } from '@angular/core';
-import { Popup } from './../popups/popup';
-import { UIStore }from './../../../stores/uistore.store';
+import { Attribute, Component, ElementRef, Renderer, HostBinding, OnInit } from '@angular/core';
+import { UIStore } from './../../../stores/uistore.store';
+import { isPresent } from '@angular/platform-browser/src/facade/lang';
 
 @Component({
 	selector: 'pu-fullscreen',
 	templateUrl: 'fullscreen_popup.html',
 })
-export class FullscreenPopupComponent extends Popup {
+export class FullscreenPopupComponent implements OnInit {
 	@HostBinding('class.isVisible') isVisible: boolean;
+	channel: string;
+	transition: string;
+	subscription: any;
+	body: any;
+	topNav: any;
 	data: any;
 	header: any;
-	channel: string;
 
 	constructor(
 		@Attribute('header') header: string,
 		@Attribute('channel') channel: string,
-		private store: UIStore,
-		el: ElementRef,
-		renderer: Renderer
+		private uiStore: UIStore,
+		private el: ElementRef,
+		private renderer: Renderer
 
 	) {
-		super(store, el, renderer);
 		this.header = header;
 		this.channel = channel;
+	}
+
+	ngOnInit() {
+		this.body = document.querySelector('body');
+		this.topNav = document.querySelector('c-top-nav');
+		this.uiStore.update(['modals', this.channel], false);
+		this.uiStore.select('modals', this.channel).on('update', this.toggleVisiblity);
+	}
+
+	toggleVisiblity = (event) => {
+		let toggle = event.data.currentData;
+		this.isVisible = toggle ? toggle : !this.isVisible;
+
+		let transitionString = isPresent(this.transition) ? this.transition : 'shrink';
+		if (this.isVisible) {
+			this.setBody(true);
+			this.setNav(true);
+			Velocity(this.el.nativeElement, 'transition.' + transitionString + 'In', {
+				visibility: 'visible'
+			});
+
+		} else {
+			this.setBody(false);
+			this.setNav(false);
+			Velocity(this.el.nativeElement, 'transition.' + transitionString + 'Out',
+				{
+					duration: 150,
+					visibility: 'hidden',
+					complete: () => {
+
+					}
+				});
+		}
+	}
+	close() {
+		this.uiStore.closeAllModals();
+		this.setBody(false);
+		this.setNav(false);
+	}
+
+	setNav(toggle) {
+		if (this.topNav) {
+			if (toggle) {
+				this.renderer.setElementClass(this.topNav, 'zIndexZero', true);
+			} else {
+				this.renderer.setElementClass(this.topNav, 'zIndexZero', false);
+			}
+		}
+
+	}
+
+	setBody(toggle) {
+		if (toggle) {
+			this.renderer.setElementStyle(document.querySelector('body'), 'overflow', 'hidden');
+			this.renderer.setElementStyle(document.querySelector('body'), 'position', 'fixed');
+
+		} else {
+			this.renderer.setElementStyle(document.querySelector('body'), 'overflow', 'visible');
+			this.renderer.setElementStyle(document.querySelector('body'), 'position', 'relative');
+		}
 	}
 
 }

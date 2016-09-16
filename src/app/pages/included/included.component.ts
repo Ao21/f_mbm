@@ -22,13 +22,13 @@ import { Analytics } from './../../services/analytics.service';
 })
 export class MembershipIncludedPageComponent implements OnInit {
 	// Default Settings for Included Page
-	private page: UIPage;
+	page: UIPage;
 	// Array of Journey Benefit Addon coverLevels
-	private coverLevels: CoverLevel[];
+	public coverLevels: CoverLevel[];
 	// User has accepted Terms/Conditions
-	private hasAgreedTermsConditions: boolean = false;
+	hasAgreedTermsConditions: boolean = false;
 	// Set to Monthly or Annually - Sets Prices
-	private pricingFrequency: string;
+	pricingFrequency: string;
 
 	constructor(
 		private analytics: Analytics,
@@ -48,7 +48,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 		});
 	}
 
-	private init() {
+	init() {
 		this.dataStore.subscribeAndGet(CONSTS.PRICING_UPDATE, () => {
 			this.pricingFrequency = this.dataStore.get(['pricing', 'frequency']);
 		});
@@ -80,6 +80,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 		this.quoteService.updateCover(level, addonUpdate.isSelected)
 			.subscribe((next) => {
 				this.notificationService.clearNotifications();
+				this.coverLevels[addonUpdate.index].active = addonUpdate.isSelected;
 				this.dataStore.toggleCoverLevel(addonUpdate.index, addonUpdate.isSelected);
 			}, (err) => {
 				this.errorService.errorHandlerWithNotification(ERRORS.coverLevelChange);

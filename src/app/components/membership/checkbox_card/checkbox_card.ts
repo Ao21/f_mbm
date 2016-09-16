@@ -67,11 +67,11 @@ export class CheckboxCardComponent implements OnInit {
 	// Either get an ID from the component or autogenerate one
 	@Input('name') name: string;
 	// Set whether the Checkbox is preselected
-	@Input('isSelected') private isSelected: boolean = false;
+	@Input('isSelected') public isSelected: boolean = false;
 	// Whether the checkbox is disabled - prevents it from being toggled
-	@Input('isDisabled') private isDisabled: boolean = false;
+	@Input('isDisabled') public isDisabled: boolean = false;
 	// The Index of the Checkbox that is emitted by the onSelect event
-	@Input('index') private index: number;
+	@Input('index') public index: number;
 
 	@HostBinding('attr.role') role: string = 'checkbox';
 	@HostBinding('class.c-checkbox-card') checkBoxClass: boolean = true;
