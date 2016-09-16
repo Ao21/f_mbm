@@ -13,7 +13,7 @@
     float: left;
     width: 100%;
     header {
-     @include display(flex);
+      @include display(flex);
       @include flex-direction(row);
       padding: 0 24px;
       height: 60px;
@@ -38,11 +38,12 @@
   }
   &__header,
   &__subheader {
-   @include display(flex);
+    @include display(flex);
     @include flex(1 1 auto);
-    flex-flow: row wrap;
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
     @include align-items(flex-end);
-    justify-content: space-between;
+    @include justify-content(space-between);
     padding: 24px;
     background-color: $light;
     color: $dark;
@@ -150,9 +151,10 @@
   }
   &__list {
     position: relative;
-   @include display(flex);
+    @include display(flex);
     @include flex-direction(column);
-    flex-flow: column wrap;
+    @include flex-direction(column);
+    @include flex-wrap(wrap);
     float: left;
     overflow: hidden;
     margin: 0;
@@ -164,11 +166,12 @@
   }
   &__item {
     position: relative;
-   @include display(flex);
+    @include display(flex);
     @include flex(1 1 auto);
-    flex-flow: row wrap;
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
     @include align-items(center);
-    justify-content: space-between;
+    @include justify-content(space-between);
     padding-right: 40px;
     list-style: none;
     font-size: 0.9rem;
@@ -201,18 +204,20 @@
     &--horizontal {
       @include media($mobile) {
         @include flex(1 1 100%);
-        justify-content: flex-start!important;
+        @include justify-content(flex-start);
       }
       @include flex(1 1 50%);
-      justify-content: flex-start;
+      @include justify-content(flex-start);
       height: inherit
     }
   }
   &__name {
     @include flex(1 1 auto);
+    float: left;
   }
   &__value {
     @include flex(0 1 auto);
+    float: left;
   }
   &__discount {
     @include flex(1 1 100%);

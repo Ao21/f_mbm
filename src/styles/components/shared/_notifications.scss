@@ -135,6 +135,7 @@ c-notification-bar {
         @include flex(1 1 28px);
         align-self: initial;
         float: left;
+        max-width: 28px;
         border-color: white;
     }
     .btn--close.btn--arr {

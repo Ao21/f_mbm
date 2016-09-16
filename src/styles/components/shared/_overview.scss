@@ -15,7 +15,6 @@ c-overview {
         left: 0;
         padding-bottom: $navHeightMobile;
     }
-
     position: fixed;
     top: $navHeightDefault;
     z-index: $overViewZ;
@@ -39,7 +38,6 @@ c-overview {
     }
     .c-overview__price:not(:last-child) {
         position: relative;
-
         &:before {
             position: absolute;
             bottom: 3px;
@@ -51,7 +49,6 @@ c-overview {
     }
     .o-links {
         visibility: hidden;
-
         header {
             @include display(flex);
             @include align-items(baseline);
@@ -59,14 +56,12 @@ c-overview {
             margin-bottom: size(small);
             width: 100%;
             border-bottom: 2px solid $dark;
-
             h6,
             a {
                 margin-bottom: size(mini);
             }
             h6 {
                 @include flex-grow(1);
-
                 float: left;
                 margin-bottom: 0;
             }
@@ -79,10 +74,16 @@ c-overview {
         }
         li {
             @include font-size(tiny, false);
-
             &.c-overview__price span {
                 float: right;
             }
+        }
+    }
+    .btn--group {
+        float: left;
+        width: 100%;
+        @include media($mobile) {
+            margin-bottom: 2rem;
         }
     }
     button {
