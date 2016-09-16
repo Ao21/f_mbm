@@ -46,6 +46,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 		this.route.data.forEach((data: { config: any }) => {
 			this.init();
 		});
+		this.hasAgreedTermsConditions = this.uiStore.get(['UIOptions', 'isTermsConditionsAgreed']);
 	}
 
 	init() {
@@ -89,6 +90,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 
 	updateTermsBool(active: boolean) {
 		this.hasAgreedTermsConditions = active;
+		this.uiStore.update(['UIOptions', 'isTermsConditionsAgreed'], active);
 		this.analytics.triggerEvent('terms-conditions-acceptance', null, active);
 		this.notificationService.clearLastErrorMsg();
 		this.notificationService.clearNotifications();

@@ -68,6 +68,7 @@ export class UIOptions implements UIOptions {
 	topNavVisible = true;
 	footerVisible = true;
 	isQuoteSaved = false;
+	isTermsConditionsAgreed = false;
 	isSaveQuoteVisible = 'visible';
 }
 
