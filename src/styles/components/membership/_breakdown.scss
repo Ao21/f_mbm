@@ -80,6 +80,15 @@
   }
   &__subheader {
     padding-top: 0;
+    p{
+      float: left; 
+      width: 100%;
+      margin: 0.25rem 0;
+      font-size: 0.75rem;
+      strong {
+        text-transform: uppercase;
+      }
+    }
   }
   &__title {
     @include font-size(large);
