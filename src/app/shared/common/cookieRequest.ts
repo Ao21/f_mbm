@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 export class CORSBrowserXHR extends BrowserXhr {
 	build(): any {
 		let xhr: any = super.build();
-		xhr.withCredentials = true;
+		// xhr.withCredentials = true;
 		return xhr;
 	}
 }

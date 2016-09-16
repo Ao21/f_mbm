@@ -34,12 +34,13 @@ export class InitService {
 	}
 
 	load(): Promise<ProductConfig> {
+
 		if (this.current !== null) {
 			return new Promise((res) => {
 				res(this.current);
 			});
 		}
-		let promise = this.http.get(this.config.baseUrl).map(res => res.json()).toPromise();
+		let promise = this.http.get(this.config.baseUrl, {withCredentials: true}).map(res => res.json()).toPromise();
 		if (!environment.production) {
 			// ENDPOINTS
 			// HOMESTART

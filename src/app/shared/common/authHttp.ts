@@ -184,6 +184,7 @@ export class AuthHttp {
 
 	private requestHelper(requestArgs: RequestOptionsArgs, additionalOptions: RequestOptionsArgs): Observable<Response> {
 		let options: RequestOptions = new RequestOptions(requestArgs);
+		options.withCredentials = true;
 
 		if (additionalOptions) {
 			options = options.merge(additionalOptions);
