@@ -1,4 +1,4 @@
-<section class="container--flex container--flex--center">
+<section class="container--flex container--flex--center container--flex--nofooter">
     <m-payment-agreement [type]="paymentType" [frequency]="frequency" *ngIf="isPaymentAgreementActive && paymentType==='Card'" (onSuccess)="toggleAgreement()" class=""></m-payment-agreement>
     <m-cc-form [frequency]="frequency" [quote]="quote" *ngIf="!isPaymentAgreementActive && paymentType==='Card'" [class.is-hidden]="isPaymentAgreementActive" (onPaymentTypeChange)="togglePaymentType()" (onSuccess)="continueToConfirmation($event)"></m-cc-form>
     <m-dd-form *ngIf="paymentType==='Bank'" (onPaymentTypeChange)="togglePaymentType()" (onSuccess)="continueToConfirmation($event)"></m-dd-form>
