@@ -151,10 +151,12 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 		this.router.navigate([this.uiStore.get(['pages', this.page.next]).address]);
 	}
 
+
 	removeItem(item: QuoteBreakdownItem) {
 		this.isLoadingQuote = true;
 		this.analytics.triggerEvent('breakdown-remove-item', item.name, item.type);
 		this.quoteService.removeBreakdownItem(item, (err) => {
+			this.router.navigateByUrl('./friends_and_family');
 			this.isLoadingQuote = false;
 		});
 	}
