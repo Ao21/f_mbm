@@ -27,6 +27,10 @@ export class SaveQuoteButtonComponent {
 		this._disabled = v ? v : false;
 	}
 
+	get disabled() {
+		return this._disabled;
+	}
+
 	constructor(
 		private errorService: ErrorService,
 		private uiStore: UIStore,

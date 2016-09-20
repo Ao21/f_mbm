@@ -31,13 +31,12 @@ export class DataStore extends DispatcherStore {
 
 	deleteConvertedQuote() {
 		sessionStorage.removeItem('convertedQuote');
-		this.remove(['config', 'convertedQuote']);
+		this.remove(['quote', 'convertedQuote']);
 	}
 
 	convertQuote(convertedQuote: any) {
 		this.analytics.triggerEvent('convert-quote', null, convertedQuote);
-		sessionStorage.setItem('convertedQuote', JSON.stringify(convertedQuote));
-		this.update(['config', 'convertedQuote'], convertedQuote);
+		this.update(['quote', 'convertedQuote'], convertedQuote);
 	}
 
 	getCoverLevel(index): CoverLevel {

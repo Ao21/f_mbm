@@ -65,6 +65,7 @@ c-page-confirmation {
             @include media($mobile) {
                 @include span-columns(4);
                 @include shift(0);
+                margin-bottom: size(small);
 
                 .panel-group {
                     margin-left: -$navPaddingMobile;

@@ -21,7 +21,7 @@ export class Popup implements OnInit {
 		this.body = document.querySelector('body');
 		this.topNav = document.querySelector('c-top-nav');
 		this.uiStore.update(['modals', this.channel], false);
-		this.uiStore.select('modals', this.channel).on('update', this.toggleVisiblity)
+		this.uiStore.select('modals', this.channel).on('update', this.toggleVisiblity);
 	}
 	toggleVisiblity = (event) => {
 		let toggle = event.data.currentData;

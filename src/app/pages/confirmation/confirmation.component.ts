@@ -26,18 +26,9 @@ export class MembershipConfirmationPageComponent implements OnInit {
 
 	ngOnInit() {
 		this.page = this.uiStore.getPage('confirmation');
-		this.convertedQuote = this.dataStore.get(['config', 'convertedQuote']);
-		if (!this.convertedQuote) {
-			this.convertedQuote = JSON.parse(sessionStorage.getItem('convertedQuote'));
-			if (!this.convertedQuote) {
-				this.router.navigate(['/']);
-			} else {
-				this.init();
-			}
-			this.dataStore.deleteConvertedQuote();
-		} else {
-			this.init();
-		}
+		this.convertedQuote = this.dataStore.get(['quote', 'convertedQuote']);
+		console.log(this.convertedQuote);
+		this.init();
 		// Workaround for Safari not updating
 		this.changeRef.detectChanges();
 	}

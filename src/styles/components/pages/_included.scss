@@ -24,7 +24,7 @@ p-included,
     &__terms {
         @include display(flex);
         @include media($mobile){
-            flex-direction: column-reverse;
+            @include flex-direction(column-reverse);
             margin: size(tiny) 0 size(large); 
         }
 
@@ -43,7 +43,7 @@ p-included,
         }
         p {
             @include font-size(tiny);
-
+            @include flex(1 1 auto);
             margin-right:1.17883%;
             color: $light-med-gray;
         }

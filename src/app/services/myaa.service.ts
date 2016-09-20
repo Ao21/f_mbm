@@ -109,6 +109,7 @@ export class MyAAService {
 			.share();
 
 		res.subscribe((next) => {
+			this.loginSubscription.next(next.json());
 			this.analytics.registerEvent.next('success');
 		}, (err) => {
 			this.analytics.registerEvent.next('failure');

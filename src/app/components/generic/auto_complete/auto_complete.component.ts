@@ -76,7 +76,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 	private _data: Observable<Array<any>>;
 
 	private _isInitialized: boolean = false;
-	private hasValue: boolean = false;
+	public hasValue: boolean = false;
 	private _value: any = '';
 	private _onTouchedCallback: () => void = noop;
 	private _onChangeCallback: (_: any) => void = noop;

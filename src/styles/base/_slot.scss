@@ -13,11 +13,12 @@
     @include font-size(tiny);
 
     z-index: 9;
-    display: flex;
-    flex: 1 1 50px;
+    -js-display: flex;
+   @include display(flex);
+    @include flex(1 1 50px);
     flex-flow: row wrap;
     align-content: center;
-    align-items: center;
+    @include align-items(center);
     justify-content: left;
     margin-bottom: size(small);
     min-width: 100%;

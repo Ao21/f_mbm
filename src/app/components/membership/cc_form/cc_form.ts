@@ -27,6 +27,7 @@ export class CreditCardFormComponent implements OnInit {
 	iframeWidth: any;
 	errorMessageVisible: boolean = false;
 	iframeVisible: boolean = true;
+	iframeLoaded: boolean = false;
 	data: any;
 
 
@@ -81,6 +82,7 @@ export class CreditCardFormComponent implements OnInit {
 	}
 
 	updateCCDimensions = (data) => {
+		this.iframeLoaded = true;
 		// TODO: Implement Updating Width/Height
 		this.iframeHeight = data.height;
 		this.iframeWidth = data.width;

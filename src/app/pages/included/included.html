@@ -23,7 +23,7 @@
 
     </div>
     <article class="p-included__terms">
-        <button (onUpdate)="updateTermsBool($event)" class="btn btn--checkbox isYellow" confirmationButton>Yes</button>
+        <button [active]="hasAgreedTermsConditions" (onUpdate)="updateTermsBool($event)" class="btn btn--checkbox isYellow" confirmationButton>Agree to Terms and conditions</button>
         <p>By providing the requested data, you consent to AA's Data Protection and Privacy Policy and to AA using it for administration and keeping you informed by
 mail, telephone, email and SMS of other products and services from us. By proceeding, you consent to & confirm that you have read and accepted the <a target="_blank" href="https://www.theaa.ie/AA/About-Us/Privacy-Policy.aspx">AA
 Data Protection & Privacy Policy</a> and the <a target="_blank" href="http://www.aaireland.ie/membershipterms">AA Terms & Conditions</a></p>

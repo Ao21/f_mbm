@@ -1,0 +1,36 @@
+  body {
+  	background-color: #1b1918;
+  }
+  
+  .spinner {
+  	position: absolute;
+  	top: 20%;
+  	left: 50%;
+  	height: 35px;
+  	width: 35px;
+  	transform: translate(-50%, -50%);
+  }
+  
+  .icon-holder {
+  	flex: 0 0 auto;
+    width: 35px;
+    position: absolute;
+    height: 35px;
+    animation: rotate 2s ease-in-out 0s infinite;
+    right: 5px;
+    top: 0;
+  }
+  
+  .icon-loader {
+  	stroke: none;
+  	fill: white;
+  }
+  
+  @keyframes rotate {
+  	from {
+  		transform: rotate(45deg);
+  	}
+  	to {
+  		transform: rotate(405deg);
+  	}
+  }

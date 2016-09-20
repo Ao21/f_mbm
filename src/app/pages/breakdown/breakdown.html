@@ -10,6 +10,7 @@
             
             <div class="c-breakdown__subheader">
                 <h6 class="c-breakdown__subtitle">Roadside Rescue</h6>
+                <p><strong>Web Reference: </strong> {{quote.reference}}</p>
             </div>
 
             <c-selector-group 
@@ -30,7 +31,15 @@
                     <c-selector *ngFor="let option of paymentOptions" [value]="option.type" class="btn c-selector--outline">Pay {{option.type}}</c-selector>
                 </c-selector-group> 
                 <ul class="c-breakdown__list" [class.no-removable-items]="!hasRemovableItems">
-                    <li [@breakdownItemVisiblity]="'visible'"  
+                    <m-breakdown-item 
+                        *ngFor="let item of breakdownOptions, let i = index"  
+                        [@breakdownItemVisiblity]="'visible'"
+                        [frequencyControl]="frequencyControl"
+                        (onRemoveItem)="removeItem($event)" 
+                        [item]="item">
+                        
+                    </m-breakdown-item>
+                    <!--<li [@breakdownItemVisiblity]="'visible'"  
                         *ngFor="let item of breakdownOptions, let i = index" 
                         [class.c-breakdown__item--discount]="item.type==='discount'" 
                         [class.hasDelete]="!item.mandatory" 
@@ -51,7 +60,7 @@
                                 <span *ngIf="frequencyControl.value==='monthly'" class="c-breakdown__value">{{item?.discount?.price?.monthly?.pretty}}</span>
                                 <span *ngIf="frequencyControl.value==='annual'" class="c-breakdown__value">{{item?.discount?.price?.annual?.pretty}}</span>
                             </div> 
-                    </li>
+                    </li>-->
                 </ul>
                 <button (click)="emitNextNavigation()" class="btn btn--expand btn--yellow">Buy Now</button>
             </div>

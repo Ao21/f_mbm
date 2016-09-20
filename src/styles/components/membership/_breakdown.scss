@@ -13,8 +13,8 @@
     float: left;
     width: 100%;
     header {
-      display: flex;
-      flex-direction: row;
+      @include display(flex);
+      @include flex-direction(row);
       padding: 0 24px;
       height: 60px;
       background-color: $yellow;
@@ -28,8 +28,8 @@
         @include media($mobile) {
           @include font-size(tiny);
         }
-        flex: 1 1 auto;
-        align-self: center;
+        @include flex(1 1 auto);
+        @include align-self(center);
         color: $dark;
         text-align: right;
         text-transform: uppercase
@@ -38,19 +38,20 @@
   }
   &__header,
   &__subheader {
-    display: flex;
-    flex: 1 1 auto;
-    flex-flow: row wrap;
-    align-items: flex-end;
-    justify-content: space-between;
+    @include display(flex);
+    @include flex(1 1 auto);
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    @include align-items(flex-end);
+    @include justify-content(space-between);
     padding: 24px;
     background-color: $light;
     color: $dark;
     .c-breakdown__list {
       @include media($mobile) {
-        flex-direction: column;
+        @include flex-direction(column);
       }
-      flex-direction: row;
+      @include flex-direction(row);
       flex-wrap: wrap;
       align-content: space-between;
       float: left;
@@ -68,18 +69,27 @@
     @include flex-direction(row);
     padding-bottom: 6px;
     img {
-      align-self: center;
+      @include align-self(center);
       max-width: 25px;
       max-height: 25px;
       transform: translateY(-5px);
     }
     h1,
     img {
-      flex: 1 1 auto;
+      @include flex(1 1 auto);
     }
   }
   &__subheader {
     padding-top: 0;
+    p{
+      float: left; 
+      width: 100%;
+      margin: 0.25rem 0;
+      font-size: 0.75rem;
+      strong {
+        text-transform: uppercase;
+      }
+    }
   }
   &__title {
     @include font-size(large);
@@ -113,7 +123,7 @@
       left: 50%;
       width: 40px;
       height: 40px;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
     }
   }
   &__body {
@@ -141,9 +151,10 @@
   }
   &__list {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    flex-flow: column wrap;
+    @include display(flex);
+    @include flex-direction(column);
+    @include flex-direction(column);
+    @include flex-wrap(wrap);
     float: left;
     overflow: hidden;
     margin: 0;
@@ -155,11 +166,12 @@
   }
   &__item {
     position: relative;
-    display: flex;
-    flex: 1 1 auto;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: space-between;
+    @include display(flex);
+    @include flex(1 1 auto);
+    @include flex-direction(row);
+    @include flex-wrap(wrap);
+    @include align-items(center);
+    @include justify-content(space-between);
     padding-right: 40px;
     list-style: none;
     font-size: 0.9rem;
@@ -191,19 +203,21 @@
     }
     &--horizontal {
       @include media($mobile) {
-        flex: 1 1 100%;
-        justify-content: flex-start!important;
+        @include flex(1 1 100%);
+        @include justify-content(flex-start);
       }
-      flex: 1 1 50%;
-      justify-content: flex-start;
+      @include flex(1 1 50%);
+      @include justify-content(flex-start);
       height: inherit
     }
   }
   &__name {
     @include flex(1 1 auto);
+    float: left;
   }
   &__value {
     @include flex(0 1 auto);
+    float: left;
   }
   &__discount {
     @include flex(1 1 100%);

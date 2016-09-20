@@ -55,7 +55,6 @@ export class ErrorService {
 				link: '/',
 				linkText: 'Restart Journey.'
 			},
-
 			'quoteRejection': {
 				message: `Unfortunately based on the information that you've provided, 
 				we are unable to provide you with a quote for AA Membership at this time<br><br>
@@ -69,7 +68,12 @@ export class ErrorService {
 			}
 		};
 
+
 		if (message[code]) {
+			this.analytics.triggerErrorEvent({
+				service: 'error-page',
+				error: code
+			});
 			return message[code];
 		} else {
 			return message['default'];

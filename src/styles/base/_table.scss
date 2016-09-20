@@ -14,26 +14,28 @@ table {
     .o-table__cell {
         position: relative;
         display: table-cell;
-        flex: 1;
-        flex-direction: column;
+        @include flex(1);
+        @include flex-direction(column);
     }
     .o-table__row {
-        display: flex;
+        -js-display: flex;
+       @include display(flex);
     }
-    // display: block is needed to allow inline-block content inside a cell, if there is vertical alignment, we need display: flex
+    // display: block is needed to allow inline-block content inside a cell, if there is vertical alignment, we need@include display(flex)
     .o-table__cell {
         display: block;
     }
     .o-table__cell--valign-middle,
     .o-table__cell--valign-bottom {
-        display: flex;
+        -js-display: flex;
+       @include display(flex);
     }
     .o-table__cell-min {
-        flex: none auto;
+        @include flex(none auto);
         width: 1%;
     }
     .o-table__cell--max {
-        flex: 1 100%;
+        @include flex(1 100%);
         width: 100%;
     }
     .o-table__row {

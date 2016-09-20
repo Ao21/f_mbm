@@ -11,12 +11,17 @@ c-tab-group {
         margin: size(large) 0;
     }
     .tab__link {
-        flex: 1;
+        @include flex(1);
         min-height: 70px;
         outline: none;
+        margin-right: size(tiny);
+
+        &:last-child {
+            margin-right: 0;
+        }
 
         .btn--transparent {
-            border-color: $dark;
+            border-color: $dark-med-gray;
             background-color: $dark;
             color: $dark-med-gray;
             text-decoration: none;

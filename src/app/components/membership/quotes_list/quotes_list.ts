@@ -29,7 +29,7 @@ import { ERRORS } from './../../../constants';
 })
 export class QuotesListComponent {
 	@Input('isVisible') isVisible: boolean = false;
-	@HostBinding('class.isOpen') isOpen: boolean = true;
+	@HostBinding('class.isOpen') isOpen: boolean = false;
 
 	isLoading: boolean = false;
 	quotes: any;

@@ -5,7 +5,7 @@ c-selector-group {
     @include display(flex);
 
     &.isColumn {
-        flex-direction: column;
+        @include flex-direction(column);
     }
 }
 

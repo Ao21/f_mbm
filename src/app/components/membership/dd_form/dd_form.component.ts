@@ -27,27 +27,30 @@ export class DirectDebitFormComponent {
 	@Output() onSuccess = new EventEmitter();
 	validationDetails: any;
 	isLoadingValidate: boolean = false;
+	isReadyConfirm: boolean = false;
 	isValidating: boolean = false;
 	isReadyValidate: boolean = false;
+	isPaying: boolean = false;
 
 	constructor(
 		private analytics: Analytics,
 	) {}
 
-	triggerValidationLoading($event) {
-		if ($event) {
+	onBankValidationInit($event) {
+		if($event){
 			this.isLoadingValidate = true;
 		} else {
-			this.isReadyValidate = false;
+			this.isReadyConfirm = false;
 		}
 	}
 
-	openBankValidation($event: boolean | any) {
+	onBankValidationSuccess(bankValidationObject: boolean | any) {
 		this.isLoadingValidate = false;
-		if ($event !== null && $event.valid) {
+		if(bankValidationObject){
 			this.isReadyValidate = true;
-			this.isValidating = false;
-			this.validationDetails = $event;
+			this.validationDetails = bankValidationObject;
+		} else {
+			this.isReadyValidate = false;
 		}
 	}
 
@@ -60,13 +63,16 @@ export class DirectDebitFormComponent {
 	}
 
 	triggerValidation() {
-		if (this.isReadyValidate) {
-			this.isValidating = true;
+		if(!this.isReadyConfirm && !this.isLoadingValidate){
+			this.isReadyConfirm = true;
 		}
 	}
 
 	makePayment() {
-		this.analytics.triggerPaymentEvent('Bank', 'success');
-		this.onSuccess.next(this.validationDetails.accepted);
+		if(!this.isPaying){
+			this.isPaying = true;
+			this.analytics.triggerPaymentEvent('Bank', 'success');
+			this.onSuccess.next(this.validationDetails.accepted);
+		}
 	}
 }

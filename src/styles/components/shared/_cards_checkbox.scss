@@ -115,7 +115,7 @@ c-checkbox-card,
     section {
         @include flex(0 0 300px);
         float: left;
-        overflow-y: scroll;
+        overflow-y: auto;
         padding: size(medium) size(medium) size(medium);
         width: 100%;
         pointer-events: all;

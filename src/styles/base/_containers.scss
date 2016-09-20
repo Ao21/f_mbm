@@ -32,7 +32,6 @@
 
 .container--flex {
     @include display(flex);
-    // margin-top: -$defaultContainerPadding;
     &--center {
         @include display(flex);
         width: 100%;
@@ -42,6 +41,9 @@
         @include justify-content(center);
         -ms-flex-pack: center;
         -ms-flex-align:center;
+
+        
+
         
         @include media($mobile) {
             @include align-items(center);
@@ -52,11 +54,20 @@
     &--nofooter {
         min-height: calc(100vh - #{$navHeightDefault});
         height: calc(100vh - #{$navHeightDefault});
+        @include media($mobile) {
+           min-height: calc(100vh - #{$navHeightMobile});
+            height: calc(100vh - #{$navHeightMobile});
+        }
     }
     @include media($mobile) {
         padding: 0 $defaultContainerPaddingMobile;
         margin-top: auto;
     }
+     @media screen and (-ms-high-contrast: active),
+    (-ms-high-contrast: none) {
+        margin-top: inherit;
+    }
+  
 }
 
 .outer-container {

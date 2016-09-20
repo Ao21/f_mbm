@@ -11,8 +11,8 @@ import {
 	Input,
 	keyframes
 } from '@angular/core';
-import {COLORS} from './../../../constants';
-import {NotificationService, PaymentService} from './../../../services/index';
+import { COLORS } from './../../../constants';
+import { NotificationService, PaymentService } from './../../../services/index';
 
 @Component({
 	selector: 'm-payment-agreement',
@@ -20,15 +20,15 @@ import {NotificationService, PaymentService} from './../../../services/index';
 	animations: [
 		trigger('successBump', [
 			transition('inactive => active', animate(350, keyframes([
-				style({ backgroundColor: COLORS.brand, offset: 0 }),
-				style({ backgroundColor: COLORS.primary, offset: 0.5 })
+				style({ backgroundColor: '#ffcc00', offset: 0 }),
+				style({ backgroundColor: '#44b491', offset: 0.5 })
 			])))
 		]),
 		trigger('errorBump', [
 			transition('inactive => active', animate(1000, keyframes([
-				style({ borderColor: COLORS.medDarkGrey, offset: 0 }),
-				style({ borderColor: COLORS.redWarning, offset: .1 }),
-				style({ borderColor: COLORS.medDarkGrey, offset: 1 })
+				style({ borderColor: '#9a9c9a', offset: 0 }),
+				style({ borderColor: '#e84236', offset: .1 }),
+				style({ borderColor: '#c7c8c7', offset: 1 })
 			])))
 		]),
 		trigger('toggleAllProducts', [
@@ -68,18 +68,18 @@ export class PaymentAgreementComponent {
 	@Output('onSuccess') onSuccess: EventEmitter<boolean> = new EventEmitter<boolean>();
 	@HostBinding('attr.id') id: string = 'payment-agreement';
 
-	private consentAllProductState: boolean = true;
-	private toggleAllProductsState: string = 'active';
-	private toggleSingleProductState: string = 'inactive';
-	private singleSuccessBtn = 'inactive';
-	private singleErrorBtn = false;
-	private state: string = null;
+	consentAllProductState: boolean = true;
+	toggleAllProductsState: string = 'active';
+	toggleSingleProductState: string = 'inactive';
+	singleSuccessBtn = 'inactive';
+	singleErrorBtn = false;
+	state: string = null;
 
 
 	constructor(
 		private paymentService: PaymentService,
 		private notificationService: NotificationService
-	) {}
+	) { }
 
 	acceptAgreement(type) {
 		let all = type === 'all' ? true : false;
