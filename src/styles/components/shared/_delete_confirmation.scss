@@ -48,9 +48,10 @@ c-delete-confirmation,
 		p {
 			margin:0;
 			padding: 0 size(small);
-			background-color:$dark;
+			background-color: $dark-med-gray;
 			color: $light;
 			line-height: 40px;
+			text-transform: uppercase;
 		}
 	}
 }
