@@ -5,6 +5,7 @@ import { CONSTS, ERRORS } from './../constants';
 import { Analytics } from './analytics.service';
 import { ErrorService } from './error.service';
 import { Observable } from 'rxjs/Rx';
+import { isPresent, isJsObject} from '@angular/core/src/facade/lang';
 
 @Injectable()
 export class PaymentService {
@@ -13,7 +14,10 @@ export class PaymentService {
 	UPDATE_PROPOSAL_URL: string = this.BASE_URL + 'users/me';
 	UPDATE_PAYMENT_URL: string = this.BASE_URL + 'users/me/payment';
 	BANK_URL: string = this.BASE_URL + 'users/me/bank';
+	PURCHASED_URL: string = this.BASE_URL + 'purchased';
 	TOKEN_AGREEMENT: string = this.BASE_URL + 'users/me/payment/cardAgreement';
+
+	quotePurchased: any = null;
 
 	constructor(
 		private errorService: ErrorService,
@@ -74,8 +78,24 @@ export class PaymentService {
 	 * 	
 	 */
 	convertQuote(quoteReference: string): Observable<Response> {
+		this.quotePurchased = null;
 		return this.auth.get(this.CONVERT_QUOTE_URL + quoteReference);
 	}
 
+
+	isQuotePurchased(): Promise<any> {
+		return new Promise((res, rej) => {
+			if (this.quotePurchased !== null) {
+				res(this.quotePurchased);
+			} else {
+				this.auth.get(this.PURCHASED_URL).subscribe((next) => {
+					this.quotePurchased = next.json();
+					res(this.quotePurchased);
+				}, (err) => {
+					rej(err);
+				});
+			}
+		});
+	}
 
 }

@@ -16,7 +16,7 @@
             <ul class="o-list o-list--double">
                 <li>Payment Ref:<span>{{convertedQuote.reference}}</span></li>
                 <li>Membership Active From<span>{{convertedQuote.dateStart}}</span></li>
-                <li>Membership No.<span *ngIf="members">{{primaryUser.membershipNumber}}</span></li>
+                <li>Membership No.<span *ngIf="primaryUser">{{primaryUser.membershipNumber}}</span></li>
             </ul>
             <h4 *ngIf="members.length === 1">Additional Member</h4>
             <h4 *ngIf="members.length > 1">Additional Members</h4>
