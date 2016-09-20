@@ -115,11 +115,13 @@ m-addon-list,
         }
     }
     &__next {
-        right: -#{size(medium)};
-        border-left: 15px solid white;
+        right: 30px;
+        top:50%;
+        border-left: 15px solid $dark;
     }
     &__prev {
-        left: -#{size(medium)};
-        border-right: 15px solid white;
+        left:  25px;
+        top:50%;
+        border-right: 15px solid $dark;
     }
 }
