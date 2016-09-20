@@ -2,6 +2,22 @@
 // Credit Card Form
 //-------------------------------------
 m-cc-form {
+    .background {
+        height: 600px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        c-spinner {
+            position: absolute;
+            left: 50%;
+            top: 30%;
+            margin: 0rem;
+            padding: 20px;
+            width: 1.5rem;
+            height: 1.5rem;
+            transform: translate(-50%, -50%);
+        }
+    }
     @include media($mobile) {
         float: left;
         margin: auto;
@@ -9,6 +25,9 @@ m-cc-form {
         width: 100%;
         @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
             margin: inherit
+        }
+        .background {
+            height: 300px;
         }
     }
     width: 600px;
@@ -29,7 +48,6 @@ m-cc-form {
     }
     @include media($mobile) {
         padding: $defaultContainerPaddingMobile $defaultContainerPaddingMobile;
-
     }
     float: left;
     width: 100%;
