@@ -138,8 +138,7 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteProblem);
 				this.router.navigateByUrl('/');
 			}
-		}
-		if (err.status === 404) {
+		} else if (err.status === 404) {
 			if (this.myAAAccess) {
 				this.router.navigateByUrl('/');
 				this.errorService.errorHandlerWithConfirmationNotification(
@@ -151,8 +150,7 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 			} else {
 				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteMissing);
 			}
-		}
-		if (err.status === 403) {
+		} else if (err.status === 403) {
 			if (this.myAAAccess) {
 				this.errorService.errorHandlerWithConfirmationNotification(
 					ERRORS.retrieveQuoteMyAAProblem,
@@ -164,10 +162,11 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 			} else {
 				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteMyAAProblem);
 			}
-		}
-		if (err.status === 400) {
+		} else if (err.status === 400) {
 			this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuotePurchased);
 			this.router.navigate(['/']);
+		} else {
+			this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteProblem);
 		}
 	}
 }
