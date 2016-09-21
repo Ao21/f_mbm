@@ -93,7 +93,7 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean> {
 			// Create a Promise and Passes it to the Notification Service
 			let guardPromise = new Promise((res, rej) => {
 				let p = this.notifications.createConfirmationNotification(
-					`If you leave your credit card information will be lost.`);
+					`If you leave this page, your credit card information will not be saved.`);
 
 				// Listen for Notifcation Confirmation
 				p.subscribe((next) => {
