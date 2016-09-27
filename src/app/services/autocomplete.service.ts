@@ -71,7 +71,7 @@ export class AutoCompleteService {
 		switch (type) {
 			case 'counties':
 				inputs.filter(input => { return input.length >= 3 })
-					.throttleTime(400)
+					.debounceTime(400)
 					.do((x) => { this.searching.next(true); })
 					.switchMap(input => this.getCounty(input))
 					.do((x) => { this.searching.next(false); })
@@ -88,7 +88,7 @@ export class AutoCompleteService {
 				break;
 			case 'areas':
 				inputs.filter(input => { return input.length >= 3 })
-					.throttleTime(400)
+					.debounceTime(400)
 					.do((x) => { this.searching.next(true); })
 					.switchMap(input => this.getArea(input))
 					.do((x) => { this.searching.next(false); })
