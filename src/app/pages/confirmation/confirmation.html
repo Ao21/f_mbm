@@ -1,13 +1,25 @@
 <div class="container">
     <section id="topContainer">
-        <h2>Thanks {{primaryUser.firstName}}</h2>
-        <h2>You're now an AA Member</h2>
-        <h4 *ngIf="members.length === 0"><i>You will receive a confirmation email shortly and your Membership card's will follow in the post</i></h4>
-        <h4 *ngIf="members.length > 0"><i>You will receive a confirmation email shortly and your Membership card will follow in the post</i></h4>
+        <h2>All Done {{primaryUser.firstName}}!</h2>
+        <h2>You are now an AA Member</h2>
+        <h4><i>You will receive a confirmation email shortly</i></h4>
         <hr>
         <h4><strong>Your AA Membership number</strong></h4>
         <button class="btn btn--outline"><h4>{{primaryUser.membershipNumber}}</h4></button>
     </section>
+</div>
+<div class="outer-container" id="c-page-confirmation__app_container">
+    <div class="container">
+        <section>
+            <div class="img">
+                <img src="assets/images/confirmation/iphone.png" alt="">
+            </div>
+            <h4>Digital AA Membership Pack <br> is available on <strong>The AA App</strong></h4>
+            <a href="http://www.theaa.ie/app/"><button class="btn btn--yellow btn--padded">Download the App</button></a>
+        </section>
+        
+
+    </div>
 </div>
 <div class="outer-container" id="c-page-confirmation__mid_container">
     <div id="midContainer" class="container inverse">
@@ -53,12 +65,12 @@
 <div id="banner" class="outer-container" style="background-image:url('assets/images/confirmation/skiBackground.jpg')">
     <div class="container">
         <section>
-            <h1>AA Annual Travel Insurance</h1>
+            <h1>AA Life Insurance</h1>
             <div class="content">
-                <h2>From as little as</h2>
-                <h1 class="large">€25.49</h1>
+                <h1 class="large"><span>From</span> €20 <span>a month</span></h1>
+                <button class="btn btn--yellow btn--expand">Buy Now</button>
             </div>
-            <button class="btn btn--yellow">Get a Quote</button>
+            
             
         </section>
     </div>

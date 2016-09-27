@@ -54,6 +54,8 @@ export class InitService {
 		promise.then((site) => {
 			this.current = site;
 			this.isProductConfigPreloaded = true;
+		}).catch((err) => {
+			console.log('Product Config Load Failure');
 		});
 		return promise;
 	}

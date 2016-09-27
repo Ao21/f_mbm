@@ -9,8 +9,10 @@ import { environment } from './environments/environment';
 import { AppModule } from './app/';
 
 if (environment.production) {
-    enableProdMode();
+	enableProdMode();
+	platformBrowser().bootstrapModuleFactory(AppModuleNgFactory);
+} else {
+	platformBrowserDynamic().bootstrapModule(AppModule);
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
-// platformBrowser().bootstrapModuleFactory(AppModuleNgFactory);
+

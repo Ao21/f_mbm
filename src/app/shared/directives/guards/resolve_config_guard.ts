@@ -4,6 +4,7 @@ import {
 	ActivatedRouteSnapshot
 } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { isPresent } from '@angular/core/src/facade/lang';
 import { InitService, ProductConfig, Config } from './../../../services/init.service';
 import { DataStore } from './../../../stores/datastore.store';
 
@@ -15,6 +16,10 @@ export class ConfigResolveGuard implements Resolve<ProductConfig> {
 		private router: Router) { }
 	resolve(route: ActivatedRouteSnapshot): Observable<any> | Promise<any> | any {
 		if (this.initService.isProductConfigPreloaded || this.dataStore.exists(['config', 'code'])) {
+			return true;
+		}
+		if (isPresent(window['config'])) {
+			this.dataStore.setConfig(window['config']);
 			return true;
 		}
 		return this.initService.load().then(productConfig => {

@@ -10,7 +10,7 @@ export class CONSTS {
 	static TITLE_OPTION = 'title_update';
 	static HALT_REQUESTS = 'halt_requests_update';
 	static BASE_URL = 'http://aaweb.staging.theaa.local/aa-membership/journey/';
-	static BASE_URLPROD = 'http://aaweb.staging.theaa.local/aa-membership/journey/';
+	static BASE_URLPROD = '/aa-membership/journey/';
 	static LOCAL_CONTEXT = 'membership/';
 	static UAT_CONTEXT = 'membership-uat/';
 
@@ -27,6 +27,10 @@ export class ERRORS {
 	static defaultServiceError: ErrorObject = {
 		notification: 'Could not connect',
 		err: 'ServiceError'
+	};
+	static convertQuoteFailure: ErrorObject = {
+		notification: `Sorry, we're having difficulties converting your quote, please try again.`,
+		err: 'QuoteConversionFailure'
 	};
 	static creditCard: ErrorObject = {
 		err: 'RealexFailure',
@@ -224,7 +228,7 @@ export const TestimonialOutcomes: Outcome[] = [{
 	{
 		id: 2,
 		include: [2],
-		author: 'Mrs M Fitzgerald (Audi-142D1996)',
+		author: 'Mrs M Fitzgerald',
 		description: `The AA Patrol was superb. I couldn't believe that he actually got out in 7 minutes and rescued the baby from the car.`
 	},
 	{

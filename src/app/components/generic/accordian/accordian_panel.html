@@ -1,5 +1,5 @@
 <div class="c-accordian-panel">
-    <div class="c-accordian-panel__header" (click)="toggle()" role="tab" id="headingOne">
+    <div class="c-accordian-panel__header" (click)="toggle()" [class.isSelected]="!isCollapsed" role="tab" id="headingOne">
 		  <ng-content select="header"></ng-content>
     </div>
       <div class="c-accordian-panel__content" [class.isCollapsed]='isCollapsed' role="tabpanel" aria-labelledby="headingOne">

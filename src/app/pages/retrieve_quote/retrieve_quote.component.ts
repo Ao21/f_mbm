@@ -132,7 +132,7 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 					ERRORS.retrieveQuoteProblem,
 					'Sorry, we were unabled to find your quote',
 					'Go Back To MyAA',
-					'https://www.theaa.ie/myaa.aspx'
+					'/myaa/myquotes.aspx'
 				);
 			} else {
 				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteProblem);
@@ -145,7 +145,7 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 					ERRORS.retrieveQuoteMissing,
 					'Sorry, we were unabled to find your quote',
 					'Go Back To MyAA',
-					'https://www.theaa.ie/myaa.aspx'
+					'/myaa/myquotes.aspx'
 				);
 			} else {
 				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteMissing);
@@ -156,7 +156,7 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 					ERRORS.retrieveQuoteMyAAProblem,
 					'Sorry, there was a problem retrieving your quote.',
 					'Go Back To MyAA',
-					'https://www.theaa.ie/myaa.aspx'
+					'/myaa/myquotes.aspx'
 				);
 				this.router.navigateByUrl('/');
 			} else {

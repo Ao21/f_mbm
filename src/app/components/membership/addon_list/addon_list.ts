@@ -71,7 +71,7 @@ export class AddonListComponent implements AfterViewInit, OnDestroy {
 		let scroller = this._el.nativeElement.querySelector('.m-addon-list__scroller');
 		if (Utils.isViewportTablet()) {
 			let width = this._el.nativeElement.querySelector('article').scrollWidth + 'px';
-			let scrollerWidth = li.length * (this._el.nativeElement.scrollWidth - 15);
+			let scrollerWidth = li.length * (this._el.nativeElement.scrollWidth);
 			this._renderer.setElementStyle(scroller, 'width', scrollerWidth + 'px');
 			_.each(li, (e) => {
 				this._renderer.setElementStyle(e, 'width', width);

@@ -27,7 +27,8 @@ import {AccordianComponent} from './accordian';
 })
 export class AccordianPanelComponent {
 	// Sets the panel as closed or open
-	isCollapsed: Boolean;
+	isCollapsed: boolean;
+	isSelected: boolean;
 
 	constructor( @Host() accordian: AccordianComponent) {
 		accordian.addPanel(this);

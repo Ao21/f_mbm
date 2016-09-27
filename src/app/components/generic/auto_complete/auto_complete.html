@@ -3,6 +3,7 @@
         (input)="handleChange($event)"
         [class.hasValue]="hasValue"
         type="autocomplete" 
+        autocomplete="autocomplete-dont-fill"
         required
         (blur)="onBlur()"
         [placeholder]="placeholder">

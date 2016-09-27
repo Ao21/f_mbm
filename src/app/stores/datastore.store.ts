@@ -171,7 +171,6 @@ export class DataStore extends DispatcherStore {
 	 * 	Saves a member to the store
 	 * 	@param {Member} member - member to save
 	 */
-
 	saveMember = (member: Member) => {
 		this.deleteQuote();
 		this.update(['config', 'members', member.type, member.index], member, CONSTS.MEMBER_UPDATE);
@@ -181,7 +180,6 @@ export class DataStore extends DispatcherStore {
 	 * 	Deletes a member from the store
 	 * 	@param {Member} member - member to remove
 	 */
-
 	removeMember = (member: Member) => {
 		this.deleteQuote();
 		this.remove(['config', 'members', member.type, member.index], CONSTS.MEMBER_UPDATE);
@@ -199,7 +197,6 @@ export class DataStore extends DispatcherStore {
 		this.update(['session', 'user'], user, CONSTS.LOGIN_UPDATE);
 		this.constructUserObjFromSession('adults', 0);
 	}
-
 
 	updatePaymentDetails(type: any, details: any, triggerPublication?: boolean) {
 		if (triggerPublication) {
@@ -275,7 +272,6 @@ export class DataStore extends DispatcherStore {
 					}
 				}
 			}
-
 		}
 		return members;
 	}
@@ -357,7 +353,6 @@ export class Pricing {
 			function (pricing: any): any {
 				return pricing;
 			}),
-
 
 		calculatedPrice: monkey(
 			['config', 'members'],

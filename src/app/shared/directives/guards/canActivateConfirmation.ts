@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRoute } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
+import { ErrorService } from './../../../services/error.service';
 import { DataStore } from './../../../stores/datastore.store';
 import { AsyncSubject } from 'rxjs/Rx';
+import { ERRORS } from './../../../constants';
 import { PaymentService } from './../../../services/payment.service';
 
 
@@ -11,6 +13,7 @@ export class CanActivateConfirmation implements CanActivate {
 	_canActivate: AsyncSubject<any> = new AsyncSubject();
 
 	constructor(
+		private errorService: ErrorService,
 		private paymentService: PaymentService,
 		private dataStore: DataStore,
 		private router: Router) { }
@@ -32,7 +35,7 @@ export class CanActivateConfirmation implements CanActivate {
 					this.router.navigate(['/']);
 				}
 			}).catch((err) => {
-				this.router.navigate(['/']);
+				this.errorService.errorHandlerWithNotification(ERRORS.convertQuoteFailure);
 				this._canActivate.next(false);
 				this._canActivate.complete();
 			});

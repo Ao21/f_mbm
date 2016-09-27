@@ -54,10 +54,12 @@ export class AddressListComponent implements OnChanges {
 
 	createAddressList(next) {
 		let addressList: addressObject = next.json();
-		this.onReadyValid.next(true);
-		this.addList = addressList.lookups;
-		this.addList[this.addList.length - 1].isEcho = true;
-		this.onValid.next(null);
+		if (addressList.lookups && addressList.lookups.length > 0) {
+			this.onReadyValid.next(true);
+			this.addList = addressList.lookups;
+			this.addList[this.addList.length - 1].isEcho = true;
+			this.onValid.next(null);
+		}
 	}
 
 	/* istanbul ignore next */
