@@ -19,7 +19,9 @@ c-accordian-panel,
         background-color: $dark-gray;
         color: $light;
         cursor: pointer;
-
+        &.isSelected {
+            background-color:$primary;
+        }
         header {
             max-width: calc(100% - #{$navPaddingMobile + 5});
         }

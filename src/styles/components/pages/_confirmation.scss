@@ -65,7 +65,7 @@ c-page-confirmation {
             @include media($mobile) {
                 @include span-columns(4);
                 @include shift(0);
-                margin-bottom: size(small);
+                margin-bottom: 0;
 
                 .panel-group {
                     margin-left: -$navPaddingMobile;
@@ -110,7 +110,7 @@ c-page-confirmation {
                     }
                 }
 
-                margin-bottom: size(large);
+                margin-bottom: size(medium);
                 text-align: center;
 
                 h2 {
@@ -119,6 +119,16 @@ c-page-confirmation {
                 }
                 h1.large {
                     line-height: 1.25em;
+                    font-size: 80px;
+                    text-transform: uppercase;
+                    margin-bottom: 1.5rem;
+                    span {
+                        vertical-align: bottom;
+                        font-size: 26px;
+                        @include media($mobile){
+                            font-size: 14px;
+                        }
+                    }
                 }
             }
             button {
@@ -133,5 +143,31 @@ c-page-confirmation {
     }
     #c-page-confirmation__mid_container {
         background-color:$light-gray;
+    }
+    #c-page-confirmation__app_container {
+        background-image: url($IMG_URL + '/assets/images/confirmation/app_banner_background.jpg');
+        background-size: cover;
+        padding: 1.5rem 0;
+        section {
+            @include display(flex);
+            @include justify-content(space-around);
+            @include align-items(center);
+
+            @include media($mobile){
+                @include flex-direction(column);
+                img {
+                    display: none;
+                }
+                h4 {
+                    margin-bottom: size(small);
+                }
+            }
+            
+            h4 {
+                font-weight: 400;
+                
+            }
+            
+        }
     }
 }
