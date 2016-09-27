@@ -85,7 +85,7 @@ export class PaymentAgreementComponent {
 		let all = type === 'all' ? true : false;
 		this.paymentService.confirmTermsConditions(all).subscribe(next => {
 			console.log(next);
-		});
+		}, (err) => {});
 		this.notificationService.clearNotifications();
 		setTimeout(() => {
 			this.onSuccess.next(true);
