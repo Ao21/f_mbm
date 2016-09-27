@@ -1,6 +1,6 @@
-import {Provider, Injectable} from '@angular/core';
-import {Http, Headers, Request, RequestOptions, RequestOptionsArgs, RequestMethod, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { Provider, Injectable } from '@angular/core';
+import { Http, Headers, Request, RequestOptions, RequestOptionsArgs, RequestMethod, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 // Avoid TS error "cannot find name escape"
 declare var escape: any;
@@ -31,7 +31,7 @@ export class AuthConfig {
 	headerName: string;
 	headerPrefix: string;
 	tokenName: string;
-	tokenGetter: ()=> IToken|any;
+	tokenGetter: () => IToken | any;
 	noTokenScheme: boolean;
 	globalHeaders: Array<Object>;
 
@@ -40,14 +40,19 @@ export class AuthConfig {
 		this.headerName = 'Authorization';
 		this.headerPrefix = 'Bearer ';
 		this.tokenName = 'access_token';
-		this.tokenGetter = this.config.tokenGetter || (() => localStorage.getItem(this.tokenName));
+		this.tokenGetter = this.config.tokenGetter || (() => {
+			try {
+				return localStorage.getItem(this.tokenName);
+			} catch (e) {
+				return sessionStorage.getItem(this.tokenName);
+			}
+		});
 		this.globalHeaders = [{ 'X-XSRF-TOKEN': getCookie('xsrftoken') }];
 	}
 
 	public setToken(token: IToken) {
 		let tk: IToken = token;
 		tk.expiration_date = moment().add(token.expires_in, 'seconds');
-		console.log(tk);
 		this.tokenGetter = (): IToken => tk;
 	}
 
@@ -234,7 +239,11 @@ export function tokenNotExpired(tokenName?: string, tokenObj?: any) {
 	if (tokenObj) {
 		token = tokenObj;
 	} else {
-		token = localStorage.getItem(authToken);
+		try {
+			token = localStorage.getItem(this.tokenName);
+		} catch (e) {
+			token = sessionStorage.getItem(this.tokenName);
+		}
 	}
 
 	let jwtHelper = new JwtHelper();
@@ -247,11 +256,11 @@ export function tokenNotExpired(tokenName?: string, tokenObj?: any) {
 }
 
 export function getCookie(name) {
-		let value = '; ' + document.cookie;
-		let parts = value.split('; ' + name + '=');
-		if (parts.length === 2) {
-			return parts.pop().split(';').shift();
-		}
+	let value = '; ' + document.cookie;
+	let parts = value.split('; ' + name + '=');
+	if (parts.length === 2) {
+		return parts.pop().split(';').shift();
+	}
 }
 
 export function AuthFactory(http: Http) {
@@ -259,5 +268,5 @@ export function AuthFactory(http: Http) {
 }
 
 export const AUTH_PROVIDERS: Provider = [
-	{provide: AuthHttp, useFactory: AuthFactory, deps: [Http]}
+	{ provide: AuthHttp, useFactory: AuthFactory, deps: [Http] }
 ];
