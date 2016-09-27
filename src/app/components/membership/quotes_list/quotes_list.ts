@@ -57,7 +57,11 @@ export class QuotesListComponent {
 		this.open = 'inactive';
 		this.isVisible = false;
 	}
-
+	/**
+	 * 	Retrieves an expired from the quote service, updates the dataStore with the quote
+	 * 	and then closes the retrieve quote list as well as redirecting the user to the
+	 * 	cover level page
+	 */
 	requoteQuote(quote) {
 		if (this.isLoading === true) {
 			return;

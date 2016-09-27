@@ -25,21 +25,24 @@ export class TitleSelectorComponent implements OnDestroy, OnInit {
 	) {
 		this.sub = this.dataStore.subscribe(CONSTS.TITLE_OPTION, (data) => {
 			this.titles = this.data = _.clone(data.get('titles'));
-			this.checkForRelayOnlyOptions();
+			this.checkForAlternateTitle();
 		});
 	}
 
 	ngOnInit() {
 		this.titles = _.clone(this.dataStore.getTitles());
-		this.checkForRelayOnlyOptions();
+		this.checkForAlternateTitle();
 	}
 
-	checkForRelayOnlyOptions() {
+	/**
+	 *	If the system comes back with a non-default title (other than Mr/Mrs/Miss/Mr) this will add in the title
+	 * 	to the list of titles available on the title selection
+	 */
+	checkForAlternateTitle() {
 		if (this.titles.length > 0 && !_.find(this.titles, (e) => { return e.id === this.control.value; }) && this.control.value!=='') {
 			this.titles.push({ id: this.control.value, value: this.control.value });
 			this.changeRef.detectChanges();
 		}
-
 	}
 
 	ngOnDestroy() {
