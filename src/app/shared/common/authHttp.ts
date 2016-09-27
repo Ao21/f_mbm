@@ -53,6 +53,7 @@ export class AuthConfig {
 	public setToken(token: IToken) {
 		let tk: IToken = token;
 		tk.expiration_date = moment().add(token.expires_in, 'seconds');
+		console.log(tk);
 		this.tokenGetter = (): IToken => tk;
 	}
 
@@ -240,9 +241,9 @@ export function tokenNotExpired(tokenName?: string, tokenObj?: any) {
 		token = tokenObj;
 	} else {
 		try {
-			token = localStorage.getItem(this.tokenName);
+			token = localStorage.getItem(authToken);
 		} catch (e) {
-			token = sessionStorage.getItem(this.tokenName);
+			token = sessionStorage.getItem(authToken);
 		}
 	}
 
