@@ -28,6 +28,10 @@ export class ERRORS {
 		notification: 'Could not connect',
 		err: 'ServiceError'
 	};
+	static placeholderMember: ErrorObject = {
+		err: 'placeholderMemberError',
+		notification: 'You must either save or delete your additional members before you can continue.'
+	}
 	static convertQuoteFailure: ErrorObject = {
 		notification: `Sorry, we're having difficulties converting your quote, please try again.`,
 		err: 'QuoteConversionFailure'

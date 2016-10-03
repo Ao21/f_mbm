@@ -6,7 +6,6 @@ import {Injectable} from '@angular/core';
  */
 @Injectable()
 export class TabsDispatcher {
-	// TODO(jelbourn): Change this to TypeScript syntax when supported.
 	private _listeners: any;
 
 	constructor() {

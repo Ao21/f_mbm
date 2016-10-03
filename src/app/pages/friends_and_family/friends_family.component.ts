@@ -10,7 +10,6 @@ import { Observable } from 'rxjs/Rx';
 
 /**
  *  Friends & Family Page Component
- *  TODO: Remove Placeholder functions if its not being used 
  *
  */
 
@@ -150,6 +149,7 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 		});
 
 		if (isPresent(placeholder)) {
+			this.errorService.errorHandlerWithNotification(ERRORS.placeholderMember);
 			this.placeholderMemberToBeRemoved = placeholder;
 			this.uiStore.openModal('removePlaceholderMember');
 			return true;

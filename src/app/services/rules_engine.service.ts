@@ -63,7 +63,6 @@ export class RulesEngine {
 	 *  Uses the Ruleset that was generated in check(memberGroup) to compare
 	 *  the rule id's to the outcome id's and match the outcome that's the closest to it
 	 *
-	 *  TODO: Make this much better
 	 */
 
 	calculateRuleOutcome = (outcomes, i) => {

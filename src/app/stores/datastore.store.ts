@@ -228,7 +228,7 @@ export class DataStore extends DispatcherStore {
 				member.email = sessionUser.email;
 			}
 			if (sessionUser.title) {
-				member.title = sessionUser.title.id;
+				member.title = sessionUser.title;
 			}
 			if (sessionUser.firstName) {
 				member.firstName = sessionUser.firstName;

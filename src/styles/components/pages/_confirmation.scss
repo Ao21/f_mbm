@@ -14,15 +14,12 @@ c-page-confirmation {
             @include span-columns(4);
             @include shift(0);
         }
-
         text-align: center;
-
         h2 {
-           font-weight: 200;
-
-           &:last-of-type {
+            font-weight: 200;
+            &:last-of-type {
                 margin-bottom: size(medium);
-           }
+            }
         }
         h4 i {
             font-weight: 100;
@@ -39,13 +36,12 @@ c-page-confirmation {
     }
     #midContainer {
         .o-list li {
-            @include type-setting(0);
+            @include type-setting(1);
         }
         h4 {
             @include media($mobile) {
-                @include type-setting(0);
+                @include type-setting(1);
             }
-
             margin-bottom: size(medium);
             font-weight: 400
         }
@@ -53,10 +49,8 @@ c-page-confirmation {
             @include span-columns(5);
             @include media($mobile) {
                 @include span-columns(4);
-
                 margin-bottom: 0;
             }
-
             margin-bottom: size(large)
         }
         section:last-child {
@@ -66,7 +60,6 @@ c-page-confirmation {
                 @include span-columns(4);
                 @include shift(0);
                 margin-bottom: 0;
-
                 .panel-group {
                     margin-left: -$navPaddingMobile;
                     width: calc(100% + #{$navPaddingMobile * 2});
@@ -75,65 +68,53 @@ c-page-confirmation {
         }
     }
     #banner {
-        padding-top: size(big);
+        padding: 0;
         min-height: 30rem;
         background-size: cover;
-
+        background-position: center center;
         section {
-            @include span-columns(7);
-            @include shift(4);
+            @include span-columns(4);
+            @include shift(1);
+            width: 400px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 3rem 1.5rem 2rem;
+            @include media($upToDesktop) {
+                @include span-columns(6);
+                @include shift(1);
+            }
+
             @include media($mobile) {
                 @include span-columns(4);
                 @include shift(0);
-
                 padding-top: size(large);
-
-                h1:not(.large) {
+                h2:not(.large) {
                     @include type-setting(2);
                 }
             }
-
-            h1 {
-                color: $light;
+            h2 {
                 text-align: center;
                 font-weight: 600;
+                 margin-bottom: size(small);
+                color: $yellow;
             }
             .content {
-                @include span-columns(10);
-                @include shift(1);
+                @include span-columns(12);
                 @include media($mobile) {
                     @include span-columns(4);
                     @include shift(0);
-
-                    h2 {
-                        @include type-setting(3);
+                    h4 {
+                        @include type-setting(2);
                     }
                 }
-
                 margin-bottom: size(medium);
                 text-align: center;
-
-                h2 {
-                    margin-bottom: 0;
-                    color: $yellow;
-                }
-                h1.large {
-                    line-height: 1.25em;
-                    font-size: 80px;
-                    text-transform: uppercase;
-                    margin-bottom: 1.5rem;
-                    span {
-                        vertical-align: bottom;
-                        font-size: 26px;
-                        @include media($mobile){
-                            font-size: 14px;
-                        }
-                    }
+                h4 {
+                    margin-bottom: size(medium);
+                    color: white;
                 }
             }
             button {
-                @include span-columns(8);
-                @include shift(2);
+                @include span-columns(12);
                 @include media($mobile) {
                     @include span-columns(4);
                     @include shift(0);
@@ -142,18 +123,21 @@ c-page-confirmation {
         }
     }
     #c-page-confirmation__mid_container {
-        background-color:$light-gray;
+        background-color: $light-gray;
     }
     #c-page-confirmation__app_container {
         background-image: url($IMG_URL + '/assets/images/confirmation/app_banner_background.jpg');
         background-size: cover;
         padding: 1.5rem 0;
+        button {
+            font-size: 16px;
+
+        }
         section {
             @include display(flex);
             @include justify-content(space-around);
             @include align-items(center);
-
-            @include media($mobile){
+            @include media($upToDesktop) {
                 @include flex-direction(column);
                 img {
                     display: none;
@@ -162,12 +146,9 @@ c-page-confirmation {
                     margin-bottom: size(small);
                 }
             }
-            
             h4 {
                 font-weight: 400;
-                
             }
-            
         }
     }
 }

@@ -47,7 +47,6 @@ export class MyAALoginDetectionDirective implements OnInit {
 
 	ngOnInit() {
 		this.formControl.valueChanges.subscribe((e) => {
-			console.log(this.isUserLoggedIn, this.dataStore.isUserLoggedIn())
 			if (!this.dataStore.isUserLoggedIn() || !this.isUserLoggedIn) {
 				this.emailInput.next(e);
 			}

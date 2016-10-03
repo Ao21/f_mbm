@@ -20,9 +20,7 @@ export class CanActivateQuote implements CanActivate {
 	}
 
 	canActivate() {
-		console.log('activate');
 		this._canActivate = new AsyncSubject();
-		console.log(this.uiStore.get(['UIOptions', 'isTestimonialsTriggered']))
 		if (this.quote = this.dataStore.get(['config', 'quotation']) || this.uiStore.get(['UIOptions', 'isTestimonialsTriggered'])) {
 			this._canActivate.next(true);
 			this._canActivate.complete();

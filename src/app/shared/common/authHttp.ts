@@ -53,7 +53,6 @@ export class AuthConfig {
 	public setToken(token: IToken) {
 		let tk: IToken = token;
 		tk.expiration_date = moment().add(token.expires_in, 'seconds');
-		console.log(tk);
 		this.tokenGetter = (): IToken => tk;
 	}
 

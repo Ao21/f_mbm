@@ -56,7 +56,7 @@ export class MyAAService {
 				}
 			);
 		}, (err) => {
-			console.log('FAIL');
+			//console.log('FAIL');
 		});
 	}
 

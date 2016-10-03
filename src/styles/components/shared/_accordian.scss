@@ -11,7 +11,7 @@ c-accordian-panel,
         margin-bottom: 0;
     }
     &__header {
-        @include type-setting(0);
+        @include type-setting(1);
 
         position: relative;
         padding: size(medium) $buttonPaddingDefault;
