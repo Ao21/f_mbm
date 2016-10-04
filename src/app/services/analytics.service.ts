@@ -53,7 +53,7 @@ export class Analytics {
 			// Service Name - Which service triggered the error
 			'service': evt.service,
 			// Error - What the error was
-			'error-value': evt.error
+			'error-value': evt.err
 		};
 		this.createEvent(evtObj);
 	}

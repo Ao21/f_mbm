@@ -16,7 +16,7 @@ export class ErrorService {
 		this.analytics.triggerErrorEvent(
 			{
 				service: error.service,
-				error: error.err
+				err: error.err
 			});
 	}
 
@@ -25,7 +25,7 @@ export class ErrorService {
 		this.analytics.triggerErrorEvent(
 			{
 				service: error.service,
-				error: error.err
+				err: error.err
 			});
 	}
 
@@ -34,7 +34,7 @@ export class ErrorService {
 		this.analytics.triggerErrorEvent(
 			{
 				service: error.service,
-				error: error.err
+				err: error.err
 			});
 	}
 
@@ -72,7 +72,7 @@ export class ErrorService {
 		if (message[code]) {
 			this.analytics.triggerErrorEvent({
 				service: 'error-page',
-				error: code
+				err: code
 			});
 			return message[code];
 		} else {

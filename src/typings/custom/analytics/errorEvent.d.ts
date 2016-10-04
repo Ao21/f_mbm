@@ -1,4 +1,4 @@
 interface AnalyticsErrorEvent {
     service: string;
-    error: string;
+    err: string;
 }
