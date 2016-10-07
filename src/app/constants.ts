@@ -1,6 +1,7 @@
 import { environment } from './../environments/environment';
 
 export class CONSTS {
+	static CONFIG = 'config';
 	static PRICING_UPDATE = 'price_update';
 	static BANK_UPDATE = 'bank_update';
 	static MEMBER_UPDATE = 'member_update';
