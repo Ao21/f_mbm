@@ -57,19 +57,25 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 			dateOfBirth: member.dateOfBirth
 		})
 			.retryWhen((attempts) => {
-				return Observable.range(1, 3).zip(attempts, (i) => {
-					return i;
-				}).flatMap((i) => {
-					let time = i * 6;
+				return attempts.scan((errorCount, err) => {
+					if (err.status === 409) {
+						this.errorService.resetSession(err);
+						throw new Error('Session Has Expired');
+					};
+					return errorCount + 1;
+				}, 0).delayWhen((errCount) => {
+					let time = errCount * 6;
 					this.errorService.errorHandlerWithTimedNotification(ERRORS.saveAdditionalMember, time);
 					return Observable.timer(time * 1000);
+				}).takeWhile((errCount) => {
+					return errCount < 3;
 				});
 			})
 			.subscribe((next) => {
 				this.dataStore.saveMember(member);
 				this.notificationService.clearNotifications();
 			}, (err) => {
-				this.errorService.errorHandlerWithNotification(
+				this.errorService.errorHandlerWithNotification(err,
 					_.assign({
 						err: 'Delete Additional Member Failure',
 						service: 'QuoteService'
@@ -87,18 +93,24 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 	deleteMember(member: Member) {
 		this.quoteService.removeMember(member.index)
 			.retryWhen((attempts) => {
-				return Observable.range(1, 3).zip(attempts, (i) => {
-					return i;
-				}).flatMap((i) => {
-					let time = i * 6;
+				return attempts.scan((errorCount, err) => {
+					if (err.status === 409) {
+						this.errorService.resetSession(err);
+						throw new Error('Session Has Expired');
+					};
+					return errorCount + 1;
+				}, 0).delayWhen((errCount) => {
+					let time = errCount * 6;
 					this.errorService.errorHandlerWithTimedNotification(ERRORS.deleteAdditionalMember, time);
 					return Observable.timer(time * 1000);
+				}).takeWhile((errCount) => {
+					return errCount < 3;
 				});
 			}).subscribe((next) => {
 				this.notificationService.clearNotifications();
 				this.dataStore.removeMember(member);
 			}, (err) => {
-				this.errorService.errorHandlerWithNotification(
+				this.errorService.errorHandlerWithNotification(err,
 					_.assign(
 						{
 							err: 'Delete Additional Member Failure',
@@ -149,7 +161,7 @@ export class MembershipFriendsAndFamilyPageComponent implements OnDestroy, OnIni
 		});
 
 		if (isPresent(placeholder)) {
-			this.errorService.errorHandlerWithNotification(ERRORS.placeholderMember);
+			this.errorService.errorHandlerWithNotification({}, ERRORS.placeholderMember);
 			this.placeholderMemberToBeRemoved = placeholder;
 			this.uiStore.openModal('removePlaceholderMember');
 			return true;

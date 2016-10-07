@@ -55,7 +55,7 @@ export class MembershipTermsConditionsComponent implements OnInit {
 			.subscribe((next) => {
 				this.isPaymentTypeSet = true;
 			}, (err) => {
-				this.errorService.errorHandlerWithNotification(ERRORS.setPaymentType);
+				this.errorService.errorHandlerWithNotification(err, ERRORS.setPaymentType);
 				this.router.navigateByUrl('/breakdown');
 			});
 	}

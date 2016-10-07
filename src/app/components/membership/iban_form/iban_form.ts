@@ -43,7 +43,7 @@ export class IbanFormComponent {
 			.switchMap((x) => this.paymentService.validateBankDetails(x))
 			.subscribe(
 			(next) => this.validateAccount(next),
-			(err) => this.errorService.errorHandlerWithNotification(ERRORS.bankValidation));
+			(err) => this.errorService.errorHandlerWithNotification(err, ERRORS.bankValidation));
 		this.init();
 	}
 

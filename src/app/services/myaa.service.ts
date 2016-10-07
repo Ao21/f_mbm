@@ -37,7 +37,7 @@ export class MyAAService {
 	constructor(
 		private auth: AuthHttp,
 		private analytics: Analytics,
-		private errorService:ErrorService,
+		private errorService: ErrorService,
 		private http: Http,
 		@Inject(forwardRef(() => DataStore)) private dataStore: DataStore,
 		private quoteService: QuoteService,
@@ -56,7 +56,6 @@ export class MyAAService {
 				}
 			);
 		}, (err) => {
-			//console.log('FAIL');
 		});
 	}
 
@@ -65,10 +64,18 @@ export class MyAAService {
 		jsonHeader.append('Content-Type', 'application/json');
 		return this.auth.put(this._USER_EXISTS_URL, JSON.stringify({ email: email }), { headers: jsonHeader })
 			.retryWhen((attempts) => {
-			return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
-				let time = i * 6;
-				this.errorService.errorHandlerWithTimedNotification(ERRORS.checkUserExistsError, time);
-				return Observable.timer(time * 1000);
+				return attempts.scan((errorCount, err) => {
+					if (err.status === 409) {
+						this.errorService.resetSession(err);
+						throw new Error('Session Has Expired');
+					};
+					return errorCount + 1;
+				}, 0).delayWhen((errCount) => {
+					let time = errCount * 6;
+					this.errorService.errorHandlerWithTimedNotification(ERRORS.checkUserExistsError, time);
+					return Observable.timer(time * 1000);
+				}).takeWhile((errCount) => {
+					return errCount < 3;
 				});
 			});
 	}
@@ -82,7 +89,7 @@ export class MyAAService {
 
 	triggerRenewalProccess() {
 		this.notifications.createNotification
-					(`<a href="http://www.theaa.ie/">Are you a current AA Member looking to renew? 
+			(`<a href="http://www.theaa.ie/">Are you a current AA Member looking to renew? 
 					Click here to go to the renewals page.</a>`);
 	}
 

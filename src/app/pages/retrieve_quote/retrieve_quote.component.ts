@@ -135,7 +135,7 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 					'/myaa/myquotes.aspx'
 				);
 			} else {
-				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteProblem);
+				this.errorService.errorHandlerWithNotification(err, ERRORS.retrieveQuoteProblem);
 				this.router.navigateByUrl('/');
 			}
 		} else if (err.status === 404) {
@@ -148,7 +148,7 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 					'/myaa/myquotes.aspx'
 				);
 			} else {
-				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteMissing);
+				this.errorService.errorHandlerWithNotification(err, ERRORS.retrieveQuoteMissing);
 			}
 		} else if (err.status === 403) {
 			if (this.myAAAccess) {
@@ -160,13 +160,13 @@ export class MembershipRetrieveQuoteComponent implements OnInit {
 				);
 				this.router.navigateByUrl('/');
 			} else {
-				this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteMyAAProblem);
+				this.errorService.errorHandlerWithNotification(err, ERRORS.retrieveQuoteMyAAProblem);
 			}
 		} else if (err.status === 400) {
-			this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuotePurchased);
+			this.errorService.errorHandlerWithNotification(err, ERRORS.retrieveQuotePurchased);
 			this.router.navigate(['/']);
 		} else {
-			this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuoteProblem);
+			this.errorService.errorHandlerWithNotification(err, ERRORS.retrieveQuoteProblem);
 		}
 	}
 }

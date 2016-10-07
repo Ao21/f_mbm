@@ -37,13 +37,20 @@ export class AutoCompleteService {
 		});
 		return this.http.get(`${this.baseURL}xref/area2`, options)
 			.retryWhen((attempts) => {
-				return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
-					let time = i * 6;
+				return attempts.scan((errorCount, err) => {
+					if (err.status === 409) {
+						this.errorService.resetSession(err);
+						throw new Error('Session Has Expired');
+					};
+					return errorCount + 1;
+				}, 0).delayWhen((errCount) => {
+					let time = errCount * 6;
 					this.errorService.errorHandlerWithTimedNotification(ERRORS.townAreaService, time);
 					return Observable.timer(time * 1000);
+				}).takeWhile((errCount) => {
+					return errCount < 3;
 				});
 			})
-
 			.map((res: Response) => { return res.json(); });
 	}
 
@@ -53,13 +60,21 @@ export class AutoCompleteService {
 		});
 		return this.http.get(`${this.baseURL}xref/area2`, options)
 			.retryWhen((attempts) => {
-				return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
-					let time = i * 6;
+				return attempts.scan((errorCount, err) => {
+					if (err.status === 409) {
+						this.errorService.resetSession(err);
+						throw new Error('Session Has Expired');
+					};
+					return errorCount + 1;
+				}, 0).delayWhen((errCount) => {
+					let time = errCount * 6;
 					this.errorService.errorHandlerWithTimedNotification(ERRORS.townAreaService, time);
 					return Observable.timer(time * 1000);
+				}).takeWhile((errCount) => {
+					return errCount < 3;
 				});
 			})
-			.map((res: Response) => { return res.json() });
+			.map((res: Response) => { return res.json()});
 
 	}
 
@@ -82,7 +97,7 @@ export class AutoCompleteService {
 						}
 
 					}, (err) => {
-						this.errorService.errorHandlerWithNotification(ERRORS.townAreaService);
+						this.errorService.errorHandlerWithNotification(err, ERRORS.townAreaService);
 					});
 
 				break;
@@ -98,7 +113,7 @@ export class AutoCompleteService {
 							this.counties.next(res.counties);
 						}
 					}, (err) => {
-						this.errorService.errorHandlerWithNotification(ERRORS.townAreaService);
+						this.errorService.errorHandlerWithNotification(err, ERRORS.townAreaService);
 					});
 				break;
 			default:

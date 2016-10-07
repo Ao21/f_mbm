@@ -1,8 +1,9 @@
 import { Provider, Injectable } from '@angular/core';
 import { Http, Headers, Request, RequestOptions, RequestOptionsArgs, RequestMethod, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { CONSTS } from './../../constants';
+import { environment } from './../../../environments/environment';
 import * as moment from 'moment';
-// Avoid TS error "cannot find name escape"
 declare var escape: any;
 
 interface IToken {
@@ -22,10 +23,10 @@ export interface IAuthConfig {
 	globalHeaders: Array<Object>;
 	setToken(token): void;
 }
+
 /**
  * Sets up the authentication configuration.
  */
-
 export class AuthConfig {
 	config: any;
 	headerName: string;
@@ -76,6 +77,7 @@ export class AuthConfig {
 export class AuthHttp {
 	public tokenStream: Observable<string>;
 	private _config: IAuthConfig;
+	baseUrl: string = `${CONSTS.getBaseUrlWithContext()}config`;
 
 	constructor(options: AuthConfig, private http: Http) {
 		this._config = options.getConfig();
@@ -93,8 +95,6 @@ export class AuthHttp {
 			return new Error('NO SESSION COOKIE FOUND');
 		}
 	}
-
-
 
 	convertCookieToToken(tkn) {
 		let obj = {};
@@ -206,15 +206,10 @@ export class AuthHttp {
 export class JwtHelper {
 
 	public isTokenExpired(token: any, offsetSeconds?: number) {
-
 		let expireDate = token.expiration_date;
-		let date = moment();
-		// Token expired?
 		return moment(expireDate).isBefore(moment());
 	}
 }
-
-
 
 export function parseCookie(cookieString: string) {
 	if (!cookieString) {
@@ -247,7 +242,6 @@ export function tokenNotExpired(tokenName?: string, tokenObj?: any) {
 	}
 
 	let jwtHelper = new JwtHelper();
-
 	if (!token || jwtHelper.isTokenExpired(token, null)) {
 		return false;
 	} else {

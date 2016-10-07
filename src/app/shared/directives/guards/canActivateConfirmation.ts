@@ -35,7 +35,7 @@ export class CanActivateConfirmation implements CanActivate {
 					this.router.navigate(['/']);
 				}
 			}).catch((err) => {
-				this.errorService.errorHandlerWithNotification(ERRORS.convertQuoteFailure);
+				this.errorService.errorHandlerWithNotification(err, ERRORS.convertQuoteFailure);
 				this._canActivate.next(false);
 				this._canActivate.complete();
 			});

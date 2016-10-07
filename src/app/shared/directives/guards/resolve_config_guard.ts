@@ -5,7 +5,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { isPresent } from '@angular/core/src/facade/lang';
-import { InitService, ProductConfig, Config } from './../../../services/init.service';
+import { InitService, ProductConfig } from './../../../services/init.service';
 import { DataStore } from './../../../stores/datastore.store';
 
 @Injectable()

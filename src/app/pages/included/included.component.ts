@@ -68,7 +68,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 
 	scrollToTermsAndConditions() {
 		let el = this.el.nativeElement.querySelector('body > app > main > p-included > div > article > button');
-		this.errorService.errorHandlerWithNotification(ERRORS.termsConditions);
+		this.errorService.errorHandlerWithNotification({}, ERRORS.termsConditions);
 		Utils.scrollToElement(el);
 	}
 
@@ -84,7 +84,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 				this.coverLevels[addonUpdate.index].active = addonUpdate.isSelected;
 				this.dataStore.toggleCoverLevel(addonUpdate.index, addonUpdate.isSelected);
 			}, (err) => {
-				this.errorService.errorHandlerWithNotification(ERRORS.coverLevelChange);
+				this.errorService.errorHandlerWithNotification(err, ERRORS.coverLevelChange);
 			});
 	}
 

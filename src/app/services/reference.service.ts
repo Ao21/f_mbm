@@ -18,7 +18,7 @@ export class ReferenceService {
 
 	constructor(
 		private analytics: Analytics,
-		private errrorService: ErrorService,
+		private errorService: ErrorService,
 		private notifications: NotificationService,
 		private auth: AuthHttp,
 		public http: Http
@@ -57,13 +57,23 @@ export class ReferenceService {
 				'Content-Type': 'application/json;charset=UTF-8'
 			})
 		});
-		return this.auth.put(this._ADDRESS_URL, JSON.stringify(cleanInput), options).retryWhen((attempts) => {
-			return Observable.range(1, 10).zip(attempts, (i) => { return i; }).flatMap((i) => {
-				let time = i * 6;
-				this.errrorService.errorHandlerWithTimedNotification(ERRORS.addressService, time);
-				return Observable.timer(time * 1000);
+		return this.auth
+			.put(this._ADDRESS_URL, JSON.stringify(cleanInput), options)
+			.retryWhen((attempts) => {
+				return attempts.scan((errorCount, err) => {
+					if (err.status === 409) {
+						this.errorService.resetSession(err);
+						throw new Error('Session Has Expired');
+					};
+					return errorCount + 1;
+				}, 0).delayWhen((errCount) => {
+					let time = errCount * 6;
+					this.errorService.errorHandlerWithTimedNotification(ERRORS.addressService, time);
+					return Observable.timer(time * 1000);
+				}).takeWhile((errCount) => {
+					return errCount < 3;
+				});
 			});
-		});
 
 	}
 }

@@ -61,11 +61,20 @@ export class PaymentService {
 	validateBankDetails(accountDetails: AccountDetails): Observable<Response> {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
-		return this.auth.put(this.BANK_URL, JSON.stringify(accountDetails), { headers: jsonHeader }).retryWhen((attempts) => {
-			return Observable.range(1, 3).zip(attempts, (i) => { return i; }).flatMap((i) => {
-				let time = i * 6;
-				this.errorService.errorHandlerWithTimedNotification(ERRORS.bankValidationRetry, time);
-				return Observable.timer(time * 1000);
+		return this.auth.put(this.BANK_URL, JSON.stringify(accountDetails), { headers: jsonHeader })
+		.retryWhen((attempts) => {
+			return attempts.scan((errorCount, err) => {
+					if (err.status === 409) {
+						this.errorService.resetSession(err);
+						throw new Error('Session Has Expired');
+					};
+					return errorCount + 1;
+				}, 0).delayWhen((errCount) => {
+					let time = errCount * 6;
+					this.errorService.errorHandlerWithTimedNotification(ERRORS.bankValidationRetry, time);
+					return Observable.timer(time * 1000);
+				}).takeWhile((errCount) => {
+					return errCount < 3;
 				});
 			});
 	}

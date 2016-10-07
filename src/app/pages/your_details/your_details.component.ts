@@ -261,7 +261,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 					this.myAA.triggerRenewalProccess();
 				}
 				}, (err) => {
-					this.errorService.errorHandlerWithNotification(ERRORS.saveMember);
+					this.errorService.errorHandlerWithNotification(err, ERRORS.saveMember);
 				rej(false);
 			});
 		});

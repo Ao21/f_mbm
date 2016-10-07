@@ -1,9 +1,17 @@
 import { Injectable } from '@angular/core';
 import { NotificationService } from './notifications.service';
+import { Router } from '@angular/router';
 import { Analytics } from './analytics.service';
+import { Http } from '@angular/http';
+import { CONSTS } from './../constants';
+
 @Injectable()
 export class ErrorService {
+	baseUrl: string = CONSTS.getBaseUrlWithContext() + CONSTS.CONFIG;
+
 	constructor(
+		private router: Router,
+		private http: Http,
 		private notificationService: NotificationService,
 		private analytics: Analytics
 	) { }
@@ -20,12 +28,15 @@ export class ErrorService {
 			});
 	}
 
-	errorHandlerWithNotification(error: ErrorObject) {
-		this.notificationService.createError(error.notification);
+	errorHandlerWithNotification(err, errorObject: ErrorObject) {
+		if (err.status === 409) {
+			return this.resetSession(err);
+		}
+		this.notificationService.createError(errorObject.notification);
 		this.analytics.triggerErrorEvent(
 			{
-				service: error.service,
-				err: error.err
+				service: errorObject.service,
+				err: errorObject.err
 			});
 	}
 
@@ -38,8 +49,16 @@ export class ErrorService {
 			});
 	}
 
-	errorHandlerWithConfirmationNotification(error: ErrorObject, text,btnText, link) {
+	errorHandlerWithConfirmationNotification(error: ErrorObject, text, btnText, link) {
 		this.notificationService.createConfirmationNotification(text, btnText, link);
+	}
+
+	resetSession(err) {
+		if (err.status === 409) {
+			this.http.get(this.baseUrl, { withCredentials: true }).map(res => res.json()).subscribe((next) => {
+				this.router.navigateByUrl('error/sessionExpired');
+			});
+		}
 	}
 
 	/**

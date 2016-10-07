@@ -87,14 +87,14 @@ export class QuotesListComponent {
 			this.isLoading = false;
 			this.open = 'inactive';
 			this.quoteService.setQuote(res.json(), false);
-		}, (err) => this.handleRetrieveQuoteError(err))
+		}, (err) => this.handleRetrieveQuoteError(err));
 
 	}
 
 	handleRetrieveQuoteError(err) {
 		if (err.status === 403) {
 			this.isLoading = false;
-			this.errorService.errorHandlerWithNotification(ERRORS.retrieveQuote);
+			this.errorService.errorHandlerWithNotification(err, ERRORS.retrieveQuote);
 		}
 	}
 }

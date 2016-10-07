@@ -49,7 +49,7 @@ export class AddressListComponent implements OnChanges {
 			.subscribe((next: any) =>
 				this.createAddressList(next),
 			(err) =>
-				this.errorService.errorHandlerWithNotification(ERRORS.addressService));
+				this.errorService.errorHandlerWithNotification(err, ERRORS.addressService));
 	}
 
 	createAddressList(next) {
@@ -122,6 +122,6 @@ export class AddressListComponent implements OnChanges {
 				}
 				this.onValid.next(next.json());
 			}, (err) =>
-				this.errorService.errorHandlerWithNotification(ERRORS.setAddress));
+				this.errorService.errorHandlerWithNotification(err, ERRORS.setAddress));
 	}
 }

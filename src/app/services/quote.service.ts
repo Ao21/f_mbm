@@ -78,11 +78,11 @@ export class QuoteService {
 				this.getQuote().subscribe((config) => {
 					this.dataStore.setConfig(config.json());
 				}, (error) => {
-					this.errorService.errorHandlerWithNotification(ERRORS.getQuote);
+					this.errorService.errorHandlerWithNotification(error, ERRORS.getQuote);
 					err(error);
 				});
 			}, (error) => {
-				this.errorService.errorHandlerWithNotification(ERRORS.quoteBreakdownItem);
+				this.errorService.errorHandlerWithNotification(error, ERRORS.quoteBreakdownItem);
 				err(error);
 			});
 
@@ -91,11 +91,11 @@ export class QuoteService {
 				this.getQuote().subscribe((config) => {
 					this.dataStore.setConfig(config.json());
 				}, (error) => {
-					this.errorService.errorHandlerWithNotification(ERRORS.getQuote);
+					this.errorService.errorHandlerWithNotification(error, ERRORS.getQuote);
 					err(error);
 				});
 			}, (error) => {
-				this.errorService.errorHandlerWithNotification(ERRORS.quoteBreakdownItem);
+				this.errorService.errorHandlerWithNotification(error, ERRORS.quoteBreakdownItem);
 				err(error);
 			});
 		}
