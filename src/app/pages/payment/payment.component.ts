@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { UIStore, DataStore } from './../../stores/stores.modules';
 import { Observable } from 'rxjs/Observable';
 import { CanDeactivate } from '@angular/router';
+import { ErrorService } from './../../services/error.service';
+import { CONSTS, ERRORS } from './../../constants';
 import { NotificationService, PaymentService } from './../../services/index';
 
 /**
@@ -27,6 +29,7 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean> {
 
 	constructor(
 		private router: Router,
+		private errorService: ErrorService,
 		private dataStore: DataStore,
 		private uiStore: UIStore,
 		private notifications: NotificationService,
@@ -51,6 +54,7 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean> {
 			this.dataStore.convertQuote(next.json());
 			this.router.navigateByUrl('confirmation');
 		}, (err) => {
+			this.errorService.errorHandler(ERRORS.convertQuoteFailure);
 			this.router.navigateByUrl('error');
 		});
 	}

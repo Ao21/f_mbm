@@ -33,6 +33,10 @@ export class ERRORS {
 		err: 'placeholderMemberError',
 		notification: 'You must either save or delete your additional members before you can continue.'
 	}
+	static isQuotePurchasedFailure: ErrorObject = {
+		notification: `Sorry, we're having difficulties converting your quote, please try again.`,
+		err: 'QuoteConversionFailure'
+	};
 	static convertQuoteFailure: ErrorObject = {
 		notification: `Sorry, we're having difficulties converting your quote, please try again.`,
 		err: 'QuoteConversionFailure'
