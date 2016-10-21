@@ -1,9 +1,6 @@
 interface Quote {
     breakdown: QuoteBreakdownItem[];
-    premium: {
-        annual: Price;
-        monthly: Price;
-    }
+    premium: Price;
     reference: string;
     total: {
         annual: QuoteDepositInstallment;

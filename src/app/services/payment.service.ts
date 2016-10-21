@@ -88,6 +88,7 @@ export class PaymentService {
 	 */
 	convertQuote(quoteReference: string): Observable<Response> {
 		this.quotePurchased = null;
+		this.analytics.triggerEvent('convertQuote', quoteReference);
 		return this.auth.get(this.CONVERT_QUOTE_URL + quoteReference);
 	}
 

@@ -34,10 +34,10 @@ export class DirectDebitFormComponent {
 
 	constructor(
 		private analytics: Analytics,
-	) {}
+	) { }
 
 	onBankValidationInit($event) {
-		if($event){
+		if ($event) {
 			this.isLoadingValidate = true;
 		} else {
 			this.isReadyConfirm = false;
@@ -46,7 +46,7 @@ export class DirectDebitFormComponent {
 
 	onBankValidationSuccess(bankValidationObject: boolean | any) {
 		this.isLoadingValidate = false;
-		if(bankValidationObject){
+		if (bankValidationObject) {
 			this.isReadyValidate = true;
 			this.validationDetails = bankValidationObject;
 		} else {
@@ -63,13 +63,13 @@ export class DirectDebitFormComponent {
 	}
 
 	triggerValidation() {
-		if(!this.isReadyConfirm && !this.isLoadingValidate){
+		if (!this.isReadyConfirm && !this.isLoadingValidate) {
 			this.isReadyConfirm = true;
 		}
 	}
 
 	makePayment() {
-		if(!this.isPaying){
+		if (!this.isPaying) {
 			this.isPaying = true;
 			this.analytics.triggerPaymentEvent('Bank', 'success');
 			this.onSuccess.next(this.validationDetails.accepted);

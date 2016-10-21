@@ -43,7 +43,7 @@ export class QuoteService {
 	 * 	@param CoverLevel|QuoteBreakdownItem - Get the name of either the coverlevel or quote breakdown item
 	 * 	@param boolean active - Whether the cover level is being set to active or false
 	 */
-	updateCover(coverLevel: CoverLevel | QuoteBreakdownItem, active: boolean) {
+updateCover(coverLevel: CoverLevel | QuoteBreakdownItem, active: boolean) {
 		let jsonHeader = new Headers();
 		jsonHeader.append('Content-Type', 'application/json');
 		return this.auth.put(this.UPDATE_COVER_URL + coverLevel.name, JSON.stringify({ active: active }), { headers: jsonHeader });

@@ -138,9 +138,10 @@ export class MembershipPriceBreakdownPageComponent implements OnDestroy, OnInit 
 		}
 
 		this.price = this.dataStore.get(['pricing', 'estimate', 'calculatedPrice']);
-
+		this.analytics.triggerEvent('salesPrice', this.frequencyControl.value, this.quote.premium.annual.amount);
 		this.frequencyControl.valueChanges.distinctUntilChanged().subscribe((next) => {
 			this.analytics.triggerEvent('paymentOptions', 'frequency', next);
+			this.analytics.triggerEvent('salesPrice', next, this.quote.premium.annual.amount);
 			this.dataStore.setActivePaymentType(_.findIndex(this.paymentOptions, { type: next }));
 		});
 
