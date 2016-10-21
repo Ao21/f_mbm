@@ -3,6 +3,7 @@
     <h3 class="centered title">Please enter your card details.</h3>
     <div *ngIf="errorMessageVisible" class="o-slot--warning"><h6>Sorry, there was a problem processing your payment, please try again.</h6></div>
     <div *ngIf="!iframeLoaded" class="background"><c-spinner width="6" radius="3" text="Loading Credit Card"></c-spinner></div>
+    <div *ngIf="paymentProcessing" class="background"><c-spinner width="6" radius="3" text="Payment Processing"></c-spinner></div>
     <iframe *ngIf="iframeVisible" [style.height]="iframeHeight" src="payment/creditcard"></iframe>
     <button *ngIf="frequency==='annual'" (click)="swapPaymentType()" class="btn btn--outline btn--expand">Or Pay By Bank</button>
 </div>

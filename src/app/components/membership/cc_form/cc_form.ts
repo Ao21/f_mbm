@@ -23,6 +23,7 @@ export class CreditCardFormComponent implements OnInit {
 	@Input('quote') quote: Quote;
 	@Input('frequency') frequency: string;
 	throttleHeight: Subject<any> = new Subject<any>();
+	paymentProcessing: boolean = false;
 	iframeHeight: any;
 	iframeWidth: any;
 	errorMessageVisible: boolean = false;
@@ -61,6 +62,7 @@ export class CreditCardFormComponent implements OnInit {
 	}
 
 	successfulCCPayment(data) {
+		this.paymentProcessing = true;
 		this.analytics.triggerPaymentEvent('Card', 'success');
 		this.uiStore.getPage('confirmationHidden');
 		this.onSuccess.next(data.QUOTE_REFERENCE);
