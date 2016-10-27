@@ -79,6 +79,7 @@ export class PaymentService {
 			});
 	}
 
+
 	/**
 	 * 	Convert the Quote
 	 * 	@param string quoteReference
@@ -92,8 +93,12 @@ export class PaymentService {
 		return this.auth.get(this.CONVERT_QUOTE_URL + quoteReference);
 	}
 
+	isQuotePurchased() {
+		return this.auth.get(this.PURCHASED_URL);
+	}
 
-	isQuotePurchased(): Promise<any> {
+
+	isQuotePurchasedPromise(): Promise<any> {
 		return new Promise((res, rej) => {
 			if (this.quotePurchased !== null) {
 				res(this.quotePurchased);

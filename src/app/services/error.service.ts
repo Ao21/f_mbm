@@ -79,6 +79,10 @@ export class ErrorService {
 				we are unable to provide you with a quote for AA Membership at this time<br><br>
 				If you would like to ring us to discuss this further please call <strong>0818 227 228</strong>`
 			},
+			'realexRejection': {
+				message: `Unfortunately there was a problem converting your quote.<br><br>
+				Please call <strong>0818 227 228</strong>`
+			},
 			'sessionExpired': {
 				message: `Sorry your session has expired, please click below to restart your journey`,
 				link: '/',

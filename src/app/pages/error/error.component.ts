@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 export class MembershipErrorPageComponent implements OnInit, OnDestroy {
 	page: UIPage;
 	errMsg: ErrorMessage;
+	reference: string;
 	private sub: any;
 
 	constructor(
@@ -30,6 +31,7 @@ export class MembershipErrorPageComponent implements OnInit, OnDestroy {
 		// Gets the errCode from the URL Paramaters
 		this.sub = this.route.params.subscribe(params => {
 			let code = params['errCode'];
+			this.reference = params['reference'];
 			this.errMsg = this.errorService.retrieveServiceError(code);
 			if (this.errMsg.resetJourney) {
 				this.dataStore.resetConfig();

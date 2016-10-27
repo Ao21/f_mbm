@@ -49,14 +49,17 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean> {
 	 * 	@param string convertedQuoteReference - 
 	 */
 	continueToConfirmation = (convertedQuoteReference: string) => {
-		this.paymentService.convertQuote(convertedQuoteReference).subscribe((next) => {
-			this.isQuoteConverted = true;
-			this.dataStore.convertQuote(next.json());
-			this.router.navigateByUrl('confirmation');
-		}, (err) => {
-			this.errorService.errorHandler(ERRORS.convertQuoteFailure);
-			this.router.navigateByUrl('error');
-		});
+		if (!this.isQuoteConverted) {
+			this.paymentService.convertQuote(convertedQuoteReference).subscribe((next) => {
+				this.isQuoteConverted = true;
+				this.dataStore.convertQuote(next.json());
+				this.router.navigateByUrl('confirmation');
+			}, (err) => {
+				this.isQuoteConverted = false;
+				this.errorService.errorHandler(ERRORS.convertQuoteFailure);
+				this.router.navigateByUrl('error');
+			});
+		}
 	}
 
 	/**

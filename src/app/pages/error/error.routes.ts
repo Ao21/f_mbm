@@ -4,4 +4,5 @@ import { MembershipErrorPageComponent } from './error.component';
 export const ErrorRoutes: Routes = [
 	{ path: 'error', component: MembershipErrorPageComponent },
 	{ path: 'error/:errCode', component: MembershipErrorPageComponent },
+	{ path: 'error/:errCode/:reference', component: MembershipErrorPageComponent },
 ];

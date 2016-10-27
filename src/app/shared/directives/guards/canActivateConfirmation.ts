@@ -24,8 +24,8 @@ export class CanActivateConfirmation implements CanActivate {
 			this._canActivate.next(true);
 			this._canActivate.complete();
 		} else {
-			this.paymentService.isQuotePurchased().then((next) => {
-				if (next.reference) {
+			this.paymentService.isQuotePurchasedPromise().then((next) => {
+				if (next.reference && next.purchased === null) {
 					this.dataStore.update(['quote', 'convertedQuote'], next);
 					this._canActivate.next(true);
 					this._canActivate.complete();

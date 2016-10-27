@@ -5,6 +5,7 @@
 				<h2>An error has occurred</h2>
 				<img src="assets/images/icons/infoCircle.svg" alt="">
 			</header>
+			<h5 *ngIf="reference">Reference: {{reference}}</h5>
 			<h6 [innerHTML]="errMsg.message">Please contact an AA Membership agent.</h6>
 		</div>
 		<div *ngIf="errMsg.link" class="o-card__actions">

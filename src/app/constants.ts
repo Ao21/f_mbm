@@ -29,6 +29,14 @@ export class ERRORS {
 		notification: 'Could not connect',
 		err: 'ServiceError'
 	};
+	static iframeMessageFailureConvert: ErrorObject = {
+		err: 'realexIframeMessageFailure',
+		service: 'Realex'
+	}
+	static iframeMessageFailure: ErrorObject = {
+		err: 'realexIframeGeneralFailure',
+		service: 'Realex'
+	}
 	static placeholderMember: ErrorObject = {
 		err: 'placeholderMemberError',
 		notification: 'You must either save or delete your additional members before you can continue.'
