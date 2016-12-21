@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UIStore, DataStore } from './../../stores/stores.modules';
+import { Analytics } from './../../services/analytics.service';
 
 /**
  *  Confirmation Page Component
@@ -19,6 +20,7 @@ export class MembershipConfirmationPageComponent implements OnInit {
 
 	constructor(
 		private changeRef: ChangeDetectorRef,
+		private analytics: Analytics,
 		private uiStore: UIStore,
 		private dataStore: DataStore,
 		private router: Router
@@ -27,14 +29,7 @@ export class MembershipConfirmationPageComponent implements OnInit {
 	ngOnInit() {
 		this.page = this.uiStore.getPage('confirmation');
 		this.convertedQuote = this.dataStore.get(['quote', 'convertedQuote']);
-		// this.convertedQuote = {
-		// 	dateStart: '29/12/1987',
-		// 	reference: 'WWM2323233',
-		// 	members: [{
-		// 		firstName: 'Ronan',
-		// 		membershipNumber: '2372723232'
-		// 	}]
-		// }
+		this.analytics.triggerEvent('converted-quote', 'success', this.convertedQuote.reference);
 		this.init();
 		// Workaround for Safari not updating
 		this.changeRef.detectChanges();

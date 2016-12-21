@@ -8,6 +8,7 @@
   font-size: $fs;
   font-size: rem($fs);
 
+ 
   @if $line-height == true {
     line-height: ceil($fs / $base-line-height) * ($base-line-height / $fs);
   }

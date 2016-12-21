@@ -33,7 +33,6 @@ export class CanActivateQuote implements CanActivate {
 				this.router.navigate(['/error']);
 				this._canActivate.next(false);
 				this._canActivate.complete();
-				// If No Quote - Send to Included
 			});
 		}
 		return this._canActivate;

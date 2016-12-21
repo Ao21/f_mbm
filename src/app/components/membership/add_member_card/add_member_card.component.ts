@@ -29,6 +29,7 @@ import { Analytics } from './../../../services/analytics.service';
 @Component({
 	selector: 'm-add-member-card',
 	templateUrl: './add_member_card.html',
+
 })
 export class AdditionalMemberCardComponent implements OnInit {
 

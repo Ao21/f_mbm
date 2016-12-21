@@ -5,8 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { CanDeactivate } from '@angular/router';
 import { ErrorService } from './../../services/error.service';
 import { CONSTS, ERRORS } from './../../constants';
-import { NotificationService, PaymentService } from './../../services/index';
-
+import { NotificationService, PaymentService, Analytics } from './../../services/index';
 /**
  *  Payment Page Component
  */
@@ -31,6 +30,7 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean> {
 		private router: Router,
 		private errorService: ErrorService,
 		private dataStore: DataStore,
+		private analytics: Analytics,
 		private uiStore: UIStore,
 		private notifications: NotificationService,
 		private paymentService: PaymentService
@@ -38,10 +38,9 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean> {
 		this.page = this.uiStore.getPage('payment');
 		// Set Frequency to monthly if no option set in store
 		this.frequency = this.dataStore.get(['pricing', 'frequency']) ?
-			this.dataStore.get(['pricing', 'frequency']) : 'monthly';
+		this.dataStore.get(['pricing', 'frequency']) : 'monthly';
 		this.paymentType = this.dataStore.get(['pricing', 'type']);
 		this.quote = this.dataStore.get(['config', 'quotation']);
-
 	}
 
 	/**
@@ -49,6 +48,7 @@ export class MembershipPaymentPageComponent implements CanDeactivate<boolean> {
 	 * 	@param string convertedQuoteReference - 
 	 */
 	continueToConfirmation = (convertedQuoteReference: string) => {
+		this.analytics.triggerEvent('salesPrice', this.frequency, this.quote.premium.annual.amount / 100);
 		if (!this.isQuoteConverted) {
 			this.paymentService.convertQuote(convertedQuoteReference).subscribe((next) => {
 				this.isQuoteConverted = true;
