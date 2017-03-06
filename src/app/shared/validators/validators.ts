@@ -1,4 +1,4 @@
-import { isPresent, isString } from '@angular/platform-browser/src/facade/lang';
+import { isPresent, isPrimitive } from '@angular/platform-browser/src/facade/lang';
 import * as moment from 'moment';
 import * as iban from 'iban';
 
@@ -66,7 +66,7 @@ export class CustomValidators {
 
 	static phoneNumber(c): { [key: string]: boolean } {
 		let re = /^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/gm;
-		if (isPresent(c.value) && isString(c.value) && c.value.match(re) && c.value.length <= 20) {
+		if (isPresent(c.value) && isPrimitive(c.value) && c.value.match(re) && c.value.length <= 20) {
 			return null;
 		} else {
 			return {
@@ -77,7 +77,7 @@ export class CustomValidators {
 
 	static notLetters(c): { [key: string]: boolean } {
 		let re = /[^a-zA-Z\s:]+/;
-		if (isPresent(c.value) && isString(c.value) && c.value.match(re)) {
+		if (isPresent(c.value) && isPrimitive(c.value) && c.value.match(re)) {
 			return null;
 		} else {
 			return {
@@ -97,7 +97,7 @@ export class CustomValidators {
 	}
 	static ccv(c): { [key: string]: boolean } {
 		let re = /\b[0-9]{3,4}\b/;
-		if (isPresent(c.value) && isString(c.value) && c.value.match(re)) {
+		if (isPresent(c.value) && isPrimitive(c.value) && c.value.match(re)) {
 			return null;
 		} else {
 			return {
@@ -107,7 +107,7 @@ export class CustomValidators {
 	}
 	static onlyNumbers(c): { [key: string]: boolean } {
 		let re = /^[0-9]*$/;
-		if (isPresent(c.value) && isString(c.value) && c.value.match(re)) {
+		if (isPresent(c.value) && isPrimitive(c.value) && c.value.match(re)) {
 			return null;
 		} else {
 			return {
@@ -128,7 +128,7 @@ export class CustomValidators {
 
 	static emailValidator(c): { [key: string]: boolean } {
 		let re = /.+@.+\..+/i;
-		if (isPresent(c.value) && isString(c.value) && c.value.match(re)) {
+		if (isPresent(c.value) && isPrimitive(c.value) && c.value.match(re)) {
 			return null;
 		} else {
 			return {

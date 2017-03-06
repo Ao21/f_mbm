@@ -1,12 +1,14 @@
 import {
 	Component,
 } from '@angular/core';
-import {NotificationService} from './../../../../services/notifications.service';
+import { NotificationService } from './../../../../services/notifications.service';
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'c-notification-bar',
 	templateUrl: './notifications_bar.html',
 })
+
 export class NotificationBarComponent {
 	notificationDrawerStatus: string;
 	notificationsArr: AANotification[];

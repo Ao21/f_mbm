@@ -7,6 +7,7 @@ import { NotificationService } from './notifications.service';
 import { ErrorService } from './error.service';
 import { Analytics } from './analytics.service';
 import { CONSTS, ERRORS } from './../constants';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ReferenceService {

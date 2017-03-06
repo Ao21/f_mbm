@@ -3,6 +3,7 @@ import { Subject, Observable } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import { isPresent } from '@angular/platform-browser/src/facade/lang';
 import { UIStore } from './../stores/uistore.store';
+import * as _ from 'lodash';
 
 @Injectable()
 export class Analytics {

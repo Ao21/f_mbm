@@ -1,13 +1,14 @@
 import {isBlank} from '@angular/platform-browser/src/facade/lang';
 
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import * as _ from 'lodash';
 
 @Pipe({
 	name: 'filter'
 })
 export class FilterPipe implements PipeTransform {
 	transform(value: any, args: any = null): any {
-		if (isBlank(args) || args.length === 0 || value === "") {
+		if (isBlank(args) || args.length === 0 || value === '') {
 			console.log('filter pipe requires one argument');
 			return null;
 		}

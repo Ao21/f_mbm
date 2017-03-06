@@ -1,6 +1,7 @@
 import {Component, ElementRef, AfterViewInit, Input, OnDestroy, Renderer} from '@angular/core';
 import {Utils} from './../../../shared/utilities/index';
 import * as IScroll from 'iscroll';
+import * as _ from 'lodash';
 
 /**
  *

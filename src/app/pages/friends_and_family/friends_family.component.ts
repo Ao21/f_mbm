@@ -7,6 +7,7 @@ import { CONSTS, ERRORS } from './../../constants';
 import { QuoteService } from './../../services/quote.service';
 import { NotificationService, ErrorService } from './../../services/index';
 import { Observable } from 'rxjs/Rx';
+import * as _ from 'lodash';
 
 /**
  *  Friends & Family Page Component

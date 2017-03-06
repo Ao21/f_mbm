@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit, ChangeDetectorRef } from '@angular
 import { FormControl } from '@angular/forms';
 import { DataStore } from './../../../stores/stores.modules';
 import { CONSTS } from './../../../constants';
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'm-title-selector',

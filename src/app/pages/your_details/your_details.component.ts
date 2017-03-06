@@ -7,6 +7,7 @@ import { Utils } from './../../shared/utilities/utilities.component';
 import { CanDeactivate } from '@angular/router';
 import { CONSTS, ERRORS } from './../../constants';
 import { QuoteService, MyAAService, Analytics, ErrorService } from './../../services/index';
+import * as _ from 'lodash';
 
 /**
  *  Your Details Page Component

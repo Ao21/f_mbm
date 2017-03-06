@@ -6,6 +6,7 @@ import { Subject, Observable } from 'rxjs/Rx';
 import { PaymentService, ErrorService } from './../../../services/index';
 import { isPresent } from '@angular/platform-browser/src/facade/lang';
 import { ERRORS } from './../../../constants';
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'm-iban-form',

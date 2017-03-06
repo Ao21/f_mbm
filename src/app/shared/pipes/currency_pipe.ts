@@ -1,18 +1,14 @@
 import {
 	isBlank,
-	isString,
-	isNumber,
-	isArray
 } from '@angular/platform-browser/src/facade/lang';
 
-import {Pipe} from '@angular/core';
-
+import {Pipe, PipeTransform} from '@angular/core';
+import * as _ from 'lodash';
 @Pipe({
 	name: 'currency'
 })
 
-export class CurrencyPipe {
-
+export class CurrencyPipe implements PipeTransform{
 	transform(value: any, args: any = null): any {
 		if (isBlank(value) || value === '') {
 			return null;

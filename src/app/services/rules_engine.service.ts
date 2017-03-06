@@ -6,6 +6,7 @@ import {
 import {TestimonialOutcomes, TestimonialRules} from './../constants';
 import * as async from 'async';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 
 @Injectable()

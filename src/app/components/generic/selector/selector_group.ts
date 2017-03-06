@@ -14,6 +14,7 @@ import { isPresent, NumberWrapper } from '@angular/platform-browser/src/facade/l
 
 import { SelectorComponent } from './selector';
 import { SelectorDispatcher } from './selector_dispatcher';
+import * as _ from 'lodash';
 let _uniqueSGIdCounter = 0;
 
 export const SG_VALUE_ACCESSOR: any = {
@@ -66,7 +67,7 @@ export class SelectorGroupComponent implements ControlValueAccessor, OnInit {
 		this.selectedSelectorId = '';
 		this._disabled = false;
 		this.disabled = isPresent(d) ? true : false;
-		this.tabindex = isPresent(tabindex) ? NumberWrapper.parseInt(tabindex, 10) : -1;
+		this.tabindex = isPresent(tabindex) ? NumberWrapper.parseIntAutoRadix(tabindex) : -1;
 
 
 

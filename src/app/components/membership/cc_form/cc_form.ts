@@ -7,7 +7,7 @@ import {
 	OnDestroy,
 	EventEmitter,
 } from '@angular/core';
-import { isString } from '@angular/platform-browser/src/facade/lang';
+import { isPrimitive } from '@angular/platform-browser/src/facade/lang';
 import { UIStore, DataStore } from './../../../stores/stores.modules';
 import { Analytics } from './../../../services/analytics.service';
 import { PaymentService } from './../../../services/payment.service';
@@ -56,7 +56,7 @@ export class CreditCardFormComponent implements OnInit, OnDestroy {
 	 */
 	watchEvents = (evt) => {
 		// TODO: Change This Origin to Real Address for Deployment
-		if (evt.data !== null && isString(evt.data) && (evt.origin === 'https://hpp.sandbox.realexpayments.com' || evt.origin === 'https://hpp.realexpayments.com')) {
+		if (evt.data !== null && isPrimitive(evt.data) && (evt.origin === 'https://hpp.sandbox.realexpayments.com' || evt.origin === 'https://hpp.realexpayments.com')) {
 			let data = JSON.parse(evt.data);
 			if (data.QUOTE_REFERENCE && data.RESULT === '00') {
 				this.successfulCCPayment(data);

@@ -35,7 +35,7 @@ export class TabGroupComponent {
 		this._disabled = false;
 
 		this.disabled = isPresent(disabled);
-		this.tabindex = isPresent(tabindex) ? NumberWrapper.parseInt(tabindex, 10) : 0;
+		this.tabindex = isPresent(tabindex) ? NumberWrapper.parseIntAutoRadix(tabindex) : 0;
 
 	}
 

@@ -5,6 +5,7 @@ import { UIStore, DataStore } from './../../../stores/stores.modules';
 import { CONSTS } from './../../../constants';
 import { Utils } from './../../../shared/utilities/utilities.component';
 import { Analytics } from './../../../services/analytics.service';
+import * as _ from 'lodash';
 
 
 /**

@@ -7,6 +7,7 @@ import { CustomValidators } from './../../shared/validators/validators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isPresent } from '@angular/platform-browser/src/facade/lang';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'p-retrieve-quote',

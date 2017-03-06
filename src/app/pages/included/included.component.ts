@@ -10,7 +10,7 @@ import { QuoteService } from './../../services/quote.service';
 import { Utils } from './../../shared/utilities/utilities.component';
 import { NotificationService, ErrorService } from './../../services/index';
 import { Analytics } from './../../services/analytics.service';
-
+import * as _ from 'lodash';
 
 /**
  *  Included Page Component

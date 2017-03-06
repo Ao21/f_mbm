@@ -9,6 +9,9 @@
   max-width: 100%;
   width: 520px;
   color: $light;
+  &__terms p { 
+    font-size: 12px;
+  }
   &__myAA {
     float: left;
     width: 100%;

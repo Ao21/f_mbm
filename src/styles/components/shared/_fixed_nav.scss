@@ -57,6 +57,6 @@
     height: $fixedNavSpacerDesktop
 }
 
-&.fixed-nav--noSpacer .c-fixed-nav__spacer {
+.fixed-nav--noSpacer .c-fixed-nav__spacer {
     display: none;
 }

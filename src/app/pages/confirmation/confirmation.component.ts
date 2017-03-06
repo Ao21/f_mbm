@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UIStore, DataStore } from './../../stores/stores.modules';
 import { Analytics } from './../../services/analytics.service';
+import * as _ from 'lodash';
 
 /**
  *  Confirmation Page Component

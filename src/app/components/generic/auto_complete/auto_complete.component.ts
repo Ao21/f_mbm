@@ -15,6 +15,7 @@ import { AutoCompleteService } from './../../../services/autocomplete.service';
 import { Observable, Subject } from 'rxjs/Rx';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import * as _ from 'lodash';
 
 
 export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {

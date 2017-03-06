@@ -6,6 +6,7 @@ import { CONSTS } from './../../../constants';
 import * as Velocity from 'velocity-animate';
 import { Analytics } from './../../../services/analytics.service';
 import { Observable } from 'rxjs/Rx';
+import * as _ from 'lodash';
 
 /**
  *  Overview

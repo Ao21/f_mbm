@@ -13,7 +13,7 @@ import { QuoteService, Analytics } from './../../services/index';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CONSTS } from './../../constants';
-
+import * as _ from 'lodash';
 
 /**
  *  Breakdown Page Component Class

@@ -45,7 +45,7 @@ import { UIStore, DataStore } from './stores/stores.modules';
 		appRoutingProviders,
 		{ provide: LocationStrategy, useClass: PathLocationStrategy },
 	],
-	entryComponents: [AppComponent],
+	entryComponents: [],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

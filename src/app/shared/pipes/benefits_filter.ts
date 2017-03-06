@@ -17,7 +17,7 @@ BENEFITS_LIST[`ACCOMMODATION`] = true;
 BENEFITS_LIST[`TRAVELEXPENSES`] = true;
 
 import {Pipe, PipeTransform} from '@angular/core';
-
+import * as _ from 'lodash';
 @Pipe({
 	name: 'benefitsFilter'
 })

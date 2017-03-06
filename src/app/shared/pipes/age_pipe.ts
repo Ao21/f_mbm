@@ -1,8 +1,5 @@
 import {
 	isBlank,
-	isString,
-	isNumber,
-	isArray
 } from '@angular/platform-browser/src/facade/lang';
 
 import { Pipe, PipeTransform } from '@angular/core';
