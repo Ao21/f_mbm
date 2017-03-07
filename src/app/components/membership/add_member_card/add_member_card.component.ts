@@ -145,7 +145,8 @@ export class AdditionalMemberCardComponent implements OnInit {
 			this.analytics.triggerEvent('additionalMember', 'cancelledPlaceholder', this.data.index);
 		} else {
 			this.analytics.triggerEvent('additionalMember', 'cancelled', this.data.index);
-			this.state.placeholder = true;
+			this.state.placeholder = false;
+			this.state.valid = true;
 		}
 
 	}
