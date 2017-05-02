@@ -5,7 +5,7 @@
   "angular-cli": {},
   "scripts": {
     "start": "ng serve --host m928418.theaa.local --port 8080",
-    "build": "./node_modules/.bin/ngc -p ./src/ && ng build --bh /aa-membership/journey/ --prod",
+    "build": "ng build --bh /aa-membership/journey/ --prod --aot",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",

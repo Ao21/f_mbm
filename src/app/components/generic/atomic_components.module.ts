@@ -9,6 +9,7 @@ import { TabGroupModule } from './tab/tab_group.module';
 import { SelectorGroupModule } from './selector/selector_group.module';
 import { AccordianModule } from './accordian/accordian.module';
 import { LoadingSpinnerComponent } from './loading_spinner/loading_spinner';
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -19,7 +20,7 @@ import { LoadingSpinnerComponent } from './loading_spinner/loading_spinner';
 	declarations: [
 		ErrorButtonComponent,
 		ShowErrorComponent,
-		LoadingSpinnerComponent
+		LoadingSpinnerComponent,
 	],
 	exports: [
 		ErrorButtonComponent,
@@ -27,7 +28,7 @@ import { LoadingSpinnerComponent } from './loading_spinner/loading_spinner';
 		SelectorGroupModule,
 		AccordianModule,
 		ShowErrorComponent,
-		LoadingSpinnerComponent
+		LoadingSpinnerComponent,
 	]
 })
 export class AtomicComponentsModule {}
