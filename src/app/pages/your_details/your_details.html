@@ -16,25 +16,7 @@
         </form-component>
     </form>
     
-    <div class="btn__container">
-        <button 
-            id="validateAddBtn" 
-            *ngIf="isReadyToValidate||isReadyLoading" 
-            (click)="openValidateAddress()" 
-            class="btn btn--transparent">
-            <span *ngIf="isReadyToValidate">{{validateAddressText}}</span>
-            <span><c-spinner *ngIf="isReadyLoading && !isReadyToValidate"></c-spinner></span>
-        </button>
-    </div>
-
-    <m-address-list 
-        (onReadyValid)="onReadyAddress()" 
-        (onLoading)="onLoadingAddress()" 
-        (onValid)="setValidatedAddress($event)" 
-        [data]="address" 
-        [isVisible]="isAddressListVisible">
-    </m-address-list>
-
+    <address-search (onSelectAddress)="setValidatedAddress($event)" [address]="addressFields" [values]="primaryAdultUser?.values"></address-search>
 </section>
 
 <c-fixed-nav (onNavigate)="navigateNext($event)" [next]="page.next" [prev]="page.prev" [disabled]="!userDetailsForm.valid||!isValidated"></c-fixed-nav>

@@ -4,6 +4,8 @@
 p-your-details {
     .fc--addressLine1,
     .fc--addressLine2,
+    .fc--county,
+    .fc--area,
     .fc--title {
         @include span-columns(12);
         @include flex(1 1 100%);
@@ -16,8 +18,6 @@ p-your-details {
     .fc--firstName,
     .fc--surname,
     .fc--dateOfBirth,
-    .fc--county,
-    .fc--area,
     .fc--phoneNumber {
         @include span-columns(6);
         @include flex(1 1 50%);
@@ -27,8 +27,8 @@ p-your-details {
         }
     }
     .fc--surname,
-    .fc--phoneNumber,
-    .fc--county {
+    .fc--phoneNumber
+    {
         @include omega();
     }
     .fc--phoneNumber {

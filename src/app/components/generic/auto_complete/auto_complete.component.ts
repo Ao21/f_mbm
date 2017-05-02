@@ -4,6 +4,7 @@ import {
 	ElementRef,
 	OnInit,
 	Input,
+	ChangeDetectorRef,
 	HostBinding,
 	Output,
 	forwardRef,
@@ -16,6 +17,8 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
+
+import { isJsObject } from '@angular/platform-browser/src/facade/lang';
 
 
 export const AUTOCOMPLETE_VALUE_ACCESSOR: any = {
@@ -54,10 +57,22 @@ const noop = () => { };
 })
 export class AutoCompleteComponent implements OnInit, ControlValueAccessor, AfterViewInit {
 
-	@HostBinding('class.isOpen') get isSearchResultsVisible() { return this._isSearchResultsVisible; };	
+	@HostBinding('class.isOpen') get isSearchResultsVisible() { return this._isSearchResultsVisible; };
 	@Input('data') _dataSrc: string;
-	@Input('disabled') disabled: boolean;
-	@Input('filterBy') _filterBy: string;
+	_disabled: boolean = false;
+	@Input('isDisabled')
+	set disabled(v) {
+		if (v) {
+			this.inputValue.disable();
+		} else {
+			this.inputValue.enable();
+		}
+		this._disabled = v;
+	}
+	get disabled() {
+		return this._disabled;
+	}
+	@Input('filterBy') _filterBy: any;
 
 	@Input('form') form: FormGroup;
 	@Input('id') id: string;
@@ -113,6 +128,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 
 	constructor(
 		private _el: ElementRef,
+		private changeRef: ChangeDetectorRef,
 		private _autoCompleteService: AutoCompleteService
 	) {
 
@@ -139,7 +155,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 	ngAfterViewInit() {
 		this._isInitialized = true;
 
-		if (this._filterBy) {
+		if (this._filterBy && this._filterBy !== 'all') {
 			this.form.controls[this._filterBy].valueChanges.subscribe((val) => {
 				if (this.form.controls[this._filterBy].value === '' && this.value !== '') {
 					// Ignore the Analytics from this event as its already captured in the form component
@@ -149,29 +165,43 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 				}
 			});
 		}
+		if (this._filterBy && this._filterBy === 'all') {
+			Observable.combineLatest(
+				this.form.controls['county'].valueChanges,
+				this.form.controls['area'].valueChanges
+			).subscribe((next) => {
+				this.options = [];
+				this._autoCompleteService.county = next[0];
+				this._autoCompleteService.area = next[1];
+			});
+		}
 	}
 
 	handleChange(event: Event) {
 		let iValue = (<HTMLInputElement>event.target).value;
+		this._autoCompleteService.county = this.form.controls['county'].value;
+		this._autoCompleteService.area = this.form.controls['area'].value;
 		this.input.next(iValue);
 	}
 
 	ngOnInit() {
 		this._autoCompleteService.search(this._dataSrc, this.input);
-
-		this._autoCompleteService.searching.subscribe((next) => {
-			if (!next) {
-				this.onLoading.next(next);
-			}
-
-		});
+		// this._autoCompleteService.searching.subscribe((next) => {
+		// 	if (!next) {
+		// 		this.onLoading.next(next);
+		// 	}
+		// });
 
 		this._autoCompleteService[this._dataSrc].subscribe(next => {
 			// Generate a list of options from the retrieved data
-			this.options =
-				_.map(next, (e: any) => {
-					return { id: e.id, description: e.description, filter: e.items };
-				});
+			if (next.options) {
+				this.options =
+					_.map(next.options, (e: any) => {
+						return { id: e.id, description: e.description, filter: e.items };
+					});
+			}
+
+
 		});
 
 		this.input.subscribe((next) => {
@@ -185,7 +215,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 
 	select(event: any, option: any) {
 		this.value = option;
-		this.input.next(option.description);
+		this.onLoading.next(false);
 		this._autoCompleteService.setFilter(this._dataSrc);
 		this._isSearchResultsVisible = false;
 		this._onTouchedCallback();

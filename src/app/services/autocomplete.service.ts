@@ -1,21 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, RequestOptions, Response } from '@angular/http';
+import { Http, URLSearchParams, RequestOptions, Response, Headers } from '@angular/http';
 import { Subject } from 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { CONSTS, ERRORS } from './../constants';
-import { ErrorService,  } from './error.service';
+import { ErrorService, } from './error.service';
+import { isJsObject, isBlank } from '@angular/platform-browser/src/facade/lang';
+import { AuthHttp } from './../shared/common/authHttp';
+import * as _ from 'lodash';
 
 @Injectable()
 export class AutoCompleteService {
 	baseURL = CONSTS.getBaseUrlWithContext();
+	private _ADDRESS_URL = `${this.baseURL}xref/address`;
 	areas: Subject<any> = new Subject();
 	counties: Subject<any> = new Subject();
+	address: Subject<any> = new Subject();
 	searching: Subject<any> = new Subject();
 	_filter: string;
 
+	public area: any;
+	public county: any;
+
 	constructor(
 		private errorService: ErrorService,
-		public http: Http
+		public http: Http,
+		private auth: AuthHttp,
 	) {
 
 	}
@@ -74,8 +83,40 @@ export class AutoCompleteService {
 					return errCount < 3;
 				});
 			})
-			.map((res: Response) => { return res.json()});
+			.map((res: Response) => { return res.json() });
 
+	}
+
+	getAddress(input: any) {
+		let address = {
+			'addressLine1': input,
+			'addressLine2': '',
+			'area': this.area.description || this.area,
+			'county': this.county.description || this.county,
+		};
+
+		let options = new RequestOptions({
+			headers: new Headers({
+				'Content-Type': 'application/json;charset=UTF-8'
+			})
+		});
+		return this.auth
+			.put(this._ADDRESS_URL, JSON.stringify(address), options)
+			.retryWhen((attempts) => {
+				return attempts.scan((errorCount, err) => {
+					if (err.status === 409) {
+						this.errorService.resetSession(err);
+						throw new Error('Session Has Expired');
+					};
+					return errorCount + 1;
+				}, 0).delayWhen((errCount) => {
+					let time = errCount * 6;
+					this.errorService.errorHandlerWithTimedNotification(ERRORS.addressService, time);
+					return Observable.timer(time * 1000);
+				}).takeWhile((errCount) => {
+					return errCount < 3;
+				});
+			});
 	}
 
 	reset() {
@@ -84,38 +125,52 @@ export class AutoCompleteService {
 
 	search(type: string, inputs: Observable<string>) {
 		switch (type) {
+			case 'address':
+				return inputs.filter(input => { return input.length >= 3 })
+					.debounceTime(400)
+					.do((x) => { this.searching.next(true); })
+					.switchMap(input => this.getAddress(input))
+					.map((x) => x.json())
+					.subscribe((res: any) => {
+						this.searching.next(false);
+						this.address.next({
+							options: _.map(res.lookups, (el: any) => {
+								return { id: el.id, description: el.address }
+							})
+						});
+
+					}, (err) => {
+						this.errorService.errorHandlerWithNotification(err, ERRORS.townAreaService);
+					});
 			case 'counties':
-				inputs.filter(input => { return input.length >= 3 })
+				return inputs.filter(input => { return input.length >= 3 })
 					.debounceTime(400)
 					.do((x) => { this.searching.next(true); })
 					.switchMap(input => this.getCounty(input))
 					.do((x) => { this.searching.next(false); })
 					.subscribe((res: any) => {
 						if (this._filter !== 'areas') {
-							this.counties.next(res.counties);
-							this.areas.next(res.towns);
+							this.counties.next({ options: res.counties });
+							this.areas.next({ options: res.towns });
 						}
-
 					}, (err) => {
 						this.errorService.errorHandlerWithNotification(err, ERRORS.townAreaService);
 					});
 
-				break;
 			case 'areas':
-				inputs.filter(input => { return input.length >= 3 })
+				return inputs.filter(input => { return input.length >= 3 })
 					.debounceTime(400)
 					.do((x) => { this.searching.next(true); })
 					.switchMap(input => this.getArea(input))
 					.do((x) => { this.searching.next(false); })
 					.subscribe((res: any) => {
 						if (this._filter !== 'counties') {
-							this.areas.next(res.towns);
-							this.counties.next(res.counties);
+							this.areas.next({ options: res.towns });
+							this.counties.next({ options: res.counties });
 						}
 					}, (err) => {
 						this.errorService.errorHandlerWithNotification(err, ERRORS.townAreaService);
 					});
-				break;
 			default:
 				break;
 		}

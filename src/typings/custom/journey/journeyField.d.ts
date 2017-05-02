@@ -8,4 +8,6 @@ interface JourneyField {
     validationAsync?: any[];
     filterBy?: string;
     data?: string;
+    trigger?: any;
+
 }

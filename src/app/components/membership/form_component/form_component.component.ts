@@ -1,8 +1,10 @@
-import {Component, Input, OnInit, ElementRef, Renderer, AfterViewInit} from '@angular/core';
-import {FormGroup, FormControl, AbstractControl } from '@angular/forms';
-import {BooleanFieldValue} from './../../../shared/common/booleanFactory';
-import {Analytics} from './../../../services/analytics.service';
-import {Subject} from 'rxjs/Rx';
+import { Component, Input, OnInit, ElementRef, Renderer, AfterViewInit } from '@angular/core';
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { BooleanFieldValue } from './../../../shared/common/booleanFactory';
+import { Analytics } from './../../../services/analytics.service';
+import { Subject } from 'rxjs/Rx';
+import { isJsObject } from '@angular/platform-browser/src/facade/lang';
+import * as _ from 'lodash';
 
 /**
  *  Form Component
@@ -129,6 +131,10 @@ export class FormComponent implements OnInit, AfterViewInit {
 		this.dynamicControl.statusChanges.distinctUntilChanged().debounceTime(500).subscribe((e) => {
 			this.triggerAnalyticEvent(this.field.name, this.dynamicControl, e);
 		});
+
+		if (this.field.trigger) {
+			this.disabledBasedOnKey(this.field);
+		}
 	}
 
 	ngAfterViewInit() {
@@ -136,7 +142,6 @@ export class FormComponent implements OnInit, AfterViewInit {
 	}
 
 	triggerLoading(active: boolean) {
-		console.log(active);
 		this.loadingVisible = active;
 	}
 
@@ -161,6 +166,27 @@ export class FormComponent implements OnInit, AfterViewInit {
 
 	}
 
+	disabledBasedOnKey(formQuestion: any) {
+		let v = this.form.controls[formQuestion.trigger.key].value;
+		let expectedType = formQuestion.trigger.expectedType;
+
+		if (checkTypeAndReturnIfValue(v, expectedType)) {
+			this.readOnly = false;
+		} else {
+			this.readOnly = true;
+		}
+		this.form.controls[formQuestion.trigger.key]
+			.valueChanges
+			.subscribe((option) => {
+				if (checkTypeAndReturnIfValue(option, expectedType)) {
+					console.log(this.field.name, 'enabled');
+					this.readOnly = false;
+				} else {
+					console.log(this.field.name, 'disabled');
+					this.readOnly = true;
+				}
+			});
+	}
 	reset(evt: Event) {
 		this.dynamicControl.reset();
 		this.triggerAnalyticEvent(this.field.name, this.dynamicControl, 'RESET');
@@ -168,4 +194,17 @@ export class FormComponent implements OnInit, AfterViewInit {
 	}
 
 
+}
+
+/**
+ * This links the Type of Business field to the Occupation field
+ */
+
+function checkTypeAndReturnIfValue(value: string, expectedType) {
+	switch (expectedType) {
+		case 'object':
+			return isJsObject(value) ? true : false;
+		case 'string':
+			return value !== '' ? true : false;
+	}
 }

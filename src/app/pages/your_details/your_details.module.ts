@@ -4,17 +4,21 @@ import { MembershipYourDetailsPageComponent } from './your_details.component';
 import { SharedModule } from './../../shared/shared.module';
 import { AddressListComponent } from './../../components/membership/address_list/address_list';
 import { AtomicComponentsModule } from './../../components/generic/atomic_components.module';
+import { AddressSearchModule } from './../../components/membership/address-search/address-search.module';
+
 @NgModule({
 	imports: [
 		CommonModule,
 		SharedModule,
-		AtomicComponentsModule
+		AtomicComponentsModule,
+		AddressSearchModule
+
 	],
 	providers: [
 	],
 	declarations: [
 		MembershipYourDetailsPageComponent,
-		AddressListComponent
+		AddressListComponent,
 	],
 	exports: [
 		MembershipYourDetailsPageComponent

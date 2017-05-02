@@ -22,6 +22,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 	page: UIPage;
 	primaryAdultUser: MemberType;
 	fields: JourneyField[];
+	addressFields: JourneyField[];
 	// Ctrls generated with Validator and Values from the Fields Array
 	ctrls: any = {};
 	userDetailsForm: FormGroup;
@@ -61,8 +62,9 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 
 
 	ngOnInit() {
-		this.fields = this.primaryAdultUser.fields;
-		console.log(this.fields);
+		this.fields = this.primaryAdultUser.fields.slice(0, 6);
+		this.addressFields = this.primaryAdultUser.fields.slice(6);
+
 		_.forEach(this.fields, (e: JourneyField) => {
 			let valids = Utils.retrieveValidator(e.validation);
 			this.ctrls[e.name] = [
@@ -77,144 +79,52 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 		// the age requirements validation have values to work with
 		this.userDetailsForm['defaults'] = this.primaryAdultUser;
 
-		this.validatedAddress = this.uiStore.get(['pages', 'yourDetails', 'options', 'validAddress']);
-		this.isAddressReady();
 
 	}
 
-	ngAfterViewInit() {
-		this.userDetailsForm.controls['addressLine1'].valueChanges.subscribe(e => {
-			this.isAddressReady();
-
-		});
-		this.userDetailsForm.controls['addressLine2'].valueChanges.subscribe(e => {
-			this.isAddressReady();
-		});
-		this.userDetailsForm.controls['area'].valueChanges.subscribe(e => {
-			this.isAddressReady();
-
-		});
-		this.userDetailsForm.controls['county'].valueChanges.subscribe(e => {
-			this.isAddressReady();
-		});
-	}
-
-	/**
-	 *  Method to determine if the address is ready to be validated and toggle
-	 *  isAddressReady boolean, as well as set the address variable to be passed
-	 *  to the reference service
-	 */
-	isAddressReady() {
-		// Ignore If Updating Multiple Address Fields at once
-		if (this.isUpdatingMultipleAddressFields) {
-			return true;
-		}
-		// Check the address Line1 and Area against previous Address
-		if (this.validatedAddress && this.userDetailsForm.controls['area'].value) {
-			if (_.isEqual(this.userDetailsForm.controls['addressLine1'].value, this.validatedAddress.addressLine1) &&
-				_.isEqual(this.userDetailsForm.controls['area'].value.description, this.validatedAddress.area)) {
-				this.isValidated = true;
-				return;
-			}
-		}
-
-		// Check All Addressses are valid
-		if (this.userDetailsForm.controls['addressLine1'].valid &&
-			this.userDetailsForm.controls['addressLine2'].valid &&
-			this.userDetailsForm.controls['area'].valid &&
-			this.userDetailsForm.controls['county'].valid
-		) {
-			this.isValidated = false;
-			this.address = {
-				addressLine1: this.userDetailsForm.controls['addressLine1'].value,
-				addressLine2: this.userDetailsForm.controls['addressLine2'].value,
-				area: this.userDetailsForm.controls['area'].value,
-				county: this.userDetailsForm.controls['county'].value
-			};
-			this.isReadyToValidate = false;
-			this.isReadyLoading = false;
-			this.validateAddressText = `Validate your Address`;
+	ngAfterViewInit() {}
 
 
-		} else {
-			this.isReadyLoading = false;
-			this.isReadyToValidate = false;
-			this.isValidated = false;
-		}
-	}
-
-	/**
-	 *  Called from the Address list object onLoading event
-	 * 		- Sets the Form not ready to validate to prevent navigation
-	 * 		- Shows the Address List and sets its text to Searching for Address
-	 */
-	onLoadingAddress() {
-		this.isReadyToValidate = false;
-		this.isAddressListVisible = false;
-		this.isReadyLoading = true;
-		this.validateAddressText = 'Searching For Address';
-	}
-	/**
-	 *  Called from the Address list object onReady event
-	 * 		- Sets the Form as Ready to Validate
-	 * 		- Sets the Address List text to Validate Your Address
-	 */
-	onReadyAddress() {
-		this.isReadyToValidate = true;
-		if (this.el.nativeElement.querySelector('#validateAddBtn')) {
-			Utils.scrollToElement(this.el.nativeElement.querySelector('#validateAddBtn'));
-		}
-		this.validateAddressText = 'Validate your Address';
-	}
-
-	/**
-	 *  If form is set to readyToValidate
-	 * 		- Opens the address list with AddressListVsisible to true
-	 * 		- Sets the Address List text to Validate Your Address
-	 */
-	openValidateAddress() {
-		if (this.isReadyToValidate) {
-			this.isAddressListVisible = true;
-			this.validateAddressText = 'Choose an address from the choices below';
-		}
-
-	}
-
-	setValidatedAddress(obj) {
-		if (obj !== null) {
-			// The isReadyAddress() function checks multiple fields to check whether user has made changes
-			// to previous fields, the itUpdatingMultipleAddressFields flag is to block it triggering on
-			// the multiple fields being updated from setValidatedAddress
-			this.isUpdatingMultipleAddressFields = true;
-
-			this.validatedAddress = obj;
-			// Stores the Validated Address in the UIStore in case of page change
-			this.uiStore.update(['pages', 'yourDetails', 'options', 'validAddress'], this.validatedAddress);
 
 
-			let addressLine1: any = this.userDetailsForm.controls['addressLine1'];
-			let addressLine2: any = this.userDetailsForm.controls['addressLine2'];
-			let area: any = this.userDetailsForm.controls['area'];
-			let county: any = this.userDetailsForm.controls['county'];
+	setValidatedAddress(obj: addressObject) {
+		this.validatedAddress = obj;
+		this.isValidated = true;
+		this.uiStore.update(['pages', 'yourDetails', 'options', 'validAddress'], this.validatedAddress);
+		// if (obj !== null) {
+		// 	// The isReadyAddress() function checks multiple fields to check whether user has made changes
+		// 	// to previous fields, the itUpdatingMultipleAddressFields flag is to block it triggering on
+		// 	// the multiple fields being updated from setValidatedAddress
+		// 	this.isUpdatingMultipleAddressFields = true;
 
-			addressLine1.setValue(obj.addressLine1);
-			addressLine1.markAsTouched();
-			addressLine2.setValue(obj.addressLine2);
-			addressLine2.markAsTouched();
-			area.setValue({ description: obj.area });
-			area.markAsTouched();
-			county.setValue({ description: obj.county });
+		// 	this.validatedAddress = obj;
+		// 	// Stores the Validated Address in the UIStore in case of page change
+		// 	this.uiStore.update(['pages', 'yourDetails', 'options', 'validAddress'], this.validatedAddress);
 
-			this.isUpdatingMultipleAddressFields = false;
-			county.markAsTouched();
 
-			this.isAddressListVisible = false;
-			// Update the 
-			this.validateAddressText = obj.selected.address;
-			this.isValidated = true;
-		} else {
-			this.isValidated = false;
-		}
+		// 	let addressLine1: any = this.userDetailsForm.controls['addressLine1'];
+		// 	let addressLine2: any = this.userDetailsForm.controls['addressLine2'];
+		// 	let area: any = this.userDetailsForm.controls['area'];
+		// 	let county: any = this.userDetailsForm.controls['county'];
+
+		// 	addressLine1.setValue(obj.addressLine1);
+		// 	addressLine1.markAsTouched();
+		// 	addressLine2.setValue(obj.addressLine2);
+		// 	addressLine2.markAsTouched();
+		// 	area.setValue({ description: obj.area });
+		// 	area.markAsTouched();
+		// 	county.setValue({ description: obj.county });
+
+		// 	this.isUpdatingMultipleAddressFields = false;
+		// 	county.markAsTouched();
+
+		// 	this.isAddressListVisible = false;
+		// 	// Update the 
+		// 	this.validateAddressText = obj.selected.address;
+		// 	this.isValidated = true;
+		// } else {
+		// 	this.isValidated = false;
+		// }
 
 	}
 
@@ -233,7 +143,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 	}
 
 	submitForm() {
-		let member = _.clone(this.userDetailsForm.value);
+		let member = _.assign({}, this.userDetailsForm.value, this.validatedAddress);
 		_.assign(member, {
 			price: this.primaryAdultUser.price,
 			typeDisplay: this.primaryAdultUser.typeDisplay,

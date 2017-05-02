@@ -7,5 +7,5 @@ interface addressObject {
 	area?: string;
 	county?: string;
 	lookups?: addressObject[];
-	selected?: addressObject[];
+	selected?: addressObject;
 }
