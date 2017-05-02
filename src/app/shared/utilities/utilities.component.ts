@@ -29,9 +29,13 @@ export class Utils {
 		return window.matchMedia(`(max-height: ${height}px)`).matches;
 	}
 
-	static scrollToElement(el, complete?) {
+	static scrollTo(el, offset?) {
+		window.scroll({ behavior: 'smooth', top: el.offsetTop - offset });
+	}
+
+	static scrollToElement(el: HTMLElement, offset?) {
 		// Using Smoothscroll Polyfill
-		el.scrollIntoView({ behavior: 'smooth' });
+		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
 	static resetCustomValidators(control) {

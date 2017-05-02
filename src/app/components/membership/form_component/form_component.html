@@ -78,25 +78,14 @@
         [placeholder]="placeholder"
         type="tel" />
     <!-- Date -->
-    <input 
-        *ngIf="field.type=='date'"
-        #input
-        mask="99/99/9999"
-        [id]="field.name"
-        [attr.name]="field.name"
-        [attr.tabindex]="tabIndex"
-        [formControl]="dynamicControl" 
-        [attr.aria-label]="ariaLabel"
-        [attr.aria-labelledby]="ariaLabelledBy"
-        [attr.aria-disabled]="ariaDisabled"
-        [attr.aria-required]="ariaRequired"
-        [attr.aria-invalid]="ariaInvalid"
-        [attr.autocomplete]="autoComplete"
-        [class.hasValue]="hasValue" 
-        [autofocus]="autoFocus"
-        [readonly]="readOnly"
-        [placeholder]="placeholder"
-        type="tel" />
+        <df-date
+            *ngIf="field.type=='date'"
+            #input
+ 			class="df-question"
+ 			[formControl]="dynamicControl"
+ 		    [isDisabled]="readOnly"
+ 		    [id]="field.name">
+ 		</df-date>
     <!-- Autocomplete -->
     <c-auto-complete 
         *ngIf="field.type=='autocomplete'"

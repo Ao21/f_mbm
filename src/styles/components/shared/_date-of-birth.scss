@@ -1,0 +1,51 @@
+df-date {
+	width: 100%;
+	float: left;
+	&.ng-valid.ng-touched {
+		input.ng-valid {
+			border-color: $color-primary!important;
+		}
+	}
+	&.ng-invalid.ng-dirty.ng-touched {
+		input.ng-valid {
+			border-color: $color-red-warning!important;
+		}
+	}
+	&>div {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: stretch;
+		align-items: stretch;
+		float: left;
+		width: 100%;
+	}
+	input {
+		flex: 1 1 130px;
+		min-width: 0!important;
+		@include media($upToDesktop) {
+			flex: 1 1 auto;
+			width: 50px;
+		}
+		margin: 0 size(tiny);
+		border-color: $color-med-dark-grey;
+		&:focus {
+			border-color: $color-dark;
+		}
+		&:first-child {
+			margin-left: 0;
+		}
+		&.ng-valid.ng-has-value {
+			border-color: $color-primary;
+		}
+		&.ng-invalid.ng-touched {
+			border-color: $color-red-warning;
+		}
+		&[disabled] {
+			display: none;
+		}
+	}
+	input.df-date-year {
+		// flex: 1 1 130px;
+		margin-right: 0;
+	}
+}

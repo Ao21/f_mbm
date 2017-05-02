@@ -48,5 +48,4 @@ export class MembershipConfirmationPageComponent implements OnInit {
 		this.members = memberList;
 		this.dataStore.resetConfig();
 	}
-
 }

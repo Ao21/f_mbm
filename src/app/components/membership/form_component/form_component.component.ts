@@ -103,9 +103,9 @@ export class FormComponent implements OnInit, AfterViewInit {
 
 		this.valueThrottle.debounceTime(50).subscribe((next) => {
 			this.hasValue = next === '' ? false : true;
-			if (this.hasValue) {
-				this.dynamicControl.markAsTouched();
-			}
+			// if (this.hasValue) {
+			// 	this.dynamicControl.markAsTouched();
+			// }
 		});
 	}
 
@@ -136,6 +136,7 @@ export class FormComponent implements OnInit, AfterViewInit {
 	}
 
 	triggerLoading(active: boolean) {
+		console.log(active);
 		this.loadingVisible = active;
 	}
 
