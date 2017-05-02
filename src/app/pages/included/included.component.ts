@@ -46,7 +46,6 @@ export class MembershipIncludedPageComponent implements OnInit {
 		this.route.data.forEach((data: { config: any }) => {
 			this.init();
 		});
-		this.hasAgreedTermsConditions = this.uiStore.get(['UIOptions', 'isTermsConditionsAgreed']);
 	}
 
 	init() {
@@ -61,15 +60,7 @@ export class MembershipIncludedPageComponent implements OnInit {
 		_.forEach(this.coverLevels, (level: CoverLevel) => {
 			this.analytics.triggerEvent('page-completion-included', level.active, level.name);
 		});
-		if (!this.hasAgreedTermsConditions) {
-			this.scrollToTermsAndConditions();
-		}
-	}
-
-	scrollToTermsAndConditions() {
-		let el = this.el.nativeElement.querySelector('body > app > main > p-included > div > article > button');
-		this.errorService.errorHandlerWithNotification({}, ERRORS.termsConditions);
-		Utils.scrollToElement(el);
+		this.analytics.triggerEvent('terms-conditions-acceptance', null, true);
 	}
 
 	/**
@@ -86,14 +77,6 @@ export class MembershipIncludedPageComponent implements OnInit {
 			}, (err) => {
 				this.errorService.errorHandlerWithNotification(err, ERRORS.coverLevelChange);
 			});
-	}
-
-	updateTermsBool(active: boolean) {
-		this.hasAgreedTermsConditions = active;
-		this.uiStore.update(['UIOptions', 'isTermsConditionsAgreed'], active);
-		this.analytics.triggerEvent('terms-conditions-acceptance', null, active);
-		this.notificationService.clearLastErrorMsg();
-		this.notificationService.clearNotifications();
 	}
 
 }

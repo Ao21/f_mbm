@@ -29,7 +29,7 @@ p-included,
         }
 
         align-content: center;
-        margin-top: size(medium);
+        margin: size(medium) size(small);
 
         button {
             @include media($mobile){

@@ -23,13 +23,13 @@
 
     </div>
     <article class="p-included__terms">
-        <button [active]="hasAgreedTermsConditions" (onUpdate)="updateTermsBool($event)" class="btn btn--checkbox isYellow" confirmationButton>Agree to Terms and conditions</button>
         <p>By providing the requested data, you consent to AA's Data Protection and Privacy Policy and to AA using it for administration and keeping you informed by
 mail, telephone, email and SMS of other products and services from us. By proceeding, you consent to & confirm that you have read and accepted the <a target="_blank" href="https://www.theaa.ie/AA/About-Us/Privacy-Policy.aspx">AA
-Data Protection & Privacy Policy</a> and the <a target="_blank" href="http://www.aaireland.ie/membershipterms">AA Terms & Conditions</a><br>
-AA Membership is not a regulated product however the car hire, travel expenses and accommodation elements of Rescue Plus are regulated.<br><br>
-These are underwritten by AmTrust Europe Limited who is authorised by the Prudential Regulation Authority and regulated by the Financial Conduct Authority and the Prudential Regulation Authority in the United Kingdom and is regulated by the Central Bank of Ireland for conduct of business rules. <br><br>
+Data Protection & Privacy Policy</a> and the <a target="_blank" href="http://www.aaireland.ie/membershipterms">AA Terms & Conditions</a><br><br>
+By clicking the button below you agree to Terms and Conditions.<br><br>
+AA Membership is not a regulated product however the car hire, travel expenses and accommodation elements of Rescue Plus are regulated.<br>
+These are underwritten by AmTrust Europe Limited who is authorised by the Prudential Regulation Authority and regulated by the Financial Conduct Authority and the Prudential Regulation Authority in the United Kingdom and is regulated by the Central Bank of Ireland for conduct of business rules. <br>
 AA Ireland Limited trading as AA Insurance is regulated by the Central Bank of Ireland.</p>
     </article>
 </div>
-<c-fixed-nav class="" (onNavigate)="navigateNext($event)" [next]="page.next"  [disabled]="!hasAgreedTermsConditions"></c-fixed-nav>
+<c-fixed-nav [hasBack]="false" class="" [nextText]="'I Agree'" (onNavigate)="navigateNext($event)" [next]="page.next" ></c-fixed-nav>

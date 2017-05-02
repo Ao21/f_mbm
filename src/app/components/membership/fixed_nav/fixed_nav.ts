@@ -37,6 +37,12 @@ export class FixedNavComponent implements OnInit {
 	@Output() onNext: EventEmitter<any> = new EventEmitter();
 	@Output() onPrev: EventEmitter<any> = new EventEmitter();
 
+	@Input() nextText: string;
+	@Input() prevText: string;
+
+	@Input() hasBack: boolean = true;
+	@Input() hasNext: boolean = true;
+
 	constructor(
 		private router: Router,
 		private uiStore: UIStore,
