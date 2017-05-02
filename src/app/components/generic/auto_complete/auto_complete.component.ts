@@ -64,8 +64,6 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 	@Input('placeholder') placeholder: string;
 
 	@Output('onLoading') onLoading: EventEmitter<any> = new EventEmitter<any>();
-	@Output('onLoading') onCompleteLoading: EventEmitter<any> = new EventEmitter<any>();
-
 	@Input('control') public control: FormControl;
 	public active: boolean = true;
 	public filter: any;

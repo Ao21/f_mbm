@@ -62,6 +62,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 
 	ngOnInit() {
 		this.fields = this.primaryAdultUser.fields;
+		console.log(this.fields);
 		_.forEach(this.fields, (e: JourneyField) => {
 			let valids = Utils.retrieveValidator(e.validation);
 			this.ctrls[e.name] = [
@@ -72,11 +73,9 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 		this.userDetailsForm = this.formBuilder.group(this.ctrls);
 		this.userDetailsForm['name'] = 'Your Details Form';
 
-
 		// Adds in Journey Schema details into the form control, to let
 		// the age requirements validation have values to work with
 		this.userDetailsForm['defaults'] = this.primaryAdultUser;
-
 
 		this.validatedAddress = this.uiStore.get(['pages', 'yourDetails', 'options', 'validAddress']);
 		this.isAddressReady();
@@ -288,6 +287,7 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 					this.userDetailsForm.controls[control].markAsDirty();
 				}
 			}
+			Utils.scrollTo(<HTMLElement>document.querySelector('.ng-invalid:not(form)').parentElement, 30);
 		}
 	}
 
