@@ -119,7 +119,6 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 			}
 			this.hasValue = true;
 
-			this.inputValue.disable();
 			this.inputValue.markAsTouched();
 			this._onChangeCallback(this.value);
 		}
@@ -142,9 +141,7 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 		this._value = '';
 		control.reset();
 		this.hasValue = false;
-		this.disabled = false;
-		control.setValue('');
-		this.inputValue.enable();
+		control.setValue(null);
 		control.updateValueAndValidity();
 	}
 
@@ -159,9 +156,9 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 			this.form.controls[this._filterBy].valueChanges.subscribe((val) => {
 				if (this.form.controls[this._filterBy].value === '' && this.value !== '') {
 					// Ignore the Analytics from this event as its already captured in the form component
-					this.reset(this.inputValue);
-					this.reset(this.form.controls[this.id]);
-					this._autoCompleteService.reset();
+					// this.reset(this.inputValue);
+					// this.reset(this.form.controls[this.id]);
+					// this._autoCompleteService.reset();
 				}
 			});
 		}
@@ -186,14 +183,8 @@ export class AutoCompleteComponent implements OnInit, ControlValueAccessor, Afte
 
 	ngOnInit() {
 		this._autoCompleteService.search(this._dataSrc, this.input);
-		// this._autoCompleteService.searching.subscribe((next) => {
-		// 	if (!next) {
-		// 		this.onLoading.next(next);
-		// 	}
-		// });
 
 		this._autoCompleteService[this._dataSrc].subscribe(next => {
-			// Generate a list of options from the retrieved data
 			if (next.options) {
 				this.options =
 					_.map(next.options, (e: any) => {

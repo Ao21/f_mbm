@@ -173,16 +173,18 @@ export class FormComponent implements OnInit, AfterViewInit {
 		if (checkTypeAndReturnIfValue(v, expectedType)) {
 			this.readOnly = false;
 		} else {
+			this.dynamicControl.setValue(null);
 			this.readOnly = true;
+
 		}
 		this.form.controls[formQuestion.trigger.key]
 			.valueChanges
 			.subscribe((option) => {
 				if (checkTypeAndReturnIfValue(option, expectedType)) {
-					console.log(this.field.name, 'enabled');
 					this.readOnly = false;
+
 				} else {
-					console.log(this.field.name, 'disabled');
+					this.dynamicControl.setValue(null);
 					this.readOnly = true;
 				}
 			});
@@ -201,10 +203,12 @@ export class FormComponent implements OnInit, AfterViewInit {
  */
 
 function checkTypeAndReturnIfValue(value: string, expectedType) {
+	console.log('value', value);
 	switch (expectedType) {
 		case 'object':
 			return isJsObject(value) ? true : false;
-		case 'string':
-			return value !== '' ? true : false;
+		default:
+			return value !== null ? true : false;
+
 	}
 }

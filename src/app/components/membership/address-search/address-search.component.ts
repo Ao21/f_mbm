@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -20,7 +20,7 @@ const FIELDS = [{
 },
 {
 	'name': 'area',
-	'label': 'Area',
+	'label': 'Town / Area',
 	'type': 'autocomplete',
 	'placeholder': '',
 	'validation': ['required'],
@@ -53,7 +53,7 @@ const FIELDS = [{
 	templateUrl: './address-search.component.html',
 	styleUrls: ['./address-search.component.scss']
 })
-export class AddressSearchComponent implements OnInit {
+export class AddressSearchComponent implements OnInit, OnChanges {
 
 	@Input() address: JourneyField[];
 
@@ -76,7 +76,7 @@ export class AddressSearchComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		if (this.values['addressLine1']) {
+		if (this.values && this.values['addressLine1']) {
 			this.values = _.assign({}, this.values, {
 				addressLine1: `${this.values['addressLine1']} ${this.values['addressLine2']}, ${this.values['area']}, ${this.values['county']}`
 			});
@@ -84,7 +84,7 @@ export class AddressSearchComponent implements OnInit {
 		_.forEach(FIELDS, (e: JourneyField) => {
 			let valids = Utils.retrieveValidator(e.validation);
 			this.ctrls[e.name] = [
-				isPresent(this.values) ? this.values[e.name] : '',
+				isPresent(this.values) ? this.values[e.name] : null,
 				isPresent(valids) && valids.length > 0 ? Validators.compose(valids) : null
 			];
 		});
@@ -95,6 +95,10 @@ export class AddressSearchComponent implements OnInit {
 		this.addressForm.get('addressLine1').valueChanges.filter((x) => x).subscribe((next) => {
 			this.selectAddress(next);
 		});
+	}
+
+	ngOnChanges(_) {
+		
 	}
 
 	updateAddress(address) {
@@ -108,7 +112,7 @@ export class AddressSearchComponent implements OnInit {
 
 	}
 
-	selectAddress(address: addressObject) {
+selectAddress(address: addressObject) {
 		// If No Address Listed Fire a No Address Found Event for Analytics		
 		this.referenceService
 			.selectAddress(address.id)

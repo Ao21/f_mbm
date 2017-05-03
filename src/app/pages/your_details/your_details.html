@@ -16,7 +16,7 @@
         </form-component>
     </form>
     
-    <address-search (onSelectAddress)="setValidatedAddress($event)" [address]="addressFields" [values]="primaryAdultUser?.values"></address-search>
+    <address-search #addressForm (onSelectAddress)="setValidatedAddress($event)" [address]="addressFields" [values]="primaryAdultUser?.values"></address-search>
 </section>
 
 <c-fixed-nav (onNavigate)="navigateNext($event)" [next]="page.next" [prev]="page.prev" [disabled]="!userDetailsForm.valid||!isValidated"></c-fixed-nav>

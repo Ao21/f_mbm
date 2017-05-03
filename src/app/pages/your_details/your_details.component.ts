@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, ElementRef, OnInit, AfterViewInit, ViewChild, Query } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { isPresent } from '@angular/platform-browser/src/facade/lang';
 import { DataStore, UIStore } from './../../stores/stores.modules';
@@ -7,6 +7,7 @@ import { Utils } from './../../shared/utilities/utilities.component';
 import { CanDeactivate } from '@angular/router';
 import { CONSTS, ERRORS } from './../../constants';
 import { QuoteService, MyAAService, Analytics, ErrorService } from './../../services/index';
+import { AddressSearchComponent } from './../../components/membership/address-search/address-search.component';
 import * as _ from 'lodash';
 
 /**
@@ -18,6 +19,7 @@ import * as _ from 'lodash';
 	templateUrl: './your_details.html'
 })
 export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit, CanDeactivate<boolean>, OnDestroy {
+	@ViewChild(AddressSearchComponent) addressSearch: AddressSearchComponent;
 	// Default Settings for Your Details Page
 	page: UIPage;
 	primaryAdultUser: MemberType;
@@ -79,10 +81,12 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 		// the age requirements validation have values to work with
 		this.userDetailsForm['defaults'] = this.primaryAdultUser;
 
+		console.log('addresssSearch', );
+
 
 	}
 
-	ngAfterViewInit() {}
+	ngAfterViewInit() { }
 
 
 
@@ -91,40 +95,6 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 		this.validatedAddress = obj;
 		this.isValidated = true;
 		this.uiStore.update(['pages', 'yourDetails', 'options', 'validAddress'], this.validatedAddress);
-		// if (obj !== null) {
-		// 	// The isReadyAddress() function checks multiple fields to check whether user has made changes
-		// 	// to previous fields, the itUpdatingMultipleAddressFields flag is to block it triggering on
-		// 	// the multiple fields being updated from setValidatedAddress
-		// 	this.isUpdatingMultipleAddressFields = true;
-
-		// 	this.validatedAddress = obj;
-		// 	// Stores the Validated Address in the UIStore in case of page change
-		// 	this.uiStore.update(['pages', 'yourDetails', 'options', 'validAddress'], this.validatedAddress);
-
-
-		// 	let addressLine1: any = this.userDetailsForm.controls['addressLine1'];
-		// 	let addressLine2: any = this.userDetailsForm.controls['addressLine2'];
-		// 	let area: any = this.userDetailsForm.controls['area'];
-		// 	let county: any = this.userDetailsForm.controls['county'];
-
-		// 	addressLine1.setValue(obj.addressLine1);
-		// 	addressLine1.markAsTouched();
-		// 	addressLine2.setValue(obj.addressLine2);
-		// 	addressLine2.markAsTouched();
-		// 	area.setValue({ description: obj.area });
-		// 	area.markAsTouched();
-		// 	county.setValue({ description: obj.county });
-
-		// 	this.isUpdatingMultipleAddressFields = false;
-		// 	county.markAsTouched();
-
-		// 	this.isAddressListVisible = false;
-		// 	// Update the 
-		// 	this.validateAddressText = obj.selected.address;
-		// 	this.isValidated = true;
-		// } else {
-		// 	this.isValidated = false;
-		// }
 
 	}
 
@@ -134,6 +104,11 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 			this.analyics.triggerEvent('aa-populate-fields', 'success');
 			_.forIn(sessionUser, (e, k) => {
 				if (this.userDetailsForm.controls[k]) {
+					let control: any = this.userDetailsForm.controls[k];
+					control.setValue(e);
+					control.markAsTouched();
+				}
+				if (this.addressSearch.addressForm.controls[k]) {
 					let control: any = this.userDetailsForm.controls[k];
 					control.setValue(e);
 					control.markAsTouched();
@@ -170,8 +145,8 @@ export class MembershipYourDetailsPageComponent implements OnInit, AfterViewInit
 				if (next.text() !== '' && next.json().renewal) {
 					this.myAA.triggerRenewalProccess();
 				}
-				}, (err) => {
-					this.errorService.errorHandlerWithNotification(err, ERRORS.saveMember);
+			}, (err) => {
+				this.errorService.errorHandlerWithNotification(err, ERRORS.saveMember);
 				rej(false);
 			});
 		});
